@@ -1,36 +1,33 @@
 from pathlib import Path
 import warnings
-
-import xarray as xr
 import numpy as np
-from . import arakawa_points as akp
-import os
-from .tools import open_file_multi, get_domcfg_points, mtc_nme
-
+import xarray as xr
 import xgcm
 
-def open_domain_cfg(pathdir='.', load_from_saved=True, save=True, saving_name=None,
+from . import arakawa_points as akp
+from .tools import open_file_multi, get_domcfg_points, mtc_nme
+
+
+def open_domain_cfg(datadir='.', load_from_saved=True, save=True, saving_name=None,
                     mercator_grid=False):
     """
     Return a dataset containing all dataarrays of the domain_cfg_out*.nc files.
     For that, open and merge all the datasets.
     """
     # TODO see dask arrays (chunk argument in xr.open_dataset)
-    # TODO use pathlib instead of os.path
-    pathdir = Path(pathdir).expanduser()
+    datadir = Path(datadir).expanduser()
     #
     if saving_name is None:
-        # TODO find a better name
-        saving_name = 'toolbox.domcfg.nc'
-    saving_name = pathdir / saving_name
+        saving_name = 'xnemogcm.domcfg.nc'
+    saving_name = datadir / saving_name
     #
     if load_from_saved and saving_name.exists():
         domcfg = xr.open_dataset(saving_name)
         return domcfg
     #
-    domcfg = open_file_multi(pathdir, file_prefix='domain_cfg_out')
+    domcfg = open_file_multi(datadir, file_prefix='domain_cfg_out')
     try:
-        mask = open_file_multi(pathdir, file_prefix='mesh_mask')
+        mask = open_file_multi(datadir, file_prefix='mesh_mask')
         #
         # keeping only dataarrays that contain the masks
         var_to_drop = [i for i in mask if not 'mask' in i]
@@ -42,7 +39,7 @@ def open_domain_cfg(pathdir='.', load_from_saved=True, save=True, saving_name=No
     except:
         # This means that #potentially# no mask file is provided
         mask = None
-        warnings.warn("No mask is added to domcfg (may be a problem later)")
+        warnings.warn("No mask file was found")
         #
     # This part is used to put the vars on the right point of the grid (e.g. T, U, V points)
     domcfg_points = get_domcfg_points()
@@ -102,7 +99,7 @@ def open_domain_cfg(pathdir='.', load_from_saved=True, save=True, saving_name=No
                 coordinates.pop(coordinates.index(coord))
     # coordinates now contains unused coordinates
     for coord in coordinates:
-        domcfg = domcfg.drop_dims(coord, errors='ignore')
+        domcfg = domcfg.drop_dims(coord, errors='ignore').drop_vars(coord, errors='ignore')
     metric_diff = {'x_c':'e1t'  , 'x_f':'e1u',
                    'y_c':'e2t'  , 'y_f':'e2v',
                    'z_c':'e3t_0', 'z_f':'e3w_0'}
