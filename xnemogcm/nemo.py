@@ -10,13 +10,35 @@ from .domcfg import open_domain_cfg
 
 def open_nemo(datadir, file_prefix='', domcfg=None, load_from_saved=True, save=True, saving_name=None):
     """
-    TODO transform this into a class
-    
-    TODO
-    To open nemo dataset, and rename the coordinates to be conform to xgcm.Grid
+    Open nemo dataset, and rename the coordinates to be conform to xgcm.Grid
 
     The filenames must finish with 'grid_X.nc', with X in
     ['T', 'U', 'V', 'W', 'UW', etc]
+
+    Parameters
+    ----------
+    datadir : string or pathlib.Path
+        The directory containing the 'domain_cfg_out' files
+    file_prefix : string, optionnal
+        Prefix of the files to open, if no prefix is given, will open
+        all nemo files.
+    domcfg : xarray.Dataset or None
+        If given, the domcfg dataset,
+        if *None*, will open the *domain_cfg_out* files.
+    load_from_saved : bool, optionnal
+        If the domcfg has already been openened and saved, it is possible
+        read this file instead or computing it again from scratch
+    save : bool, optionnal
+        Whether to save the domcfg file or not
+    saving_name : string,
+        The name of the file to save in (will be saved in the *datadir*).
+        If empty string is given, default will be 'xnemogcm.nemo.nc'
+
+    Returns
+    -------
+    nemo_ds : xarray.Dataset
+        Dataset containing all outputed variables, set on the proper
+        grid points (center, face, etc).
     """
     if domcfg is None:
         domcfg=open_domain_cfg(datadir, load_from_saved=load_from_saved, save=save)
