@@ -20,7 +20,7 @@ nemo_grid = xgcm.Grid(domcfg, periodic=False)
 
 # Installation
 
-Installation is possible via pip:
+Installation via pip:
 ```bash
 pip install git+https://github.com/rcaneill/xnemogcm.git@master
 ```
