@@ -8,17 +8,39 @@ from . import arakawa_points as akp
 from .tools import open_file_multi, get_domcfg_points, mtc_nme
 
 
-def open_domain_cfg(datadir='.', load_from_saved=True, save=True, saving_name=None,
+def open_domain_cfg(datadir='.', load_from_saved=True, save=True, saving_name='xnemogcm.domcfg.nc',
                     mercator_grid=False):
     """
     Return a dataset containing all dataarrays of the domain_cfg_out*.nc files.
+
     For that, open and merge all the datasets.
+    The dataset is compatible with xgcm, the corresponding grid
+    can be create through: xgcm.Grid(domcfg)
+
+    Parameters
+    ----------
+    datadir : string or pathlib.Path
+        The directory containing the 'domain_cfg_out' files
+    load_from_saved : bool, optionnal
+        If the domcfg has already been openened and saved, it is possible
+        read this file instead or computing it again from scratch
+    save : bool, optionnal
+        Whether to save the domcfg file or not
+    saving_name : string
+        The name of the file to save in (will be saved in the *datadir*)
+    mercator_grid : bool, optionnal
+        If the domain is a simple basin on the sphere (Mercator)
+        some more variabes will be created to simplify plots
+        without using a sphere projection.
+
+    Returns
+    -------
+    domcfg : xarray.Dataset
+        The domin configuration dataset, can be read by xgcm.
     """
     # TODO see dask arrays (chunk argument in xr.open_dataset)
     datadir = Path(datadir).expanduser()
     #
-    if saving_name is None:
-        saving_name = 'xnemogcm.domcfg.nc'
     saving_name = datadir / saving_name
     #
     if load_from_saved and saving_name.exists():
@@ -118,6 +140,7 @@ def open_domain_cfg(datadir='.', load_from_saved=True, save=True, saving_name=No
         domcfg.to_netcdf(saving_name)
     #
     return domcfg
+
 
 def compute_metric_pos(domcfg, metric_pos={}, metric_diff={}):
     """
