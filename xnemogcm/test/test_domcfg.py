@@ -11,7 +11,6 @@ def test_open_domcfg_1_file():
         datadir=TEST_PATH/"data/domcfg_1_file",
         load_from_saved=False,
         save=False,
-        saving_name=None,
     )
 
 
@@ -21,7 +20,15 @@ def test_open_domcfg_multi_files():
         datadir=TEST_PATH/"data/domcfg_multi_files",
         load_from_saved=False,
         save=False,
-        saving_name=None,
+    )
+
+    
+def test_open_domcfg_multi_files_mesh_mask():
+    """Test opening of multi files from processors, using mesh_mask files"""
+    open_domain_cfg(
+        datadir=TEST_PATH/"data/mesh_mask_multi_files",
+        load_from_saved=False,
+        save=False,
     )
 
 
@@ -31,7 +38,6 @@ def test_save_domcfg_1_file():
         datadir=TEST_PATH/"data/domcfg_1_file",
         load_from_saved=False,
         save=True,
-        saving_name=None,
     )
 
 
@@ -41,13 +47,11 @@ def test_open_from_save():
         datadir=TEST_PATH/"data/domcfg_1_file",
         load_from_saved=False,
         save=True,
-        saving_name=None,
     )
     domcfg2 = open_domain_cfg(
-        datadir="xnemogcm/test/data/domcfg_1_file",
+        datadir=TEST_PATH/"data/domcfg_1_file",
         load_from_saved=True,
         save=False,
-        saving_name=None,
     )
     assert (domcfg1 == domcfg2).all()
 
@@ -57,12 +61,25 @@ def test_compare_domcfg_1_multi():
         datadir=TEST_PATH/"data/domcfg_1_file",
         load_from_saved=False,
         save=False,
-        saving_name=None,
     )
     domcfg_multi = open_domain_cfg(
         datadir=TEST_PATH/"data/domcfg_multi_files",
         load_from_saved=False,
         save=False,
-        saving_name=None,
+    )
+    assert (domcfg_1 == domcfg_multi).all()
+
+
+def test_compare_domcfg_mesh_mask():
+    """Test that the data of mesh_mask are the same as in domain_cfg_out"""
+    domcfg_1 = open_domain_cfg(
+        datadir=TEST_PATH/"data/domcfg_1_file",
+        load_from_saved=False,
+        save=False,
+    )
+    domcfg_multi = open_domain_cfg(
+        datadir=TEST_PATH/"data/mesh_mask_multi_files",
+        load_from_saved=False,
+        save=False,
     )
     assert (domcfg_1 == domcfg_multi).all()

@@ -1,23 +1,7 @@
 import numpy as np
-import xgcm
 import xarray as xr
 from pathlib import Path
 import os
-
-
-def safedrop(ds, names):
-    """
-    Drop safely names from ds, i.e. check for each name that it is an existing variable
-
-    Arguments
-    ---------
-    ds : xarray.Dataset
-    names : list
-        Contain the list of variables to drop
-    """
-    names_to_drop = [i for i in names if i in ds]
-    return ds.drop(names_to_drop)
-
 
 def open_file_multi(pathdir, file_prefix):
     """
@@ -25,6 +9,8 @@ def open_file_multi(pathdir, file_prefix):
     """
     pathdir = Path(pathdir).expanduser()
     files = [i for i in os.listdir(pathdir) if file_prefix in i]
+    if not files:
+        raise FileNotFoundError(f"No file starting by '{file_prefix}' in '{pathdir}'")
     data_ds = xr.open_dataset(pathdir / files[0])
     # Setting the x and y coordinates to be the gobal coordinates
     data_ds["x"] = data_ds.x + data_ds.attrs["DOMAIN_position_first"][0] - 1
@@ -105,13 +91,3 @@ def get_domcfg_points():
         "vmaskutil": "V",
     }
     return domcfg_points
-
-
-def mtc_nme(coord_name, diff=False, mask=False):
-    """Return name of the coordinate metric of position (e.g. in meters), if *diff* is True, return name of scale factor"""
-    if diff:
-        return coord_name + "_dif"
-    elif mask:
-        return coord_name + "_msk"
-    else:
-        return coord_name + "_pos"
