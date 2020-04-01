@@ -90,5 +90,7 @@ def get_domcfg_points():
         "tmaskutil": "T",
         "umaskutil": "U",
         "vmaskutil": "V",
+        "gdept_1d": "T",
+        "gdepw_1d": "W",
     }
     return domcfg_points
