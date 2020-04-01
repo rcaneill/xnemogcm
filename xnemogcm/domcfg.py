@@ -61,6 +61,8 @@ def open_domain_cfg(
     #
     try:
         domcfg = open_file_multi(datadir, file_prefix="domain_cfg_out")
+        if mask:
+            domcfg = domcfg.combine_first(mask)
     except FileNotFoundError:
         if mask:
             domcfg = ds_mask
@@ -121,7 +123,6 @@ def open_domain_cfg(
     #
 
     if mask:
-        domcfg = domcfg.combine_first(mask)
         # Creating a fmaskutil if not existing
         if "fmaskutil" not in domcfg:
             domcfg["fmaskutil"] = domcfg["fmask"].isel({"z_c": 0}).copy()
