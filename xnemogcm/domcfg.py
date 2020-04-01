@@ -54,11 +54,18 @@ def open_domain_cfg(
         return domcfg
     #
     try:
-        domcfg = open_file_multi(datadir, file_prefix="mesh_mask")
+        ds_mask = open_file_multi(datadir, file_prefix="mesh_mask")
         mask = True
     except FileNotFoundError:
-        domcfg = open_file_multi(datadir, file_prefix="domain_cfg_out")
         mask = False
+    #
+    try:
+        domcfg = open_file_multi(datadir, file_prefix="domain_cfg_out")
+    except FileNotFoundError:
+        if mask:
+            domcfg = ds_mask
+        else:
+            raise FileNotFoundError("No 'domcfg_out' or 'mesh_mask' files found")
     #
     # This part is used to put the vars on the right point of the grid (e.g. T, U, V points)
     domcfg_points = get_domcfg_points()
@@ -78,7 +85,7 @@ def open_domain_cfg(
     domcfg["x_f"] = domcfg["x_c"] + 0.5
     domcfg["y_f"] = domcfg["y_c"] + 0.5
     domcfg.assign_coords(z_c=np.arange(len(domcfg["z_c"])))
-    #domcfg["z_c"].data = np.arange(len(domcfg["z_c"]))
+    # domcfg["z_c"].data = np.arange(len(domcfg["z_c"]))
     domcfg["z_f"] = domcfg["z_c"] - 0.5
     #
     domcfg.coords["x_c"] = (
@@ -114,6 +121,7 @@ def open_domain_cfg(
     #
 
     if mask:
+        domcfg = domcfg.combine_first(mask)
         # Creating a fmaskutil if not existing
         if "fmaskutil" not in domcfg:
             domcfg["fmaskutil"] = domcfg["fmask"].isel({"z_c": 0}).copy()

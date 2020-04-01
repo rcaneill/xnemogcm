@@ -3,6 +3,7 @@ import xarray as xr
 from pathlib import Path
 import os
 
+
 def open_file_multi(pathdir, file_prefix):
     """
     Open and merge netcdf file created on each processor by NEMO (e.g. domain_cfg_out of mesh_mask

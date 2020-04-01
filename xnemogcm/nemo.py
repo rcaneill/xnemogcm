@@ -2,7 +2,6 @@ import os
 from pathlib import Path
 import numpy as np
 import xarray as xr
-import xgcm
 
 from . import arakawa_points as akp
 from .tools import open_file_multi
