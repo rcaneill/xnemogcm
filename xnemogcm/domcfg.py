@@ -54,20 +54,18 @@ def open_domain_cfg(
         return domcfg
     #
     try:
-        ds_mask = open_file_multi(datadir, file_prefix="mesh_mask")
-        mask = True
+        mask = open_file_multi(datadir, file_prefix="mesh_mask")
     except FileNotFoundError:
-        mask = False
+        mask = xr.Dataset()
     #
     try:
         domcfg = open_file_multi(datadir, file_prefix="domain_cfg_out")
-        if mask:
-            domcfg = domcfg.combine_first(mask)
     except FileNotFoundError:
-        if mask:
-            domcfg = ds_mask
-        else:
-            raise FileNotFoundError("No 'domcfg_out' or 'mesh_mask' files found")
+        domcfg = xr.Dataset()
+    #
+    domcfg = domcfg.combine_first(mask)
+    if not domcfg:
+        raise FileNotFoundError("No 'domain_cfg_out' or 'mesh_mask' files are provided")
     #
     # This part is used to put the vars on the right point of the grid (e.g. T, U, V points)
     domcfg_points = get_domcfg_points()
