@@ -41,11 +41,13 @@ def open_domain_cfg(
     Returns
     -------
     domcfg : xarray.Dataset
-        The domin configuration dataset, can be read by xgcm.
+        The domain configuration dataset, can be read by xgcm.
     """
     # TODO see dask arrays (chunk argument in xr.open_dataset)
     datadir = Path(datadir).expanduser()
     #
+    if saving_name is None:
+        saving_name = "xnemogcm.domcfg.nc"
     saving_name = datadir / saving_name
     #
     if load_from_saved and saving_name.exists():
