@@ -8,7 +8,7 @@ AUTHOR = "Romain Caneill"
 AUTHOR_EMAIL = "romain.caneill@gu.se"
 URL = "https://github.com/rcaneill/xnemogcm"
 #CLASSIFIERS =
-INSTALL_REQUIRES = ["xarray", "dask", "numpy", "xgcm"]
+INSTALL_REQUIRES = ["xarray", "dask", "numpy"]
 
 DESCRIPTION = "Interface to open NEMO global circulation model output dataset and create a xgcm grid."
 
