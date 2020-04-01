@@ -92,5 +92,8 @@ def get_domcfg_points():
         "vmaskutil": "V",
         "gdept_1d": "T",
         "gdepw_1d": "W",
+        "mbathy": "T",
+        "misf": "T",
+        "isfdraft": "T",
     }
     return domcfg_points
