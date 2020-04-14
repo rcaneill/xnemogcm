@@ -10,12 +10,13 @@ and adapted to a simple idealized configuration.
 # Usage
 
 ```python
-from xnemogcm import open_domain_cfg, open_nemo
-import xgcm
+from xnemogcm import open_nemo_and_domain_cfg
+ds = open_nemo_and_domain_cfg(datadir='/path/to/data')
 
-domcfg = open_domain_cfg(datadir='xnemogcm/test/data/domcfg_1_file')
-nemo_ds = open_nemo(datadir='xnemogcm/test/data/nemo', domcfg=domcfg)
-nemo_grid = xgcm.Grid(domcfg, periodic=False)
+# Interface with xgcm
+from xnemogcm.metrics import get_metrics
+import xgcm
+grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 ```
 
 # Installation
