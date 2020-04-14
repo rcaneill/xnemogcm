@@ -84,7 +84,7 @@ def open_domain_cfg(
     #
     domcfg["x_f"] = domcfg["x_c"] + 0.5
     domcfg["y_f"] = domcfg["y_c"] + 0.5
-    domcfg.assign_coords(z_c=np.arange(len(domcfg["z_c"])))
+    domcfg = domcfg.assign_coords(z_c=np.arange(len(domcfg["z_c"])))
     # domcfg["z_c"].data = np.arange(len(domcfg["z_c"]))
     domcfg["z_f"] = domcfg["z_c"] - 0.5
     #

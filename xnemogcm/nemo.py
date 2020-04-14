@@ -9,7 +9,7 @@ from .domcfg import open_domain_cfg
 
 
 def open_nemo(
-    datadir,
+    datadir=".",
     file_prefix="",
     domcfg=None,
     load_from_saved=True,

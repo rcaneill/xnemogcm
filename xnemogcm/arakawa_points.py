@@ -1,17 +1,4 @@
-def point_from_coord(coords):
-    """
-    Return the point type from the coordinates names
-
-    This function should not be used if the data are correctly opened
-    with open_nemo function that sets an attribute with the point type
-
-    Parameters
-    ----------
-    coords : list of strings
-        Contain the name of the coordinates (e.g. ['x_c', 'y_c', 'time']
-    """
-    raise (NotImplementedError)
-
+ALL_POINTS = ["T", "U", "V", "F", "W", "UW", "VW", "FW"]
 
 class Point:
     """
@@ -24,7 +11,7 @@ class Point:
         """
         point_type : 'T', 'U', 'V', 'F', 'W', 'UW', 'VW', 'FW'
         """
-        if point_type not in ["T", "U", "V", "F", "W", "UW", "VW", "FW"]:
+        if point_type not in ALL_POINTS:
             raise (
                 ValueError(
                     "*point_type* must be in ['T', 'U', 'V', 'F', 'W', 'UW', 'VW', 'FW'] \n   We got point_type={}".format(
