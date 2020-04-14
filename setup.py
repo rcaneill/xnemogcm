@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from setuptools import setup
+from setuptools import setup, find_packages
 
 DISTNAME = "xnemogcm"
 VERSION = "0.1.0"
@@ -28,6 +28,6 @@ setup(
     long_description=readme(),
     install_requires=INSTALL_REQUIRES,
     url=URL,
-    packages=[DISTNAME],
+    packages=find_packages(),
 )
 
