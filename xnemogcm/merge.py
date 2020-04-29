@@ -32,6 +32,9 @@ def _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface=False):
         merged dataset containing both information of nemo_ds and domcfg
     """
     ds = xr.merge([nemo_ds, domcfg])
+    attrs = domcfg.attrs
+    attrs.update(nemo_ds.attrs)
+    ds.attrs.update(attrs)
     if linear_free_surface:
         for point in ALL_POINTS:
             point = point.lower()

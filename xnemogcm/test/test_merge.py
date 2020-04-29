@@ -33,3 +33,9 @@ def test_merge_non_linear_free_surface():
 
 def test_merge_linear_free_surface():
     pass
+
+
+def test_attributes():
+    ds = open_nemo_and_domain_cfg(datadir=TEST_PATH / "data/open_and_merge")
+    print(ds.attrs)
+    assert(ds.attrs)
