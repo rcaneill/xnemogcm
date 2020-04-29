@@ -25,3 +25,11 @@ Installation via pip:
 ```bash
 pip install git+https://github.com/rcaneill/xnemogcm.git@master
 ```
+
+# Requirements for dev
+
+We use *pipenv* to set up a virtual environment containing all
+needed packages to run xnemogcm and the tests.
+To install all the dependencies, type `pipenv install`
+after cloning the directory. This will create a new virtual environment.
+Typing `pipenv shell` in the package directory will activate the virtual environment.
