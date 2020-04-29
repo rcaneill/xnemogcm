@@ -14,7 +14,7 @@ from xnemogcm import open_nemo_and_domain_cfg
 ds = open_nemo_and_domain_cfg(datadir='/path/to/data')
 
 # Interface with xgcm
-from xnemogcm.metrics import get_metrics
+from xnemogcm import get_metrics
 import xgcm
 grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 ```
