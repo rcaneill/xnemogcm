@@ -10,8 +10,8 @@ xarray = "*"
 netcdf4 = "*"
 dask = {extras = ["array"],version = "*"}
 pytest = "*"
-xnemogcm = {path = "."}
 f90nml = "*"
+black = "*"
 
 [requires]
 python_version = "3.8"

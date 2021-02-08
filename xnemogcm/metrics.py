@@ -1,8 +1,9 @@
 _metrics = {
-    ('X',): ['e1t', 'e1u', 'e1v', 'e1f'], # X distances
-    ('Y',): ['e2t', 'e2u', 'e2v', 'e2f'], # Y distances
-    ('Z',): ['e3t', 'e3u', 'e3v', 'e3f', 'e3w'], # Z distances
+    ("X",): ["e1t", "e1u", "e1v", "e1f"],  # X distances
+    ("Y",): ["e2t", "e2u", "e2v", "e2f"],  # Y distances
+    ("Z",): ["e3t", "e3u", "e3v", "e3f", "e3w"],  # Z distances
 }
+
 
 def get_metrics(ds):
     """

@@ -1,4 +1,3 @@
-
 import numpy as np
 import xarray as xr
 
@@ -40,12 +39,16 @@ def _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface=False):
             point = point.lower()
             if (f"e3{point}" not in ds) and (f"e3{point}_0" in domcfg):
                 ds[f"e3{point}"] = domcfg[f"e3{point}_0"]
-                ds[f"e3{point}"].attrs['WARNING'] = f"Warning: this scale factor has been copied from e3{point}_0," \
-                                                    "it is not valid for thickness weighted data"
+                ds[f"e3{point}"].attrs["WARNING"] = (
+                    f"Warning: this scale factor has been copied from e3{point}_0,"
+                    "it is not valid for thickness weighted data"
+                )
     return ds
 
 
-def open_nemo_and_domain_cfg(nemo_kwargs={}, domcfg_kwargs={}, datadir=None, linear_free_surface=False):
+def open_nemo_and_domain_cfg(
+    nemo_kwargs={}, domcfg_kwargs={}, datadir=None, linear_free_surface=False
+):
     """
     Open nemo_ds and domcfg with open_nemo and open_domain_cfg and merge them with _merge_nemo_and_domain_cfg.
 
@@ -66,9 +69,8 @@ def open_nemo_and_domain_cfg(nemo_kwargs={}, domcfg_kwargs={}, datadir=None, lin
         True if linear free surface is used. Used by xnemogcm._merge_nemo_and_domain_cfg function
     """
     if datadir:
-        nemo_kwargs['datadir'] = datadir
-        domcfg_kwargs['datadir'] = datadir
+        nemo_kwargs["datadir"] = datadir
+        domcfg_kwargs["datadir"] = datadir
     nemo_ds = open_nemo(**nemo_kwargs)
     domcfg = open_domain_cfg(**domcfg_kwargs)
     return _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface)
-    

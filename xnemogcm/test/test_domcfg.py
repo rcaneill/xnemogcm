@@ -24,7 +24,9 @@ def test_domcfg_meshmask():
 def test_open_domcfg_1_file():
     """Test opening of 1 file"""
     open_domain_cfg(
-        datadir=(TEST_PATH / "data/domcfg_1_file"), load_from_saved=False, save=False,
+        datadir=(TEST_PATH / "data/domcfg_1_file"),
+        load_from_saved=False,
+        save=False,
     )
 
 
@@ -49,24 +51,32 @@ def test_open_domcfg_multi_files_mesh_mask():
 def test_save_domcfg_1_file():
     """Test that saving works"""
     open_domain_cfg(
-        datadir=(TEST_PATH / "data/domcfg_1_file"), load_from_saved=False, save=True,
+        datadir=(TEST_PATH / "data/domcfg_1_file"),
+        load_from_saved=False,
+        save=True,
     )
 
 
 def test_open_from_save():
     """Test that the saved domcfg is the same as the original"""
     domcfg1 = open_domain_cfg(
-        datadir=(TEST_PATH / "data/domcfg_1_file"), load_from_saved=False, save=True,
+        datadir=(TEST_PATH / "data/domcfg_1_file"),
+        load_from_saved=False,
+        save=True,
     )
     domcfg2 = open_domain_cfg(
-        datadir=(TEST_PATH / "data/domcfg_1_file"), load_from_saved=True, save=False,
+        datadir=(TEST_PATH / "data/domcfg_1_file"),
+        load_from_saved=True,
+        save=False,
     )
     assert (domcfg1 == domcfg2).all()
 
 
 def test_compare_domcfg_1_multi():
     domcfg_1 = open_domain_cfg(
-        datadir=(TEST_PATH / "data/domcfg_1_file"), load_from_saved=False, save=False,
+        datadir=(TEST_PATH / "data/domcfg_1_file"),
+        load_from_saved=False,
+        save=False,
     )
     domcfg_multi = open_domain_cfg(
         datadir=(TEST_PATH / "data/domcfg_multi_files"),
@@ -79,7 +89,9 @@ def test_compare_domcfg_1_multi():
 def test_compare_domcfg_mesh_mask():
     """Test that the data of mesh_mask are the same as in domain_cfg_out"""
     domcfg_1 = open_domain_cfg(
-        datadir=(TEST_PATH / "data/domcfg_1_file"), load_from_saved=False, save=False,
+        datadir=(TEST_PATH / "data/domcfg_1_file"),
+        load_from_saved=False,
+        save=False,
     )
     domcfg_multi = open_domain_cfg(
         datadir=(TEST_PATH / "data/mesh_mask_multi_files"),

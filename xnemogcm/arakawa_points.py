@@ -1,5 +1,6 @@
 ALL_POINTS = ["T", "U", "V", "F", "W", "UW", "VW", "FW"]
 
+
 class Point:
     """
     Point types

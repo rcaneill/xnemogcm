@@ -89,32 +89,44 @@ def open_domain_cfg(
     domcfg["z_f"] = domcfg["z_c"] - 0.5
     #
     domcfg.coords["x_c"] = (
-        ["x_c",],
+        [
+            "x_c",
+        ],
         domcfg.coords["x_c"],
         {"axis": "X"},
     )  # center point
     domcfg.coords["x_f"] = (
-        ["x_f",],
+        [
+            "x_f",
+        ],
         domcfg.coords["x_f"],
         {"axis": "X", "c_grid_axis_shift": 0.5},
     )  # right  point
     domcfg.coords["y_c"] = (
-        ["y_c",],
+        [
+            "y_c",
+        ],
         domcfg.coords["y_c"],
         {"axis": "Y"},
     )  # center point
     domcfg.coords["y_f"] = (
-        ["y_f",],
+        [
+            "y_f",
+        ],
         domcfg.coords["y_f"],
         {"axis": "Y", "c_grid_axis_shift": 0.5},
     )  # right  point
     domcfg.coords["z_c"] = (
-        ["z_c",],
+        [
+            "z_c",
+        ],
         domcfg.coords["z_c"],
         {"axis": "Z"},
     )  # center point
     domcfg.coords["z_f"] = (
-        ["z_f",],
+        [
+            "z_f",
+        ],
         domcfg.coords["z_f"],
         {"axis": "Z", "c_grid_axis_shift": -0.5},
     )  # left   point

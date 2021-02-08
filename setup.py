@@ -7,16 +7,16 @@ LICENSE = "MIT"
 AUTHOR = "Romain Caneill"
 AUTHOR_EMAIL = "romain.caneill@gu.se"
 URL = "https://github.com/rcaneill/xnemogcm"
-#CLASSIFIERS =
+# CLASSIFIERS =
 INSTALL_REQUIRES = ["xarray", "netcdf4", "dask[array]"]
-
+EXTRAS_REQUIRE = {"namelist": ["f90nml"]}
 DESCRIPTION = "Interface to open NEMO global circulation model output dataset and create a xgcm grid."
-
 
 
 def readme():
     with open("README.md") as f:
         return f.read()
+
 
 setup(
     name=DISTNAME,
@@ -27,7 +27,7 @@ setup(
     description=DESCRIPTION,
     long_description=readme(),
     install_requires=INSTALL_REQUIRES,
+    extras_require=EXTRAS_REQUIRE,
     url=URL,
     packages=find_packages(),
 )
-
