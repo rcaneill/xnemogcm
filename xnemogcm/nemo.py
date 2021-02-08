@@ -12,8 +12,8 @@ def open_nemo(
     datadir=".",
     file_prefix="",
     domcfg=None,
-    load_from_saved=True,
-    save=True,
+    load_from_saved=False,
+    save=False,
     saving_name=None,
 ):
     """

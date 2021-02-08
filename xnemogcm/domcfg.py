@@ -9,8 +9,8 @@ from .tools import open_file_multi, get_domcfg_points
 
 def open_domain_cfg(
     datadir=".",
-    load_from_saved=True,
-    save=True,
+    load_from_saved=False,
+    save=False,
     saving_name="xnemogcm.domcfg.nc",
     mercator_grid=False,
 ):
