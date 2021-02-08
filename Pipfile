@@ -12,6 +12,7 @@ dask = {extras = ["array"],version = "*"}
 pytest = "*"
 f90nml = "*"
 black = "*"
+twine = "*"
 
 [requires]
 python_version = "3.8"

@@ -26,6 +26,7 @@ setup(
     author_email=AUTHOR_EMAIL,
     description=DESCRIPTION,
     long_description=readme(),
+    long_description_content_type="text/markdown",
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
     url=URL,
