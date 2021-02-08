@@ -23,7 +23,7 @@ grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 
 Installation via pip:
 ```bash
-pip install git+https://github.com/rcaneill/xnemogcm.git@master
+pip3 install xnemogcm
 ```
 
 # Requirements for dev
