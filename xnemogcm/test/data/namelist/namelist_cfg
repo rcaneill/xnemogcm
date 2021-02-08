@@ -1,0 +1,21 @@
+!!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+!! NEMO Configuration namelist : overwrite some defaults values defined in SHARED/namelist_ref
+!!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+!!                          BASIN configuration                       !!
+!!======================================================================
+!!              ***  Domain & Run management namelists  ***           !!
+!!                                                                    !!
+!!   namrun       parameters of the run                               !!
+!!   namusr_def   user defined parameters                             !!
+!!======================================================================
+!
+!-----------------------------------------------------------------------
+&namusr_def    !   User defined :   BASIN configuration
+!-----------------------------------------------------------------------
+   rn_e1_deg        =      1.    ! Resolution in degrees of longitude (Mercator grid)
+/
+!-----------------------------------------------------------------------
+&namrun        !   parameters of the run
+!-----------------------------------------------------------------------
+   cn_exp      =   'BASIN' !  experience name
+/

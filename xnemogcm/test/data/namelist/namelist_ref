@@ -1,0 +1,40 @@
+!!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+!! NEMO/OCE :   Reference namelist_ref                                !!
+!!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+!! NEMO/OCE  :  1 - Domain & run manager (namrun, namcfg, namdom, namtsd, namcrs, namc1d, namc1d_uvd)
+!! namelists    2 - Surface boundary (namsbc, namsbc_flx, namsbc_blk, namsbc_cpl,
+!!                                    namsbc_sas, namtra_qsr, namsbc_rnf,
+!!                                    namsbc_isf, namsbc_iscpl, namsbc_apr, 
+!!                                    namsbc_ssr, namsbc_wave, namberg)
+!!              3 - lateral boundary (namlbc, namagrif, nambdy, nambdy_tide)
+!!              4 - top/bot boundary (namdrg, namdrg_top, namdrg_bot, nambbc, nambbl)
+!!              5 - Tracer           (nameos, namtra_adv, namtra_ldf, namtra_eiv, namtra_dmp)
+!!              6 - dynamics         (namdyn_adv, namdyn_vor, namdyn_hpg, namdyn_spg, namdyn_ldf)
+!!              7 - Vertical physics (namzdf, namzdf_ric, namzdf_tke, namzdf_gls, namzdf_iwm)
+!!              8 - diagnostics      (namnc4, namtrd, namspr, namflo, namhsb)
+!!              9 - Obs & Assim      (namobs, nam_asminc)
+!!             10 - miscellaneous    (nammpp, namctl, namsto)
+!!>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+!!======================================================================
+!!              ***  Domain & Run management namelists  ***           !!
+!!                                                                    !!
+!!   namrun       parameters of the run
+!!   namdom       space and time domain
+!!   namcfg       parameters of the configuration                       (default: user defined GYRE)
+!!   namwad       Wetting and drying                                    (default: OFF)
+!!   namtsd       data: temperature & salinity                          (default: OFF)
+!!   namcrs       coarsened grid (for outputs and/or TOP)               (ln_crs =T)
+!!   namc1d       1D configuration options                              ("key_c1d")
+!!   namc1d_dyndmp 1D newtonian damping applied on currents             ("key_c1d")
+!!   namc1d_uvd   1D data (currents)                                    ("key_c1d")
+!!======================================================================
+!
+!-----------------------------------------------------------------------
+&namrun        !   parameters of the run
+!-----------------------------------------------------------------------
+   nn_no       =       0   !  Assimilation cycle index
+   cn_exp      =  "ORCA2"  !  experience name
+   nn_it000    =       1   !  first time step
+   nn_itend    =    5840   !  last  time step (std 5840)
+/
