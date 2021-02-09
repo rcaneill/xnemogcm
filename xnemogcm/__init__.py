@@ -1,4 +1,4 @@
-__version__ = "0.2"
+__version__ = "0.2.1"
 
 from .domcfg import open_domain_cfg
 from .nemo import open_nemo
