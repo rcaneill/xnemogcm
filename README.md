@@ -1,6 +1,6 @@
 # xnemogcm
 
-Interface to open NEMO global circulation model output dataset and create a xgcm grid.
+Interface to open NEMO ocean global circulation model output dataset and create a xgcm grid.
 
 One can be interested by the [XORCA](https://github.com/willirath/xorca)
 python package, that does a similar work for
