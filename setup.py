@@ -2,7 +2,7 @@
 from setuptools import setup, find_packages
 
 DISTNAME = "xnemogcm"
-VERSION = "0.2.2"
+VERSION = "0.2.3"
 LICENSE = "MIT"
 AUTHOR = "Romain Caneill"
 AUTHOR_EMAIL = "romain.caneill@gu.se"
@@ -30,5 +30,5 @@ setup(
     install_requires=INSTALL_REQUIRES,
     extras_require=EXTRAS_REQUIRE,
     url=URL,
-    packages=find_packages(),
+    packages=find_packages(exclude=["docs", "tests"]),
 )
