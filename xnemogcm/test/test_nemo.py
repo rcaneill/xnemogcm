@@ -33,7 +33,7 @@ def test_use_preprocess():
         saving_name=None,
     )
     ds_raw = xr.open_dataset(
-        TEST_PATH / "data/nemo/BASIN_1ts_00010101_00010101_grid_T.nc"
+        TEST_PATH / "data/nemo/BASIN_grid_T.nc"
     )
     ds = nemo_preprocess(ds_raw, domcfg)
     assert "x_c" in ds

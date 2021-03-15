@@ -27,7 +27,6 @@ def test_open_namelist_merge():
     with the values from namelist_cfg when necessary
     """
     namelist = open_namelist(TEST_PATH / "data/namelist")
-    # print(namelist)
     assert "rn_e1_deg" in namelist
     assert namelist["cn_exp"] == "BASIN"
     assert namelist["nn_it000"] == 1

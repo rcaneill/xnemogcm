@@ -38,12 +38,21 @@ def nemo_preprocess(ds, domcfg):
             "arakawa_point_type"
         ] = point.point_type  # adding metadata with point type
     # get the name of the depth variable e.g. deptht, depthu, etc
-    z_nme = [i for i in ds.dims.keys() if "depth" in i][0]
+    try:
+        z_nme = [i for i in ds.dims.keys() if "depth" in i][0]
+    except IndexError:
+        # This means that there is no depth dependence of the data (surface data)
+        z_nme = None
     x_nme = "x"  # could be an argument / metadata
     y_nme = "y"
-    ds = ds.rename({x_nme: point.x, y_nme: point.y, z_nme: point.z})
-    # setting z_c/z_f to be the same as in domcfg
-    for xyz in [point.x, point.y, point.z]:
+    ds = ds.rename({x_nme: point.x, y_nme: point.y})
+    if z_nme:
+        ds = ds.rename({z_nme: point.z})
+    # setting z_c/z_f/x_c/etc to be the same as in domcfg
+    points = [point.x, point.y]
+    if z_nme:
+        points += [point.z]
+    for xyz in points:
         ds.coords[xyz] = domcfg[xyz]
     ds = ds.drop_vars(
         ["nav_lat", "nav_lon"],

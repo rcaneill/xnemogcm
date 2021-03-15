@@ -1,1 +1,1 @@
-../mesh_mask_multi_files/mesh_mask_0003.nc
+../runs/EXP_4_procs/mesh_mask_0003.nc

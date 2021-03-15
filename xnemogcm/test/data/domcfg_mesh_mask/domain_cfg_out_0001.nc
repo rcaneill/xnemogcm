@@ -1,1 +1,1 @@
-../domcfg_multi_files/domain_cfg_out_0001.nc
+../runs/EXP_4_procs/domain_cfg_out_0001.nc
