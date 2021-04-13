@@ -3,8 +3,6 @@ from pathlib import Path
 import xarray as xr
 import warnings
 
-import f90nml
-
 
 def _warn_namelist_not_found(name):
     warnings.warn(f"Asked to open {name} file but file not found, using empty namelist")
@@ -14,6 +12,7 @@ def open_namelist(datadir=".", ref=True, cfg=True):
     """
     Open the namelist and store it into a xarray.Dataset
     """
+    import f90nml
     datadir = Path(
         datadir
     ).expanduser()  # expanduser replaces the '~' with '/home/$USER'
