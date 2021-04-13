@@ -6,15 +6,15 @@ import os
 
 def open_file_multi(pathdir=None, file_prefix=None, files=None):
     """
-    Open and merge netcdf file created on each processor by NEMO (e.g. domain_cfg_out of mesh_mask).
+    Open and merge netcdf file created on each processor by NEMO (e.g. domain_cfg of mesh_mask).
     If only one file is present, open and return it without any process.
 
-    2 methods are accepted: 1) give a directory *pathdir* and a file prefix (e.g. 'domain_cfg_out')
+    2 methods are accepted: 1) give a directory *pathdir* and a file prefix (e.g. 'domain_cfg')
     *file_prefix*, 2) give a list of file names *files*.
     """
     if not files:
         pathdir = Path(pathdir).expanduser()
-        files = list(pathdir.glob(f'{file_prefix}*.nc'))
+        files = list(pathdir.glob(f"{file_prefix}*.nc"))
     if not files:
         raise FileNotFoundError(f"No file starting by '{file_prefix}' in '{pathdir}'")
     data_ds = xr.open_dataset(files[0])

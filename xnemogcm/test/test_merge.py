@@ -11,19 +11,11 @@ TEST_PATH = Path(os.path.dirname(os.path.abspath(__file__)))
 
 
 def test_merge_non_linear_free_surface():
-    domcfg_kwargs = dict(
-        datadir=TEST_PATH / "data/domcfg_1_file",
-        load_from_saved=False,
-        save=False,
-        saving_name=None,
-    )
+    domcfg_kwargs = dict(datadir=TEST_PATH / "data/domcfg_1_file")
     domcfg = open_domain_cfg(**domcfg_kwargs)
     nemo_kwargs = dict(
         datadir=TEST_PATH / "data/nemo",
         domcfg=domcfg,
-        load_from_saved=False,
-        save=False,
-        saving_name=None,
     )
     nemo_ds = open_nemo(**nemo_kwargs)
     ds = _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface=False)

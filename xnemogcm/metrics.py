@@ -12,7 +12,7 @@ def get_metrics(ds):
     Parameters
     ----------
     ds : xarray.DataSet
-        domain_cfg_out
+        domain_cfg
         or DataSet returned by xnemogcm._merge_nemo_and_domain_cfg
         or Dataset returned by xnemogcm.open_nemo_and_domain_cfg
         Should contain the outputed metrics, in a standard format 'e3x'

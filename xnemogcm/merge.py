@@ -23,7 +23,7 @@ def _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface=False):
     nemo_ds : xarray.DataSet
         NEMO output dataset opened by the function xnemogcm.open_nemo
     domcfg : xarray.DataSet
-        NEMO domain_cfg_out dataset opened by the function xnemogcm.open_domain_cfg
+        NEMO domain_cfg dataset opened by the function xnemogcm.open_domain_cfg
 
     Returns
     -------
@@ -72,6 +72,6 @@ def open_nemo_and_domain_cfg(
         nemo_kwargs["datadir"] = datadir
         domcfg_kwargs["datadir"] = datadir
     domcfg = open_domain_cfg(**domcfg_kwargs)
-    nemo_kwargs['domcfg'] = domcfg
+    nemo_kwargs["domcfg"] = domcfg
     nemo_ds = open_nemo(**nemo_kwargs)
     return _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface)

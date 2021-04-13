@@ -9,13 +9,9 @@ from .tools import open_file_multi, get_domcfg_points
 
 def open_domain_cfg(
     datadir=".",
-    load_from_saved=False,
-    save=False,
-    saving_name="xnemogcm.domcfg.nc",
-    mercator_grid=False,
 ):
     """
-    Return a dataset containing all dataarrays of the domain_cfg_out*.nc files.
+    Return a dataset containing all dataarrays of the domain_cfg*.nc files.
 
     For that, open and merge all the datasets.
     The dataset is compatible with xgcm, the corresponding grid
@@ -24,18 +20,7 @@ def open_domain_cfg(
     Parameters
     ----------
     datadir : string or pathlib.Path
-        The directory containing the 'domain_cfg_out' or 'mesh_mask' files
-    load_from_saved : bool, optionnal
-        If the domcfg has already been openened and saved, it is possible
-        read this file instead or computing it again from scratch
-    save : bool, optionnal
-        Whether to save the domcfg file or not
-    saving_name : string
-        The name of the file to save in (will be saved in the *datadir*)
-    mercator_grid : bool, optionnal
-        If the domain is a simple basin on the sphere (Mercator)
-        some more variabes will be created to simplify plots
-        without using a sphere projection.
+        The directory containing the 'domain_cfg' or 'mesh_mask' files
 
     Returns
     -------
@@ -45,27 +30,19 @@ def open_domain_cfg(
     # TODO see dask arrays (chunk argument in xr.open_dataset)
     datadir = Path(datadir).expanduser()
     #
-    if saving_name is None:
-        saving_name = "xnemogcm.domcfg.nc"
-    saving_name = datadir / saving_name
-    #
-    if load_from_saved and saving_name.exists():
-        domcfg = xr.open_dataset(saving_name)
-        return domcfg
-    #
     try:
         mask = open_file_multi(datadir, file_prefix="mesh_mask")
     except FileNotFoundError:
         mask = xr.Dataset()
     #
     try:
-        domcfg = open_file_multi(datadir, file_prefix="domain_cfg_out")
+        domcfg = open_file_multi(datadir, file_prefix="domain_cfg")
     except FileNotFoundError:
         domcfg = xr.Dataset()
     #
     domcfg = domcfg.combine_first(mask)
     if not domcfg:
-        raise FileNotFoundError("No 'domain_cfg_out' or 'mesh_mask' files are provided")
+        raise FileNotFoundError("No 'domain_cfg' or 'mesh_mask' files are provided")
     #
     # This part is used to put the vars on the right point of the grid (e.g. T, U, V points)
     domcfg_points = get_domcfg_points()
@@ -150,20 +127,5 @@ def open_domain_cfg(
         domcfg = domcfg.drop_dims(coord, errors="ignore").drop_vars(
             coord, errors="ignore"
         )
-    #
-    if mercator_grid:
-        # add a variable for longitude = cos(latitude) for the plots
-        for point in ["t", "u", "v", "f"]:
-            domcfg["x_{}_plot".format(point.upper())] = (
-                domcfg["glam{}".format(point)] - np.mean(domcfg["glam{}".format(point)])
-            ) * xr.ufuncs.cos(
-                xr.ufuncs.deg2rad(domcfg["gphi{}".format(point)])
-            ) + np.mean(
-                domcfg["glam{}".format(point)]
-            )
-            domcfg["y_{}_plot".format(point.upper())] = domcfg["gphi{}".format(point)]
-    #
-    if save:
-        domcfg.to_netcdf(saving_name)
     #
     return domcfg

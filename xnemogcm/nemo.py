@@ -65,16 +65,7 @@ def nemo_preprocess(ds, domcfg):
     return ds
 
 
-def open_nemo(
-    datadir,
-    domcfg,
-    file_prefix="",
-    load_from_saved=False,
-    save=False,
-    saving_name=None,
-    chunks=None,
-    **kwargs_open
-):
+def open_nemo(datadir, domcfg, file_prefix="", chunks=None, **kwargs_open):
     """
     Open nemo dataset, and rename the coordinates to be conform to xgcm.Grid
 
@@ -84,21 +75,13 @@ def open_nemo(
     Parameters
     ----------
     datadir : string or pathlib.Path
-        The directory containing the 'domain_cfg_out' files
+        The directory containing the 'domain_cfg' files
     file_prefix : string, optionnal
         Prefix of the files to open, if no prefix is given, will open
         all nemo files.
     domcfg : xarray.Dataset or None
         If given, the domcfg dataset,
-        if *None*, will open the *domain_cfg_out* files.
-    load_from_saved : bool, optionnal
-        If the domcfg has already been openened and saved, it is possible
-        read this file instead or computing it again from scratch
-    save : bool, optionnal
-        Whether to save the domcfg file or not
-    saving_name : string,
-        The name of the file to save in (will be saved in the *datadir*).
-        If empty string is given, default will be 'xnemogcm.nemo.nc'
+        if *None*, will open the *domain_cfg* files.
     chunks : dict
         The chunks to use when opening the files,
         e.g. chunks={'time_counter':10}
@@ -118,34 +101,19 @@ def open_nemo(
         datadir
     ).expanduser()  # expanduser replaces the '~' with '/home/$USER'
 
-    if saving_name is None:
-        if file_prefix == "":
-            saving_name = "xnemogcm.nemo.nc"
-        else:
-            saving_name = "xnemogcm.nemo." + file_prefix + ".nc"
-    saving_name = datadir / saving_name
-
-    if load_from_saved and saving_name.exists():
-        nemo_ds = xr.open_dataset(saving_name)
-    else:
-        files = datadir.glob(f'{file_prefix}*grid_*.nc')
-        nemo_ds = xr.open_mfdataset(
-            files,
-            compat="override",
-            preprocess=partial(nemo_preprocess, domcfg=domcfg),
-            chunks=chunks,
-            **kwargs_open
-        )
-        # adding attributes
-        nemo_ds.attrs["name"] = "NEMO dataset"
-        if file_prefix:
-            nemo_ds.attrs["name"] += " " + file_prefix
-        nemo_ds.attrs[
-            "description"
-        ] = "Ocean grid variables, set on the proper positions"
-        nemo_ds.attrs["title"] = "Ocean grid variables"
-
-        if save:
-            nemo_ds.to_netcdf(saving_name)
+    files = datadir.glob(f"{file_prefix}*grid_*.nc")
+    nemo_ds = xr.open_mfdataset(
+        files,
+        compat="override",
+        preprocess=partial(nemo_preprocess, domcfg=domcfg),
+        chunks=chunks,
+        **kwargs_open,
+    )
+    # adding attributes
+    nemo_ds.attrs["name"] = "NEMO dataset"
+    if file_prefix:
+        nemo_ds.attrs["name"] += " " + file_prefix
+    nemo_ds.attrs["description"] = "Ocean grid variables, set on the proper positions"
+    nemo_ds.attrs["title"] = "Ocean grid variables"
 
     return nemo_ds
