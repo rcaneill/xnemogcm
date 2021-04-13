@@ -52,6 +52,12 @@ Typing `pipenv shell` in the package directory will activate the virtual environ
 
 ## What's new
 
+### v0.3.0 (2021-04-13)
+* Cleaning the backend
+* Removing the saving options (that were useless and confusing)
+* Minor bug fixes
+* Tested with realistic regional configuration
+
 ### v0.2.3 (2021-03-15)
 * Support for surface only files
 * Reshaping the data files for the tests (dev)
