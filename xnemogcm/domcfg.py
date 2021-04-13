@@ -84,7 +84,6 @@ def open_domain_cfg(datadir=".", files=None):
     if not files:
         raise FileNotFoundError("No 'domain_cfg' or 'mesh_mask' files are provided")
     domcfg = open_file_multi(files=files)
-
     #
     # This part is used to put the vars on the right point of the grid (e.g. T, U, V points)
     domcfg_points = get_domcfg_points()

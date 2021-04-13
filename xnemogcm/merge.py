@@ -45,6 +45,7 @@ def _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface=False):
                     f"Warning: this scale factor has been copied from e3{point}_0,"
                     "it is not valid for thickness weighted data"
                 )
+    ds.attrs.pop('file_name', None)
     return ds
 
 
