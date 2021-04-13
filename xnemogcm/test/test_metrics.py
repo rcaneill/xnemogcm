@@ -7,7 +7,8 @@ TEST_PATH = Path(os.path.dirname(os.path.abspath(__file__)))
 
 
 def test_merge_non_linear_free_surface():
-    ds = open_nemo_and_domain_cfg(datadir=TEST_PATH / "data/open_and_merge")
+    p = TEST_PATH / "data/open_and_merge"
+    ds = open_nemo_and_domain_cfg(nemo_files=p, domcfg_files=p)
     metrics = get_metrics(ds)
     metrics_theory = {
         ("X",): ["e1t", "e1u", "e1v", "e1f"],  # X distances

@@ -2,11 +2,11 @@ from functools import partial
 
 import os
 from pathlib import Path
+import warnings
 import numpy as np
 import xarray as xr
 
 from . import arakawa_points as akp
-from .tools import open_file_multi
 from .domcfg import open_domain_cfg
 
 
@@ -48,7 +48,7 @@ def nemo_preprocess(ds, domcfg):
     ds = ds.rename({x_nme: point.x, y_nme: point.y})
     if z_nme:
         ds = ds.rename({z_nme: point.z})
-    # setting z_c/z_f/x_c/etc to be the same as in domcfg
+    # setting z_c/z_f/x_c/etc to be the same as in domcfg, if domcfg was provided
     points = [point.x, point.y]
     if z_nme:
         points += [point.z]
@@ -64,16 +64,7 @@ def nemo_preprocess(ds, domcfg):
     return ds
 
 
-def open_nemo(
-    datadir=".",
-    file_prefix="",
-    domcfg=None,
-    load_from_saved=False,
-    save=False,
-    saving_name=None,
-    chunks=None,
-    **kwargs_open
-):
+def open_nemo(datadir, domcfg, files=None, chunks=None, **kwargs_open):
     """
     Open nemo dataset, and rename the coordinates to be conform to xgcm.Grid
 
@@ -83,21 +74,11 @@ def open_nemo(
     Parameters
     ----------
     datadir : string or pathlib.Path
-        The directory containing the 'domain_cfg_out' files
-    file_prefix : string, optionnal
-        Prefix of the files to open, if no prefix is given, will open
-        all nemo files.
-    domcfg : xarray.Dataset or None
-        If given, the domcfg dataset,
-        if *None*, will open the *domain_cfg_out* files.
-    load_from_saved : bool, optionnal
-        If the domcfg has already been openened and saved, it is possible
-        read this file instead or computing it again from scratch
-    save : bool, optionnal
-        Whether to save the domcfg file or not
-    saving_name : string,
-        The name of the file to save in (will be saved in the *datadir*).
-        If empty string is given, default will be 'xnemogcm.nemo.nc'
+        The directory containing the nemo files
+    domcfg : xarray.Dataset
+        the domcfg dataset, e.g. opened with xnemogcm.open_domain_cfg
+    files : list, optional
+        List of the files to open
     chunks : dict
         The chunks to use when opening the files,
         e.g. chunks={'time_counter':10}
@@ -113,45 +94,22 @@ def open_nemo(
         Dataset containing all outputed variables, set on the proper
         grid points (center, face, etc).
     """
-    if domcfg is None:
-        domcfg = open_domain_cfg(datadir, load_from_saved=load_from_saved, save=save)
+    if files is None:
+        datadir = Path(
+            datadir
+        ).expanduser()  # expanduser replaces the '~' with '/home/$USER'
+        files = datadir.glob("*grid_*.nc")
 
-    datadir = Path(
-        datadir
-    ).expanduser()  # expanduser replaces the '~' with '/home/$USER'
-
-    if saving_name is None:
-        if file_prefix == "":
-            saving_name = "xnemogcm.nemo.nc"
-        else:
-            saving_name = "xnemogcm.nemo." + file_prefix + ".nc"
-    saving_name = datadir / saving_name
-
-    if load_from_saved and saving_name.exists():
-        nemo_ds = xr.open_dataset(saving_name)
-    else:
-        files = [
-            datadir / i
-            for i in os.listdir(datadir)
-            if "grid_" in i and i[-3:] == ".nc" and file_prefix in i
-        ]
-        nemo_ds = xr.open_mfdataset(
-            files,
-            compat="override",
-            preprocess=partial(nemo_preprocess, domcfg=domcfg),
-            chunks=chunks,
-            **kwargs_open
-        )
-        # adding attributes
-        nemo_ds.attrs["name"] = "NEMO dataset"
-        if file_prefix:
-            nemo_ds.attrs["name"] += " " + file_prefix
-        nemo_ds.attrs[
-            "description"
-        ] = "Ocean grid variables, set on the proper positions"
-        nemo_ds.attrs["title"] = "Ocean grid variables"
-
-        if save:
-            nemo_ds.to_netcdf(saving_name)
+    nemo_ds = xr.open_mfdataset(
+        files,
+        compat="override",
+        preprocess=partial(nemo_preprocess, domcfg=domcfg),
+        chunks=chunks,
+        **kwargs_open,
+    )
+    # adding attributes
+    nemo_ds.attrs["name"] = "NEMO dataset"
+    nemo_ds.attrs["description"] = "Ocean grid variables, set on the proper positions"
+    nemo_ds.attrs["title"] = "Ocean grid variables"
 
     return nemo_ds
