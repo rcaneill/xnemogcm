@@ -4,22 +4,27 @@ from pathlib import Path
 import os
 
 
-def open_file_multi(pathdir, file_prefix):
+def open_file_multi(pathdir=None, file_prefix=None, files=None):
     """
-    Open and merge netcdf file created on each processor by NEMO (e.g. domain_cfg_out of mesh_mask
+    Open and merge netcdf file created on each processor by NEMO (e.g. domain_cfg_out of mesh_mask).
+    If only one file is present, open and return it without any process.
+
+    2 methods are accepted: 1) give a directory *pathdir* and a file prefix (e.g. 'domain_cfg_out')
+    *file_prefix*, 2) give a list of file names *files*.
     """
-    pathdir = Path(pathdir).expanduser()
-    files = [i for i in os.listdir(pathdir) if file_prefix in i]
+    if not files:
+        pathdir = Path(pathdir).expanduser()
+        files = list(pathdir.glob(f'{file_prefix}*.nc'))
     if not files:
         raise FileNotFoundError(f"No file starting by '{file_prefix}' in '{pathdir}'")
-    data_ds = xr.open_dataset(pathdir / files[0])
+    data_ds = xr.open_dataset(files[0])
     # Setting the x and y coordinates to be the gobal coordinates
     data_ds["x"] = data_ds.x + data_ds.attrs["DOMAIN_position_first"][0] - 1
     data_ds["y"] = data_ds.y + data_ds.attrs["DOMAIN_position_first"][1] - 1
     domposfir = data_ds.attrs["DOMAIN_position_first"]
     domposlas = data_ds.attrs["DOMAIN_position_last"]
     for i in files[1:]:
-        ds = xr.open_dataset(pathdir / i)
+        ds = xr.open_dataset(i)
         ds["x"] = ds.x + ds.attrs["DOMAIN_position_first"][0] - 1
         ds["y"] = ds.y + ds.attrs["DOMAIN_position_first"][1] - 1
         domposfir = np.min([domposfir, ds.attrs["DOMAIN_position_first"]], axis=0)

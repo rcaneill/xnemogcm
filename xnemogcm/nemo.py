@@ -2,6 +2,7 @@ from functools import partial
 
 import os
 from pathlib import Path
+import warnings
 import numpy as np
 import xarray as xr
 
@@ -48,7 +49,7 @@ def nemo_preprocess(ds, domcfg):
     ds = ds.rename({x_nme: point.x, y_nme: point.y})
     if z_nme:
         ds = ds.rename({z_nme: point.z})
-    # setting z_c/z_f/x_c/etc to be the same as in domcfg
+    # setting z_c/z_f/x_c/etc to be the same as in domcfg, if domcfg was provided
     points = [point.x, point.y]
     if z_nme:
         points += [point.z]
@@ -65,9 +66,9 @@ def nemo_preprocess(ds, domcfg):
 
 
 def open_nemo(
-    datadir=".",
+    datadir,
+    domcfg,
     file_prefix="",
-    domcfg=None,
     load_from_saved=False,
     save=False,
     saving_name=None,
@@ -113,9 +114,6 @@ def open_nemo(
         Dataset containing all outputed variables, set on the proper
         grid points (center, face, etc).
     """
-    if domcfg is None:
-        domcfg = open_domain_cfg(datadir, load_from_saved=load_from_saved, save=save)
-
     datadir = Path(
         datadir
     ).expanduser()  # expanduser replaces the '~' with '/home/$USER'
@@ -130,11 +128,7 @@ def open_nemo(
     if load_from_saved and saving_name.exists():
         nemo_ds = xr.open_dataset(saving_name)
     else:
-        files = [
-            datadir / i
-            for i in os.listdir(datadir)
-            if "grid_" in i and i[-3:] == ".nc" and file_prefix in i
-        ]
+        files = datadir.glob(f'{file_prefix}*grid_*.nc')
         nemo_ds = xr.open_mfdataset(
             files,
             compat="override",

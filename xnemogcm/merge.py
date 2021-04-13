@@ -71,6 +71,7 @@ def open_nemo_and_domain_cfg(
     if datadir:
         nemo_kwargs["datadir"] = datadir
         domcfg_kwargs["datadir"] = datadir
-    nemo_ds = open_nemo(**nemo_kwargs)
     domcfg = open_domain_cfg(**domcfg_kwargs)
+    nemo_kwargs['domcfg'] = domcfg
+    nemo_ds = open_nemo(**nemo_kwargs)
     return _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface)
