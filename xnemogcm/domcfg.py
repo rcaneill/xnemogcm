@@ -4,14 +4,57 @@ import numpy as np
 import xarray as xr
 
 from . import arakawa_points as akp
-from .tools import open_file_multi, get_domcfg_points
+from .tools import get_domcfg_points
 
 
-def open_domain_cfg(
-    datadir=".",
-):
+def domcfg_preprocess(ds):
     """
-    Return a dataset containing all dataarrays of the domain_cfg*.nc files.
+    Preprocess domcfg / meshmask files when needed to be recombined (= 1 file per processor)
+    """
+    try:
+        ds = ds.rename({"z": "nav_lev"})
+    except ValueError:
+        pass
+    try:
+        ds["x"] = ds.x + ds.attrs["DOMAIN_position_first"][0] - 1
+        ds["y"] = ds.y + ds.attrs["DOMAIN_position_first"][1] - 1
+    except KeyError:
+        # This means that we are not merging multiple outputs from processors but e.g. a domain_cfg and a mesh_mask
+        ds.coords["x"] = ds.x
+        ds.coords["y"] = ds.y
+    # We need to add "nav_lev" in the coordinates if not present
+    if (not "nav_lev" in ds.coords) and ("nav_lev" in ds):
+        ds.coords["nav_lev"] = ds["nav_lev"]
+    return ds
+
+
+def open_file_multi(files):
+    """
+    Open and merge netcdf file created on each processor by NEMO (e.g. domain_cfg of mesh_mask).
+    If only one file is present, open and return it without any process.
+
+    2 methods are accepted: 1) give a directory *pathdir* and a file prefix (e.g. 'domain_cfg')
+    *file_prefix*, 2) give a list of file names *files*.
+    """
+    ds = xr.open_mfdataset(files, preprocess=domcfg_preprocess)
+
+    if "time_counter" in ds:
+        ds = ds.isel(time_counter=0)
+    for i in [
+        "DOMAIN_position_first",
+        "DOMAIN_position_last",
+        "DOMAIN_number",
+        "DOMAIN_number_total",
+        "DOMAIN_size_local",
+    ]:
+        ds.attrs.pop(i, None)
+
+    return ds
+
+
+def open_domain_cfg(datadir=".", files=None):
+    """
+    Return a dataset containing all dataarrays of the domain_cfg*.nc / mesh_mask files.
 
     For that, open and merge all the datasets.
     The dataset is compatible with xgcm, the corresponding grid
@@ -21,6 +64,10 @@ def open_domain_cfg(
     ----------
     datadir : string or pathlib.Path
         The directory containing the 'domain_cfg' or 'mesh_mask' files
+    files : list or iterator
+        list of the file names that correspond to the domain_cfg and/or mesh_mask files,
+        e.g. 'files=Path('path/to/data').glob('*my_domcfg*.nc') if your domain_cfg files are called
+        'something_my_domcfg_00.nc' and 'something_my_domcfg_01.nc'
 
     Returns
     -------
@@ -29,20 +76,15 @@ def open_domain_cfg(
     """
     # TODO see dask arrays (chunk argument in xr.open_dataset)
     datadir = Path(datadir).expanduser()
+    if files is None:
+        files = list(datadir.glob("*mesh_mask*.nc")) + list(
+            datadir.glob("*domain_cfg*.nc")
+        )
     #
-    try:
-        mask = open_file_multi(datadir, file_prefix="mesh_mask")
-    except FileNotFoundError:
-        mask = xr.Dataset()
-    #
-    try:
-        domcfg = open_file_multi(datadir, file_prefix="domain_cfg")
-    except FileNotFoundError:
-        domcfg = xr.Dataset()
-    #
-    domcfg = domcfg.combine_first(mask)
-    if not domcfg:
+    if not files:
         raise FileNotFoundError("No 'domain_cfg' or 'mesh_mask' files are provided")
+    domcfg = open_file_multi(files=files)
+
     #
     # This part is used to put the vars on the right point of the grid (e.g. T, U, V points)
     domcfg_points = get_domcfg_points()
@@ -62,7 +104,6 @@ def open_domain_cfg(
     domcfg["x_f"] = domcfg["x_c"] + 0.5
     domcfg["y_f"] = domcfg["y_c"] + 0.5
     domcfg = domcfg.assign_coords(z_c=np.arange(len(domcfg["z_c"])))
-    # domcfg["z_c"].data = np.arange(len(domcfg["z_c"]))
     domcfg["z_f"] = domcfg["z_c"] - 0.5
     #
     domcfg.coords["x_c"] = (
@@ -93,6 +134,7 @@ def open_domain_cfg(
         domcfg.coords["y_f"],
         {"axis": "Y", "c_grid_axis_shift": 0.5},
     )  # right  point
+    #
     domcfg.coords["z_c"] = (
         [
             "z_c",
@@ -107,13 +149,6 @@ def open_domain_cfg(
         domcfg.coords["z_f"],
         {"axis": "Z", "c_grid_axis_shift": -0.5},
     )  # left   point
-    #
-
-    if mask:
-        # Creating a fmaskutil if not existing
-        if "fmaskutil" not in domcfg:
-            domcfg["fmaskutil"] = domcfg["fmask"].isel({"z_c": 0}).copy()
-
     # Cleaning unused coordinates
     coordinates = [
         key for key in domcfg.coords.keys()

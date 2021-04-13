@@ -7,7 +7,6 @@ import numpy as np
 import xarray as xr
 
 from . import arakawa_points as akp
-from .tools import open_file_multi
 from .domcfg import open_domain_cfg
 
 
@@ -65,7 +64,7 @@ def nemo_preprocess(ds, domcfg):
     return ds
 
 
-def open_nemo(datadir, domcfg, file_prefix="", chunks=None, **kwargs_open):
+def open_nemo(datadir, domcfg, files=None, chunks=None, **kwargs_open):
     """
     Open nemo dataset, and rename the coordinates to be conform to xgcm.Grid
 
@@ -75,13 +74,11 @@ def open_nemo(datadir, domcfg, file_prefix="", chunks=None, **kwargs_open):
     Parameters
     ----------
     datadir : string or pathlib.Path
-        The directory containing the 'domain_cfg' files
-    file_prefix : string, optionnal
-        Prefix of the files to open, if no prefix is given, will open
-        all nemo files.
-    domcfg : xarray.Dataset or None
-        If given, the domcfg dataset,
-        if *None*, will open the *domain_cfg* files.
+        The directory containing the nemo files
+    domcfg : xarray.Dataset
+        the domcfg dataset, e.g. opened with xnemogcm.open_domain_cfg
+    files : list, optional
+        List of the files to open
     chunks : dict
         The chunks to use when opening the files,
         e.g. chunks={'time_counter':10}
@@ -97,11 +94,12 @@ def open_nemo(datadir, domcfg, file_prefix="", chunks=None, **kwargs_open):
         Dataset containing all outputed variables, set on the proper
         grid points (center, face, etc).
     """
-    datadir = Path(
-        datadir
-    ).expanduser()  # expanduser replaces the '~' with '/home/$USER'
+    if files is None:
+        datadir = Path(
+            datadir
+        ).expanduser()  # expanduser replaces the '~' with '/home/$USER'
+        files = datadir.glob("*grid_*.nc")
 
-    files = datadir.glob(f"{file_prefix}*grid_*.nc")
     nemo_ds = xr.open_mfdataset(
         files,
         compat="override",
@@ -111,8 +109,6 @@ def open_nemo(datadir, domcfg, file_prefix="", chunks=None, **kwargs_open):
     )
     # adding attributes
     nemo_ds.attrs["name"] = "NEMO dataset"
-    if file_prefix:
-        nemo_ds.attrs["name"] += " " + file_prefix
     nemo_ds.attrs["description"] = "Ocean grid variables, set on the proper positions"
     nemo_ds.attrs["title"] = "Ocean grid variables"
 

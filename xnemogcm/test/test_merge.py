@@ -11,10 +11,12 @@ TEST_PATH = Path(os.path.dirname(os.path.abspath(__file__)))
 
 
 def test_merge_non_linear_free_surface():
-    domcfg_kwargs = dict(datadir=TEST_PATH / "data/domcfg_1_file")
+    datadir_dom = TEST_PATH / "data/domcfg_1_file"
+    datadir_nemo = TEST_PATH / "data/nemo"
+    domcfg_kwargs = dict(datadir=datadir_dom)
     domcfg = open_domain_cfg(**domcfg_kwargs)
     nemo_kwargs = dict(
-        datadir=TEST_PATH / "data/nemo",
+        datadir=datadir_nemo,
         domcfg=domcfg,
     )
     nemo_ds = open_nemo(**nemo_kwargs)
@@ -24,11 +26,16 @@ def test_merge_non_linear_free_surface():
     assert "t" in ds.e3t.coords
     assert "e3f" not in ds
     ds2 = open_nemo_and_domain_cfg(
-        nemo_kwargs, domcfg_kwargs, linear_free_surface=False
+        nemo_files=datadir_nemo,
+        domcfg_files=datadir_dom,
+        nemo_kwargs=nemo_kwargs,
+        domcfg_kwargs=domcfg_kwargs,
+        linear_free_surface=False,
     )
     assert (ds == ds2).all()
+    p = TEST_PATH / "data/open_and_merge"
     ds2 = open_nemo_and_domain_cfg(
-        datadir=TEST_PATH / "data/open_and_merge", linear_free_surface=False
+        nemo_files=p, domcfg_files=p, linear_free_surface=False
     )
     assert (ds == ds2).all()
 
@@ -38,5 +45,6 @@ def test_merge_linear_free_surface():
 
 
 def test_attributes():
-    ds = open_nemo_and_domain_cfg(datadir=TEST_PATH / "data/open_and_merge")
+    p = TEST_PATH / "data/open_and_merge"
+    ds = open_nemo_and_domain_cfg(nemo_files=p, domcfg_files=p)
     assert ds.attrs

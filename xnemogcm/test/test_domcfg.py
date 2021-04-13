@@ -24,6 +24,13 @@ def test_open_domcfg_1_file():
     open_domain_cfg(datadir=(TEST_PATH / "data/domcfg_1_file"))
 
 
+def test_open_domcfg_1_file_provide_files():
+    """Test opening of 1 file"""
+    open_domain_cfg(
+        files=(TEST_PATH / "data/domcfg_1_file").glob("*domain_cfg_out*.nc")
+    )
+
+
 def test_open_domcfg_multi_files():
     """Test opening of multi files from processors"""
     open_domain_cfg(datadir=(TEST_PATH / "data/domcfg_multi_files"))
