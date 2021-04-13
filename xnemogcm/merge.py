@@ -1,3 +1,5 @@
+import types
+from pathlib import Path
 import numpy as np
 import xarray as xr
 
@@ -23,7 +25,7 @@ def _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface=False):
     nemo_ds : xarray.DataSet
         NEMO output dataset opened by the function xnemogcm.open_nemo
     domcfg : xarray.DataSet
-        NEMO domain_cfg_out dataset opened by the function xnemogcm.open_domain_cfg
+        NEMO domain_cfg dataset opened by the function xnemogcm.open_domain_cfg
 
     Returns
     -------
@@ -43,34 +45,55 @@ def _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface=False):
                     f"Warning: this scale factor has been copied from e3{point}_0,"
                     "it is not valid for thickness weighted data"
                 )
+    ds.attrs.pop("file_name", None)
     return ds
 
 
 def open_nemo_and_domain_cfg(
-    nemo_kwargs={}, domcfg_kwargs={}, datadir=None, linear_free_surface=False
+    nemo_files,
+    domcfg_files,
+    nemo_kwargs={},
+    domcfg_kwargs={},
+    linear_free_surface=False,
 ):
     """
     Open nemo_ds and domcfg with open_nemo and open_domain_cfg and merge them with _merge_nemo_and_domain_cfg.
 
     See the respective functions docstrings for more details.
 
-    Simple usage: ds = open_nemo_and_domain_cfg(datadir="/path/to/dir/with/nemo/and/domain_cfg/data")
+    2 methods are available for nemo files and domain_cfg/mesh_mask files: 1) provide a list of the files
+    you want to open, 2) provide the path of the directories containing the files and xnemogcm will try
+    to open as much files as it can.
 
     Arguments
     ---------
+    nemo_files : list / generator or string / Path
+        1) list / generator containing the nemo output files, or
+        2) string / Path of the directory containing the nemo output files.
+           Will open all files containing "grid_X" in their name, "X" being "T", "U", "V", "W", "F", etc
+    domcfg_files : list / generator or string / Path
+        1) list / generator containing the domain_cfg / mesh_mask files, or
+        2) string / Path of the directory containing the domain_cfg / mesh_mask output files.
+           Will open all files containing "domain_cfg" or "mesh_mask" in their name.
     nemo_kwargs : dict
         dict containing the parameters of the xnemogcm.open_nemo function
-        e.g. {'datadir':'.', 'domcfg':None}
+        e.g. {'chunks':{'time_counter':10}}
     domcfg_kwargs : dict
         dict containing the parameters of the xnemogcm.open_domain_cfg function
-    datadir : string or pathlib.Path
-        path of the nemo and domcfg data, if not provided in the dictionaries.
     linear_free_surface : bool
         True if linear free surface is used. Used by xnemogcm._merge_nemo_and_domain_cfg function
     """
-    if datadir:
-        nemo_kwargs["datadir"] = datadir
-        domcfg_kwargs["datadir"] = datadir
-    nemo_ds = open_nemo(**nemo_kwargs)
+    if isinstance(domcfg_files, (list, types.GeneratorType)):
+        domcfg_kwargs["files"] = domcfg_files
+    elif isinstance(domcfg_files, (str, Path)):
+        domcfg_kwargs["datadir"] = domcfg_files
+
+    if isinstance(nemo_files, (list, types.GeneratorType)):
+        nemo_kwargs["files"] = nemo_files
+    elif isinstance(nemo_files, (str, Path)):
+        nemo_kwargs["datadir"] = nemo_files
+
     domcfg = open_domain_cfg(**domcfg_kwargs)
+    nemo_kwargs["domcfg"] = domcfg
+    nemo_ds = open_nemo(**nemo_kwargs)
     return _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface)
