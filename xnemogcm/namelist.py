@@ -13,6 +13,7 @@ def open_namelist(datadir=".", ref=True, cfg=True):
     Open the namelist and store it into a xarray.Dataset
     """
     import f90nml
+
     datadir = Path(
         datadir
     ).expanduser()  # expanduser replaces the '~' with '/home/$USER'
