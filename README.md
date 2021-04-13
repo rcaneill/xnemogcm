@@ -10,7 +10,7 @@ and adapted to a simple idealized configuration.
 ## Usage
 
 `xnemogcm` is capable or recombining the domain_cfg and mesh_mask files,
-the recombining tool from the NEMO toolbox is thus not need here.
+the recombining tool from the NEMO toolbox is thus not needed here.
 
 ```python
 from pathlib import Path
