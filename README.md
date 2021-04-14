@@ -46,7 +46,7 @@ pip3 install xnemogcm
 
 We use *pipenv* to set up a virtual environment containing all
 needed packages to run xnemogcm and the tests.
-To install all the dependencies, type `pipenv install`
+To install all the dependencies, type `pipenv install --dev`
 after cloning the directory. This will create a new virtual environment.
 Typing `pipenv shell` in the package directory will activate the virtual environment.
 
