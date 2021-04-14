@@ -4,7 +4,6 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-black = "*"
 twine = "*"
 
 [packages]
@@ -13,6 +12,3 @@ netcdf4 = "*"
 dask = {extras = ["array"],version = "*"}
 pytest = "*"
 f90nml = "*"
-
-[requires]
-python_version = "3.8"
