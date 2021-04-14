@@ -29,6 +29,6 @@ jobs:
           rm Pipfile.lock
           pip install pipenv
           pipenv install
-	  pipenv run pip install .
+          pipenv run pip install .
       - name: Run tests with pytest
         run: pipenv run pytest xnemogcm/test
