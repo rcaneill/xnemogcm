@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest", "macos-latest"]
-        python-version: ["3.6", "3.7", "3.8"]
+        python-version: ["3.8"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -26,8 +26,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          rm Pipfile.lock
-          pip install pipenv
+          python -m pip install pipenv
           pipenv install
           pipenv run pip install .
       - name: Run tests with pytest
