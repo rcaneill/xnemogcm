@@ -109,28 +109,28 @@ def open_domain_cfg(datadir=".", files=None):
         [
             "x_c",
         ],
-        domcfg.coords["x_c"],
+        domcfg.coords["x_c"].data,
         {"axis": "X"},
     )  # center point
     domcfg.coords["x_f"] = (
         [
             "x_f",
         ],
-        domcfg.coords["x_f"],
+        domcfg.coords["x_f"].data,
         {"axis": "X", "c_grid_axis_shift": 0.5},
     )  # right  point
     domcfg.coords["y_c"] = (
         [
             "y_c",
         ],
-        domcfg.coords["y_c"],
+        domcfg.coords["y_c"].data,
         {"axis": "Y"},
     )  # center point
     domcfg.coords["y_f"] = (
         [
             "y_f",
         ],
-        domcfg.coords["y_f"],
+        domcfg.coords["y_f"].data,
         {"axis": "Y", "c_grid_axis_shift": 0.5},
     )  # right  point
     #
@@ -138,14 +138,14 @@ def open_domain_cfg(datadir=".", files=None):
         [
             "z_c",
         ],
-        domcfg.coords["z_c"],
+        domcfg.coords["z_c"].data,
         {"axis": "Z"},
     )  # center point
     domcfg.coords["z_f"] = (
         [
             "z_f",
         ],
-        domcfg.coords["z_f"],
+        domcfg.coords["z_f"].data,
         {"axis": "Z", "c_grid_axis_shift": -0.5},
     )  # left   point
     # Cleaning unused coordinates
