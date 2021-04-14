@@ -26,8 +26,9 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
+	  rm Pipfile.lock
           pip install pipenv
-	  pipenv install
+          pipenv install
 	  pipenv run pip install .
       - name: Run tests with pytest
         run: pipenv run pytest xnemogcm/test
