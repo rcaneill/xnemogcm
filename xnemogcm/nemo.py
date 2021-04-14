@@ -82,7 +82,7 @@ def open_nemo(datadir, domcfg, files=None, chunks=None, **kwargs_open):
     chunks : dict
         The chunks to use when opening the files,
         e.g. chunks={'time_counter':10}
-        /!\ chunks need to be provided with the old names of dimensions
+        /! chunks need to be provided with the old names of dimensions
         i.e. 'time_counter', 'x', etc
         For more complex chunking, you may want to open without any chunks and set them up afterward.
     kwargs_open : any other argument given to the xarray.open_mfdataset function
