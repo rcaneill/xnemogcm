@@ -52,6 +52,10 @@ Typing `pipenv shell` in the package directory will activate the virtual environ
 
 ## What's new
 
+### v0.3.1 (2021-05-04)
+* Minor bug fix when merging
+* better squeezing of time in domcfg + nemo v3.6 compatibility
+
 ### v0.3.0 (2021-04-13)
 * Cleaning the backend
 * Removing the saving options (that were useless and confusing)
