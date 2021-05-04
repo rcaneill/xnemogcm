@@ -49,6 +49,8 @@ def get_domcfg_points():
         "stiffness": "T",
         "gdept_0": "T",
         "gdepw_0": "W",
+        "gdepu": "U",
+        "gdepv": "V",
         "ht_0": "T",
         "hu_0": "U",
         "hv_0": "V",
