@@ -102,7 +102,6 @@ def open_nemo(datadir, domcfg, files=None, chunks=None, **kwargs_open):
 
     nemo_ds = xr.open_mfdataset(
         files,
-        compat="override",
         preprocess=partial(nemo_preprocess, domcfg=domcfg),
         chunks=chunks,
         **kwargs_open,
