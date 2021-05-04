@@ -38,8 +38,9 @@ def open_file_multi(files):
     """
     ds = xr.open_mfdataset(files, preprocess=domcfg_preprocess)
 
-    if "time_counter" in ds:
-        ds = ds.isel(time_counter=0)
+    for i in ['time_counter', 't']:
+        if i in ds.dims:
+            ds = ds.squeeze(i)
     for i in [
         "DOMAIN_position_first",
         "DOMAIN_position_last",
