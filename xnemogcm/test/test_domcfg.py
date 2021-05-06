@@ -24,6 +24,24 @@ def test_open_domcfg_1_file():
     open_domain_cfg(datadir=(TEST_PATH / "data/domcfg_1_file"))
 
 
+def test_add_coordinates():
+    """Test that the lat/lon/depth variables are set as coordinates"""
+    domcfg = open_domain_cfg(datadir=(TEST_PATH / "data/domcfg_1_file"))
+    assert "glamt" in domcfg.coords
+    assert "gphiu" in domcfg.coords
+    assert "gdept_0" in domcfg.coords
+
+
+def test_no_add_coordinates():
+    """Test that the lat/lon/depth variables are set as coordinates"""
+    domcfg = open_domain_cfg(
+        datadir=(TEST_PATH / "data/domcfg_1_file"), add_coordinates=False
+    )
+    assert not "glamt" in domcfg.coords
+    assert not "gphiu" in domcfg.coords
+    assert not "gdept_0" in domcfg.coords
+
+
 def test_open_domcfg_1_file_provide_files():
     """Test opening of 1 file"""
     open_domain_cfg(
@@ -39,11 +57,6 @@ def test_open_domcfg_multi_files():
 def test_open_domcfg_multi_files_mesh_mask():
     """Test opening of multi files from processors, using mesh_mask files"""
     open_domain_cfg(datadir=(TEST_PATH / "data/mesh_mask_multi_files"))
-
-
-def test_save_domcfg_1_file():
-    """Test that saving works"""
-    open_domain_cfg(datadir=(TEST_PATH / "data/domcfg_1_file"))
 
 
 def test_compare_domcfg_1_multi():

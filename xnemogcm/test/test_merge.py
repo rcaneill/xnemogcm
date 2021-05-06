@@ -48,3 +48,13 @@ def test_attributes():
     p = TEST_PATH / "data/open_and_merge"
     ds = open_nemo_and_domain_cfg(nemo_files=p, domcfg_files=p)
     assert ds.attrs
+
+
+def test_add_coordinates():
+    p = TEST_PATH / "data/open_and_merge"
+    ds = open_nemo_and_domain_cfg(nemo_files=p, domcfg_files=p)
+    assert "glamt" in ds.coords
+    ds = open_nemo_and_domain_cfg(
+        nemo_files=p, domcfg_files=p, domcfg_kwargs={"add_coordinates": False}
+    )
+    assert not "glamt" in ds.coords

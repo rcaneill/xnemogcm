@@ -38,7 +38,7 @@ def open_file_multi(files):
     """
     ds = xr.open_mfdataset(files, preprocess=domcfg_preprocess)
 
-    for i in ['time_counter', 't']:
+    for i in ["time_counter", "t"]:
         if i in ds.dims:
             ds = ds.squeeze(i)
     for i in [
@@ -53,7 +53,29 @@ def open_file_multi(files):
     return ds
 
 
-def open_domain_cfg(datadir=".", files=None):
+def _add_coordinates(domcfg):
+    """
+    If existing in the domcfg dataset, adds the lat/lon/depth variables as coordinates
+    """
+    coordinates = [
+        "glamt",
+        "glamu",
+        "glamv",
+        "glamf",
+        "gphit",
+        "gphiu",
+        "gphiv",
+        "gphif",
+        "gdept_0",
+        "gdepw_0",
+    ]
+    for coord in coordinates:
+        if coord in domcfg:
+            domcfg.coords[coord] = domcfg[coord]
+    return domcfg
+
+
+def open_domain_cfg(datadir=".", files=None, add_coordinates=True):
     """
     Return a dataset containing all dataarrays of the domain_cfg*.nc / mesh_mask files.
 
@@ -162,5 +184,7 @@ def open_domain_cfg(datadir=".", files=None):
         domcfg = domcfg.drop_dims(coord, errors="ignore").drop_vars(
             coord, errors="ignore"
         )
-    #
+    # adding variables as coordinates
+    if add_coordinates:
+        domcfg = _add_coordinates(domcfg)
     return domcfg
