@@ -68,6 +68,8 @@ def _add_coordinates(domcfg):
         "gphif",
         "gdept_0",
         "gdepw_0",
+        "gdept_1d",
+        "gdepw_1d"
     ]
     for coord in coordinates:
         if coord in domcfg:
