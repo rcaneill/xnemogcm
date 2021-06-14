@@ -4,7 +4,7 @@ import numpy as np
 import xarray as xr
 
 from . import arakawa_points as akp
-from .tools import get_domcfg_points
+from .tools import get_domcfg_points, _dir_or_files_to_files
 
 
 def domcfg_preprocess(ds):
@@ -87,12 +87,14 @@ def open_domain_cfg(datadir=None, files=None, add_coordinates=True):
 
     Parameters
     ----------
-    datadir : string or pathlib.Path
+    datadir : string or pathlib.Path or None
         The directory containing the 'domain_cfg' or 'mesh_mask' files
-    files : list or iterator
+    files : list or iterator or None
         list of the file names that correspond to the domain_cfg and/or mesh_mask files,
         e.g. 'files=Path('path/to/data').glob('*my_domcfg*.nc') if your domain_cfg files are called
         'something_my_domcfg_00.nc' and 'something_my_domcfg_01.nc'
+    add_coordinates : bool
+        Whether to add the 'glamt', 'gphit', etc as coordinates of the dataset
 
     Returns
     -------
@@ -100,23 +102,9 @@ def open_domain_cfg(datadir=None, files=None, add_coordinates=True):
         The domain configuration dataset, can be read by xgcm.
     """
     # TODO see dask arrays (chunk argument in xr.open_dataset)
-    if not datadir:
-        if not files:
-            # error
-            raise FileNotFoundError("No files to open, please provide datadir or files")
-        else:
-            # do nothing, the files are understood as ['/path/to/file1', '/path/to/file2', ...]
-            pass
-    else:
-        datadir = Path(datadir).expanduser()
-        if not files:
-            # understood as taking all mesh_mask and domain_cfg files from datadir
-            files = list(datadir.glob("*mesh_mask*.nc")) + list(
-                datadir.glob("*domain_cfg*.nc")
-            )
-        else:
-            # understood as taking [datadir / files[0], datadir / files[1], ...]
-            files = [datadir / file for file in files]
+    files = _dir_or_files_to_files(
+        datadir, files, patterns=["*domain_cfg*.nc", "*mesh_mask*.nc"]
+    )
     #
     if not files:
         raise FileNotFoundError("No 'domain_cfg' or 'mesh_mask' files are provided")

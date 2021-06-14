@@ -1,7 +1,48 @@
-import numpy as np
-import xarray as xr
 from pathlib import Path
-import os
+from itertools import chain
+
+
+def _dir_or_files_to_files(datadir=None, files=None, patterns=[]):
+    """
+    Return a list of files from combining datadir and files.
+
+    Depending of the arguments, different cases happen:
+    1. if datadir is given, and no files given:
+       will return all the files in datadir that match the patterns
+       chain(*[datadir.glob(pattern) for pattern in patterns])
+    2. if datadir is given and files are given
+       will concatenate : [datadir / file for file in files]
+    3. if datadir is not given and files are given
+       do nothing and return files
+    4. if datadir is not given and files is not given
+       raise an error
+
+    datadir : string or pathlib.Path or None
+    files : list or iterator or None
+    patterns : list of strings
+        the patterns that need to be matched
+        e.g. patterns=['*domain_cfg*.nc', '*mesh_mask*.nc']
+    """
+    if isinstance(datadir, (str, Path)):
+        datadir = Path(
+            datadir
+        ).expanduser()  # expanduser replaces the '~' with '/home/$USER'
+    if not datadir:
+        if not files:
+            # error
+            raise FileNotFoundError("No files to open, please provide datadir or files")
+        else:
+            # do nothing, the files are understood as ['/path/to/file1', '/path/to/file2', ...]
+            pass
+    else:
+        datadir = Path(datadir).expanduser()
+        if not files:
+            # understood as taking all mesh_mask and domain_cfg files from datadir
+            files = chain(*[datadir.glob(pattern) for pattern in patterns])
+        else:
+            # understood as taking [datadir / files[0], datadir / files[1], ...]
+            files = [datadir / file for file in files]
+    return list(files)
 
 
 def get_domcfg_points():

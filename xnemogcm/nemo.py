@@ -8,6 +8,7 @@ import xarray as xr
 
 from . import arakawa_points as akp
 from .domcfg import open_domain_cfg
+from .tools import _dir_or_files_to_files
 
 
 def nemo_preprocess(ds, domcfg):
@@ -98,22 +99,7 @@ def open_nemo(domcfg, datadir=None, files=None, chunks=None, **kwargs_open):
         Dataset containing all outputed variables, set on the proper
         grid points (center, face, etc).
     """
-    if not datadir:
-        if not files:
-            # error
-            raise FileNotFoundError("No files to open, please provide datadir or files")
-        else:
-            # do nothing, the files are understood as ['/path/to/file1', '/path/to/file2', ...]
-            pass
-    else:
-        datadir = Path(datadir).expanduser()
-        if not files:
-            # understood as taking all output files from datadir
-            files = list(datadir.glob("*grid_*.nc"))
-        else:
-            # understood as taking [datadir / files[0], datadir / files[1], ...]
-            files = [datadir / file for file in files]
-    #
+    files = _dir_or_files_to_files(datadir, files, patterns=["*grid_*.nc"])
     if not files:
         raise FileNotFoundError("No output files are provided")
     #
