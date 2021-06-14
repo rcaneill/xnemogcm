@@ -12,6 +12,7 @@ def test_open_namelist_cfg():
     assert "rn_e1_deg" in namcfg
     assert namcfg["cn_exp"] == "BASIN"
     assert "nn_it000" not in namcfg
+    print(namcfg)
 
 
 def test_open_namelist_ref():
