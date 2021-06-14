@@ -50,10 +50,10 @@ def _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface=False):
 
 
 def open_nemo_and_domain_cfg(
-    nemo_files,
-    domcfg_files,
-    nemo_kwargs={},
-    domcfg_kwargs={},
+    nemo_files=None,
+    domcfg_files=None,
+    nemo_kwargs=None,
+    domcfg_kwargs=None,
     linear_free_surface=False,
 ):
     """
@@ -67,22 +67,31 @@ def open_nemo_and_domain_cfg(
 
     Arguments
     ---------
-    nemo_files : list / generator or string / Path
+    nemo_files : Optional, list / generator or string / Path
         1) list / generator containing the nemo output files, or
         2) string / Path of the directory containing the nemo output files.
            Will open all files containing "grid_X" in their name, "X" being "T", "U", "V", "W", "F", etc
-    domcfg_files : list / generator or string / Path
+    domcfg_files : Optional, list / generator or string / Path
         1) list / generator containing the domain_cfg / mesh_mask files, or
         2) string / Path of the directory containing the domain_cfg / mesh_mask output files.
            Will open all files containing "domain_cfg" or "mesh_mask" in their name.
     nemo_kwargs : dict
         dict containing the parameters of the xnemogcm.open_nemo function
+        Can contain the files and/or datadir arguments of the open_nemo function
         e.g. {'chunks':{'time_counter':10}}
     domcfg_kwargs : dict
         dict containing the parameters of the xnemogcm.open_domain_cfg function
+        Can contain the files and/or datadir arguments of the open_domain_cfg function
     linear_free_surface : bool
         True if linear free surface is used. Used by xnemogcm._merge_nemo_and_domain_cfg function
     """
+    # Necessary to avoid mutable default arguments
+    # e.g. https://nikos7am.com/posts/mutable-default-arguments/
+    if nemo_kwargs is None:
+        nemo_kwargs = {}
+    if domcfg_kwargs is None:
+        domcfg_kwargs = {}
+
     if isinstance(domcfg_files, (list, types.GeneratorType)):
         domcfg_kwargs["files"] = domcfg_files
     elif isinstance(domcfg_files, (str, Path)):
@@ -94,7 +103,6 @@ def open_nemo_and_domain_cfg(
         nemo_kwargs["datadir"] = nemo_files
 
     domcfg = open_domain_cfg(**domcfg_kwargs)
-    print(nemo_kwargs)
     nemo_kwargs["domcfg"] = domcfg
     nemo_ds = open_nemo(**nemo_kwargs)
     return _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface)

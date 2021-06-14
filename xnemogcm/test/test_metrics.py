@@ -6,7 +6,7 @@ from pathlib import Path
 TEST_PATH = Path(os.path.dirname(os.path.abspath(__file__)))
 
 
-def test_merge_non_linear_free_surface():
+def test_get_metrics():
     p = TEST_PATH / "data/open_and_merge"
     ds = open_nemo_and_domain_cfg(nemo_files=p, domcfg_files=p)
     metrics = get_metrics(ds)

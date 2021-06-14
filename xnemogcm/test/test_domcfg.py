@@ -5,6 +5,36 @@ from pathlib import Path
 TEST_PATH = Path(os.path.dirname(os.path.abspath(__file__)))
 
 
+def test_options_for_files():
+    """Test options to provide files"""
+    datadir = TEST_PATH / "data/domcfg_mesh_mask"
+    # 1. Provide datadir and no files
+    open_domain_cfg(datadir=datadir, files=None)
+    open_domain_cfg(datadir=datadir, files="")
+    open_domain_cfg(datadir=datadir, files=[])
+    # 2. Provide datadir and files
+    files = [
+        "domain_cfg_out_0000.nc",
+        "domain_cfg_out_0001.nc",
+        "domain_cfg_out_0002.nc",
+        "domain_cfg_out_0003.nc",
+        "mesh_mask_0000.nc",
+        "mesh_mask_0001.nc",
+        "mesh_mask_0002.nc",
+        "mesh_mask_0003.nc",
+    ]
+    open_domain_cfg(datadir=datadir, files=files)
+    # 3. Don't provide datadir but files
+    open_domain_cfg(datadir=None, files=datadir.glob("*domain*.nc"))
+    open_domain_cfg(datadir="", files=datadir.glob("*domain*.nc"))
+    open_domain_cfg(datadir=[], files=datadir.glob("*domain*.nc"))
+    # 4. Don't provide anything => error
+    try:
+        open_domain_cfg(datadir=None, files=None)
+    except FileNotFoundError:
+        pass
+
+
 def test_no_file_provided():
     """Test exception raised if no file is found"""
     try:

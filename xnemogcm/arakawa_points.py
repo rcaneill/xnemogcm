@@ -15,9 +15,7 @@ class Point:
         if point_type not in ALL_POINTS:
             raise (
                 ValueError(
-                    "*point_type* must be in ['T', 'U', 'V', 'F', 'W', 'UW', 'VW', 'FW'] \n   We got point_type={}".format(
-                        point_type
-                    )
+                    f"*point_type* must be in ['T', 'U', 'V', 'F', 'W', 'UW', 'VW', 'FW'] \n   We got point_type={point_type}"
                 )
             )
         self.point_type = point_type

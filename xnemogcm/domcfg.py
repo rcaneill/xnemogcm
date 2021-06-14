@@ -69,7 +69,7 @@ def _add_coordinates(domcfg):
         "gdept_0",
         "gdepw_0",
         "gdept_1d",
-        "gdepw_1d"
+        "gdepw_1d",
     ]
     for coord in coordinates:
         if coord in domcfg:
@@ -77,7 +77,7 @@ def _add_coordinates(domcfg):
     return domcfg
 
 
-def open_domain_cfg(datadir=".", files=None, add_coordinates=True):
+def open_domain_cfg(datadir=None, files=None, add_coordinates=True):
     """
     Return a dataset containing all dataarrays of the domain_cfg*.nc / mesh_mask files.
 
@@ -100,14 +100,27 @@ def open_domain_cfg(datadir=".", files=None, add_coordinates=True):
         The domain configuration dataset, can be read by xgcm.
     """
     # TODO see dask arrays (chunk argument in xr.open_dataset)
-    datadir = Path(datadir).expanduser()
-    if files is None:
-        files = list(datadir.glob("*mesh_mask*.nc")) + list(
-            datadir.glob("*domain_cfg*.nc")
-        )
+    if not datadir:
+        if not files:
+            # error
+            raise FileNotFoundError("No files to open, please provide datadir or files")
+        else:
+            # do nothing, the files are understood as ['/path/to/file1', '/path/to/file2', ...]
+            pass
+    else:
+        datadir = Path(datadir).expanduser()
+        if not files:
+            # understood as taking all mesh_mask and domain_cfg files from datadir
+            files = list(datadir.glob("*mesh_mask*.nc")) + list(
+                datadir.glob("*domain_cfg*.nc")
+            )
+        else:
+            # understood as taking [datadir / files[0], datadir / files[1], ...]
+            files = [datadir / file for file in files]
     #
     if not files:
         raise FileNotFoundError("No 'domain_cfg' or 'mesh_mask' files are provided")
+    #
     domcfg = open_file_multi(files=files)
     #
     # This part is used to put the vars on the right point of the grid (e.g. T, U, V points)

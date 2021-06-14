@@ -31,6 +31,10 @@ def nemo_preprocess(ds, domcfg):
     xarray.Dataset containing the new dimension names, the correct grid point and attributes.
     """
     filename = ds.encoding["source"]
+    if not "grid_" in filename:
+        raise ValueError(
+            f'{filename} does not contain grid_X in its name, with X in ["T", "U", "V", ...]'
+        )
     point_type = filename[filename.index("grid_") + 5 : -3]
     point = akp.Point(point_type)
     for name in ds:
@@ -64,7 +68,7 @@ def nemo_preprocess(ds, domcfg):
     return ds
 
 
-def open_nemo(datadir, domcfg, files=None, chunks=None, **kwargs_open):
+def open_nemo(domcfg, datadir=None, files=None, chunks=None, **kwargs_open):
     """
     Open nemo dataset, and rename the coordinates to be conform to xgcm.Grid
 
@@ -94,12 +98,25 @@ def open_nemo(datadir, domcfg, files=None, chunks=None, **kwargs_open):
         Dataset containing all outputed variables, set on the proper
         grid points (center, face, etc).
     """
-    if files is None:
-        datadir = Path(
-            datadir
-        ).expanduser()  # expanduser replaces the '~' with '/home/$USER'
-        files = datadir.glob("*grid_*.nc")
-
+    if not datadir:
+        if not files:
+            # error
+            raise FileNotFoundError("No files to open, please provide datadir or files")
+        else:
+            # do nothing, the files are understood as ['/path/to/file1', '/path/to/file2', ...]
+            pass
+    else:
+        datadir = Path(datadir).expanduser()
+        if not files:
+            # understood as taking all output files from datadir
+            files = list(datadir.glob("*grid_*.nc"))
+        else:
+            # understood as taking [datadir / files[0], datadir / files[1], ...]
+            files = [datadir / file for file in files]
+    #
+    if not files:
+        raise FileNotFoundError("No output files are provided")
+    #
     nemo_ds = xr.open_mfdataset(
         files,
         preprocess=partial(nemo_preprocess, domcfg=domcfg),

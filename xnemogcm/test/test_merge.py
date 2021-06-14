@@ -62,6 +62,7 @@ def test_add_coordinates():
 
 def test_open_nemo_files_without_datadir():
     p = TEST_PATH / "data/open_and_merge"
-    print('****\n'*10)
-    ds = open_nemo_and_domain_cfg(nemo_files=p.glob('*_grid*.nc'), domcfg_files=p.glob('domain*.nc'))
+    ds = open_nemo_and_domain_cfg(
+        nemo_files=p.glob("*_grid*.nc"), domcfg_files=p.glob("domain*.nc")
+    )
     assert ds

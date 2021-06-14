@@ -52,7 +52,7 @@ Typing `pipenv shell` in the package directory will activate the virtual environ
 
 ## What's new
 
-### v0.3.2 (2021-05-05)
+### v0.3.2 - v0.3.3 (2021-05-05)
 * By default adds the lat/lon/depth variables of domcfg as coordinates
 
 ### v0.3.1 (2021-05-04)
