@@ -30,3 +30,6 @@ var/
 
 # Sphinx doc
 docs/_build
+
+# Jupyter
+.ipynb_checkpoints
