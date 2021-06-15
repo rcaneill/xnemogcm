@@ -16,6 +16,7 @@ def test_get_metrics():
         ("Z",): ["e3t", "e3u", "e3v", "e3w"],  # Z distances
     }
     assert metrics == metrics_theory
+    assert len(get_metrics(compute_missing_metrics(ds))[('Z',)]) == 8
 
 
 def test_calculate_all_metrics():

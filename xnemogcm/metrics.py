@@ -1,9 +1,12 @@
 from collections import OrderedDict
 
+
+all_scale_factors = ["e3t", "e3u", "e3v", "e3f", "e3w", "e3uw", "e3vw", "e3fw"]
+
 _metrics = {
     ("X",): ["e1t", "e1u", "e1v", "e1f"],  # X distances
     ("Y",): ["e2t", "e2u", "e2v", "e2f"],  # Y distances
-    ("Z",): ["e3t", "e3u", "e3v", "e3f", "e3w"],  # Z distances
+    ("Z",): ["e3t", "e3u", "e3v", "e3f", "e3w", "e3uw", "e3vw", "e3fw"],  # Z distances
 }
 
 dep_graph = OrderedDict(
@@ -18,7 +21,6 @@ dep_graph = OrderedDict(
     }
 )
 
-all_scale_factors = ["e3t", "e3u", "e3v", "e3f", "e3w", "e3uw", "e3vw", "e3fw"]
 
 
 def compute_missing_metrics(
@@ -98,9 +100,16 @@ def get_metrics(ds):
     metrics : dict
         dict understood by xgcm.Grid, metrics argument
     """
-    metrics = _metrics.copy()
+    metrics = {
+        ("X",): ["e1t", "e1u", "e1v", "e1f"],  # X distances
+        ("Y",): ["e2t", "e2u", "e2v", "e2f"],  # Y distances
+        ("Z",): ["e3t", "e3u", "e3v", "e3f", "e3w", "e3uw", "e3vw", "e3fw"],  # Z distances
+    }
+    metrics_output = {}
     for point in metrics.keys():
+        m = []
         for e in metrics[point]:
-            if e not in ds:
-                metrics[point].remove(e)
-    return metrics
+            if e in ds.variables:
+                m.append(e)
+        metrics_output[point] = m
+    return metrics_output
