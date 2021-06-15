@@ -36,7 +36,14 @@ def open_file_multi(files):
     2 methods are accepted: 1) give a directory *pathdir* and a file prefix (e.g. 'domain_cfg')
     *file_prefix*, 2) give a list of file names *files*.
     """
-    ds = xr.open_mfdataset(files, preprocess=domcfg_preprocess)
+    ds = xr.open_mfdataset(
+        files,
+        preprocess=domcfg_preprocess,
+        combine_attrs="drop_conflicts",
+        data_vars="minimal",
+    )
+    # data_vars='minimal' necessary to not add x and y dimensions into dimensionless variables
+    # see https://github.com/pydata/xarray/issues/2064
 
     for i in ["time_counter", "t"]:
         if i in ds.dims:

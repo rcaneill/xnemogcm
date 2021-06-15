@@ -1,5 +1,5 @@
 from xnemogcm import open_nemo_and_domain_cfg
-from xnemogcm.metrics import get_metrics
+from xnemogcm.metrics import get_metrics, compute_missing_metrics
 import os
 from pathlib import Path
 
@@ -16,3 +16,55 @@ def test_get_metrics():
         ("Z",): ["e3t", "e3u", "e3v", "e3w"],  # Z distances
     }
     assert metrics == metrics_theory
+
+
+def test_calculate_all_metrics():
+    p = TEST_PATH / "data/open_and_merge"
+    ds = open_nemo_and_domain_cfg(nemo_files=p, domcfg_files=p)
+    ds_full_metrics = compute_missing_metrics(ds.copy())
+    for i in ["e3t", "e3u", "e3v", "e3f", "e3w", "e3uw", "e3vw", "e3fw"]:
+        assert i in ds_full_metrics
+
+    ds_full_metrics_0 = compute_missing_metrics(ds.copy(), time_varying=False)
+    for i in ["e3t", "e3u", "e3v", "e3f", "e3w", "e3uw", "e3vw", "e3fw"]:
+        assert (i + "_0") in ds_full_metrics_0
+
+    ds_full_metrics_0 = compute_missing_metrics(
+        ds.copy().drop_vars(
+            [
+                "e3t",
+                "e3u",
+                "e3v",
+                "e3f",
+                "e3w",
+                "e3uw",
+                "e3vw",
+                "e3fw",
+                "e3w_0",
+                "e3u_0",
+                "e3v_0",
+                "e3f_0",
+                "e3uw_0",
+                "e3vw_0",
+            ],
+            errors="ignore",
+        ),
+        time_varying=False,
+    )
+    for i in ["e3t", "e3u", "e3v", "e3f", "e3w", "e3uw", "e3vw", "e3fw"]:
+        assert (i + "_0") in ds_full_metrics_0
+
+    ds_full_metrics = compute_missing_metrics(
+        ds.copy().drop_vars(["e3u", "e3v", "e3w"], errors="ignore"), time_varying=True
+    )
+    for i in ["e3t", "e3u", "e3v", "e3f", "e3w", "e3uw", "e3vw", "e3fw"]:
+        assert i in ds_full_metrics
+
+    ds_full_metrics = compute_missing_metrics(ds.copy(), all_scale_factors=["e3vw"])
+    assert "e3vw" in ds_full_metrics
+    assert not "e3fw" in ds_full_metrics
+
+
+def test_calculate_all_metrics_precision():
+    """Should do some tests of precision of the calculated metrics"""
+    pass

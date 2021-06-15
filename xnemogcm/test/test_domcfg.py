@@ -92,7 +92,7 @@ def test_open_domcfg_multi_files_mesh_mask():
 def test_compare_domcfg_1_multi():
     domcfg_1 = open_domain_cfg(datadir=(TEST_PATH / "data/domcfg_1_file"))
     domcfg_multi = open_domain_cfg(datadir=(TEST_PATH / "data/domcfg_multi_files"))
-    assert (domcfg_1 == domcfg_multi).all()
+    assert domcfg_1.equals(domcfg_multi)
 
 
 def test_compare_domcfg_mesh_mask():
