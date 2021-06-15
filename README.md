@@ -16,17 +16,9 @@ the recombining tool from the NEMO toolbox is thus not needed here.
 from pathlib import Path
 from xnemogcm import open_nemo_and_domain_cfg
 
-# Next line will open all the nemo files containing "grid_X" in their name ("X" being "T", "U", "V", "W", etc)
-# All the files containing "domain_cfg" or "mesh_mask" will also be opened
 ds = open_nemo_and_domain_cfg(
     nemo_files='/path/to/output/files',
     domcfg_files='/path/to/domain_cfg/mesh_mask/files'
-)
-
-# It is possible to give a list of the precise files
-ds = open_nemo_and_domain_cfg(
-    nemo_files=Path('/path/to/nemo/files/').glob('ORCA_1m_*grid_*.nc'),
-    domcfg_files=['/path/to/mesh_mask/mesh_mask_0000.nc', '/path/to/mesh_mask/mesh_mask_0001.nc']
 )
 
 # Interface with xgcm
@@ -34,6 +26,9 @@ from xnemogcm import get_metrics
 import xgcm
 grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 ```
+
+See the [example](https://nbviewer.ipython.org/github/rcaneill/xnemogcm/blob/master/example/)
+directory for some jupyter notebook examples.
 
 ## Installation
 

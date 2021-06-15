@@ -22,7 +22,6 @@ dep_graph = OrderedDict(
 )
 
 
-
 def compute_missing_metrics(
     ds, all_scale_factors=all_scale_factors, time_varying=True, periodic=False
 ):
@@ -103,7 +102,16 @@ def get_metrics(ds):
     metrics = {
         ("X",): ["e1t", "e1u", "e1v", "e1f"],  # X distances
         ("Y",): ["e2t", "e2u", "e2v", "e2f"],  # Y distances
-        ("Z",): ["e3t", "e3u", "e3v", "e3f", "e3w", "e3uw", "e3vw", "e3fw"],  # Z distances
+        ("Z",): [
+            "e3t",
+            "e3u",
+            "e3v",
+            "e3f",
+            "e3w",
+            "e3uw",
+            "e3vw",
+            "e3fw",
+        ],  # Z distances
     }
     metrics_output = {}
     for point in metrics.keys():
