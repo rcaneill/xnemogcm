@@ -27,8 +27,8 @@ import xgcm
 grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 ```
 
-See the [example](https://nbviewer.ipython.org/github/rcaneill/xnemogcm/blob/master/example/)
-directory for some jupyter notebook examples.
+See the [exemple](https://nbviewer.ipython.org/github/rcaneill/xnemogcm/blob/master/exemple/)
+directory for some jupyter notebook exemples.
 
 ## Installation
 
