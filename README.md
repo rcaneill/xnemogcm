@@ -1,5 +1,7 @@
 # xnemogcm
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5724578.svg)](https://doi.org/10.5281/zenodo.5724578)
+
 Interface to open NEMO ocean global circulation model output dataset and create a xgcm grid.
 
 One can be interested by the [XORCA](https://github.com/willirath/xorca)
