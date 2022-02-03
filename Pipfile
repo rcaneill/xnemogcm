@@ -6,8 +6,9 @@ verify_ssl = true
 [dev-packages]
 twine = ">=3.8.0"
 jupyterlab = ">=3.2.8"
-xgcm = "=0.6.0"
+xgcm = ">=0.6.0"
 matplotlib = ">=3.5.1"
+xnemogcm = {editable = true, path = "."}
 
 [packages]
 xarray = ">=0.21.1"
