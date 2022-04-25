@@ -14,11 +14,9 @@ from .tools import _dir_or_files_to_files
 def nemo_preprocess(ds, domcfg):
     """
     Preprocess function for the nemo files.
-
     This function renames the time dimension 'time_counter' into 't', 'time_counter_bounds' into 't_bounds'.
     It removes the old 'nav_lat' and 'nav_lon' variables and sets the 'x', 'y', and 'z' dimensions
     into the correct dimension, depending on the grid point (e.g. ['x_c', 'y_c', 'z_c'] for T point).
-
     Parameters
     ----------
     ds : xarray.Dataset
@@ -26,46 +24,42 @@ def nemo_preprocess(ds, domcfg):
         with the old names for the variables and dimensions (e.g. 'time_counter')
     domcfg : xarray.Dataset
         a dataset containing the domcfg data
-
     Returns
     -------
     xarray.Dataset containing the new dimension names, the correct grid point and attributes.
     """
     filename = ds.encoding["source"]
+    to_rename = {}
     if not "grid_" in filename:
         raise ValueError(
             f'{filename} does not contain grid_X in its name, with X in ["T", "U", "V", ...]'
         )
     point_type = filename[filename.index("grid_") + 5 : -3]
     point = akp.Point(point_type)
-    for name in ds:
-        ds[name].attrs[
-            "arakawa_point_type"
-        ] = point.point_type  # adding metadata with point type
     # get the name of the depth variable e.g. deptht, depthu, etc
     try:
         z_nme = [i for i in ds.dims.keys() if "depth" in i][0]
     except IndexError:
         # This means that there is no depth dependence of the data (surface data)
         z_nme = None
-    x_nme = "x"  # could be an argument / metadata
+    x_nme = "x"
     y_nme = "y"
-    ds = ds.rename({x_nme: point.x, y_nme: point.y})
-    if z_nme:
-        ds = ds.rename({z_nme: point.z})
-    # setting z_c/z_f/x_c/etc to be the same as in domcfg, if domcfg was provided
+    to_rename.update({x_nme: point.x, y_nme: point.y})
     points = [point.x, point.y]
     if z_nme:
+        to_rename.update({z_nme: point.z})
         points += [point.z]
-    for xyz in points:
-        ds.coords[xyz] = domcfg[xyz]
+    
     ds = ds.drop_vars(
         ["nav_lat", "nav_lon"],
         errors="ignore",
     )
-    # rename time
-    ds = ds.rename({"time_counter": "t", "time_counter_bounds": "t_bounds"})
+    # rename time and space
+    to_rename.update({"time_counter": "t", "time_counter_bounds": "t_bounds"})
+    ds = ds.rename(to_rename)
     ds["t"].attrs["bounds"] = "t_bounds"
+    # setting z_c/z_f/x_c/etc to be the same as in domcfg    
+    ds = ds.assign_coords({i:domcfg[i] for i in points})
     return ds
 
 
