@@ -69,4 +69,3 @@ def test_use_preprocess():
     ds = nemo_preprocess(ds_raw, domcfg)
     assert "x_c" in ds
     assert "t" in ds
-    assert ds.thetao.attrs["arakawa_point_type"] == "T"
