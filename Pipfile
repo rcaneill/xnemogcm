@@ -9,11 +9,14 @@ jupyterlab = ">=3.2.8"
 xgcm = ">=0.6.0"
 matplotlib = ">=3.5.1"
 xnemogcm = {editable = true, path = "."}
+line-profiler = "*"
+py-heat-magic = "*"
+memory-profiler = "*"
 
 [packages]
 xarray = ">=0.21.1"
 netcdf4 = ">=1.5.8"
-dask = {extras = ["array"],version = ">=2022.1.1"}
+dask = {extras = ["distributed"], version = "*"}
 pytest = ">=6.2.5"
 f90nml = ">=1.3.1"
 
