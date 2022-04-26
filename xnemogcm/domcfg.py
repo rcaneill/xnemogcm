@@ -11,14 +11,12 @@ def domcfg_preprocess(ds):
     """
     Preprocess domcfg / meshmask files when needed to be recombined (= 1 file per processor)
     """
-    try:
+    if 'z' in ds:
         ds = ds.rename({"z": "nav_lev"})
-    except ValueError:
-        pass
-    try:
-        ds["x"] = ds.x + ds.attrs["DOMAIN_position_first"][0] - 1
-        ds["y"] = ds.y + ds.attrs["DOMAIN_position_first"][1] - 1
-    except KeyError:
+    if "DOMAIN_position_first" in ds.attrs.keys():
+        (x0, y0) = ds.attrs["DOMAIN_position_first"]
+        ds = ds.assign_coords({"x": ds.x + x0 - 1, "y": ds.y + y0 - 1})
+    else:
         # This means that we are not merging multiple outputs from processors but e.g. a domain_cfg and a mesh_mask
         ds.coords["x"] = ds.x
         ds.coords["y"] = ds.y

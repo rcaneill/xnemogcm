@@ -49,6 +49,9 @@ Typing `pipenv shell` in the package directory will activate the virtual environ
 
 ## What's new
 
+### unreleased
+* Optimize speed
+
 ### v0.3.4 (2021-06-15)
 * Adding some exemple
 * Bug fixes
