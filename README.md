@@ -39,6 +39,11 @@ Installation via pip:
 pip3 install xnemogcm
 ```
 
+Installation via conda:
+```bash
+conda install -c conda-forge xnemogcm
+```
+
 ## Requirements for dev
 
 We use *pipenv* to set up a virtual environment containing all
