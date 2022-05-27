@@ -1,13 +1,9 @@
 from functools import partial
 
-import os
 from pathlib import Path
-import warnings
-import numpy as np
 import xarray as xr
 
 from . import arakawa_points as akp
-from .domcfg import open_domain_cfg
 from .tools import _dir_or_files_to_files
 
 

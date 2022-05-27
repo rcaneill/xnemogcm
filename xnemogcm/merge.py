@@ -1,6 +1,5 @@
 import types
 from pathlib import Path
-import numpy as np
 import xarray as xr
 
 from .arakawa_points import ALL_POINTS
