@@ -1,3 +1,5 @@
+import xarray as xr
+
 from .tools import _dir_or_files_to_files
 
 
