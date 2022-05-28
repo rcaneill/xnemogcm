@@ -32,9 +32,10 @@ directory for some jupyter notebook examples.
 
 ### Note
 
-`xnemogcm` is capable or recombining the domain_cfg and mesh_mask files outputed
+`xnemogcm` is capable or recombining the domain_cfg and mesh_mask files outputted
 by multiple processors,
-the recombining tool from the NEMO toolbox is thus not needed here.
+the recombining tool from the NEMO toolbox is thus not needed here, see
+See the [example/recombing_mesh_mask_domain_cfg.ipynb](https://nbviewer.ipython.org/github/rcaneill/xnemogcm/blob/master/example/recombing_mesh_mask_domain_cfg.ipynb)
 
 ## Installation
 
