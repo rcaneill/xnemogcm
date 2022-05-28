@@ -59,6 +59,22 @@ def test_open_nemo():
     )
 
 
+def test_open_nemo_no_grid_in_filename():
+    """Test opening of nemo files"""
+    domcfg = open_domain_cfg(
+        datadir=TEST_PATH / "data/domcfg_1_file",
+    )
+    nemo_ds = open_nemo(
+        datadir=TEST_PATH / "data/nemo",
+        domcfg=domcfg,
+    )
+    nemo_ds2 = open_nemo(
+        files=(TEST_PATH / "data/nemo_no_grid_in_filename").glob("*.nc"),
+        domcfg=domcfg,
+    )
+    xr.testing.assert_identical(nemo_ds, nemo_ds2)
+
+
 def test_use_preprocess():
     """Test opening of one nemo file and preprocess it by hand"""
     domcfg = open_domain_cfg(

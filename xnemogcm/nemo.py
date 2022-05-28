@@ -1,5 +1,5 @@
 from functools import partial
-
+import re
 from pathlib import Path
 import xarray as xr
 
@@ -24,13 +24,41 @@ def nemo_preprocess(ds, domcfg):
     -------
     xarray.Dataset containing the new dimension names, the correct grid point and attributes.
     """
-    filename = ds.encoding["source"]
     to_rename = {}
-    if not "grid_" in filename:
+    
+    point_type_fn = None
+    point_type_desc = None
+    
+    # Try with filename
+    filename = ds.encoding.get("source", "")
+    all_points_str = a = '|'.join(akp.ALL_POINTS)
+    m = re.search(f"grid_({a})", filename)
+    if m:
+        point_type_fn = m.groups()[0]
+
+    # try with description
+    desc = ds.attrs.get('description', '')
+    m = re.search(f"ocean ({a}) grid", desc)
+    if m:
+        point_type_desc = m.groups()[0]        
+        
+    if point_type_fn is None and point_type_desc is None:
         raise ValueError(
-            f'{filename} does not contain grid_X in its name, with X in ["T", "U", "V", ...]'
+            f'{filename} does not contain grid_X in its name, with X in ["T", "U", "V", ...] and has no description attribute'
         )
-    point_type = filename[filename.index("grid_") + 5 : -3]
+    elif point_type_fn is not None and point_type_desc is not None:
+        if point_type_fn != point_type_desc:
+            raise ValueError(
+                f'found point type {point_type_fn} from filename but {point_type_desc} from description attribute'
+            )
+        else:
+            point_type = point_type_fn
+    else:
+        if point_type_fn is not None:
+            point_type = point_type_fn
+        else:
+            point_type = point_type_desc
+            
     point = akp.Point(point_type)
     # get the name of the depth variable e.g. deptht, depthu, etc
     try:

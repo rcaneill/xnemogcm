@@ -1,4 +1,5 @@
-ALL_POINTS = ["T", "U", "V", "F", "W", "UW", "VW", "FW"]
+# Needs to start with variables that have 2 letters for regex
+ALL_POINTS = ["UW", "VW", "FW", "T", "U", "V", "F", "W"]
 
 
 class Point:
