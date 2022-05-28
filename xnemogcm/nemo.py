@@ -10,16 +10,20 @@ from .tools import _dir_or_files_to_files
 def nemo_preprocess(ds, domcfg):
     """
     Preprocess function for the nemo files.
+    
     This function renames the time dimension 'time_counter' into 't', 'time_counter_bounds' into 't_bounds'.
     It removes the old 'nav_lat' and 'nav_lon' variables and sets the 'x', 'y', and 'z' dimensions
     into the correct dimension, depending on the grid point (e.g. ['x_c', 'y_c', 'z_c'] for T point).
+    
     Parameters
     ----------
     ds : xarray.Dataset
-        a dataset containing raw NEMO output data opened from a file (e.g. 'BASIN_grid_T.nc'),
+        a dataset containing raw NEMO output data (e.g. opened from a netcdf file as 'BASIN_grid_T.nc'
+        or opened from any other backend, zarr, etc),
         with the old names for the variables and dimensions (e.g. 'time_counter')
     domcfg : xarray.Dataset
         a dataset containing the domcfg data
+    
     Returns
     -------
     xarray.Dataset containing the new dimension names, the correct grid point and attributes.
@@ -92,7 +96,10 @@ def open_nemo(domcfg, datadir=None, files=None, chunks=None, **kwargs_open):
     Open nemo dataset, and rename the coordinates to be conform to xgcm.Grid
 
     The filenames must finish with 'grid_X.nc', with X in
-    ['T', 'U', 'V', 'W', 'UW', etc]
+    ['T', 'U', 'V', 'W', 'UW', 'VW', 'FW']
+    *OR*
+    the global attribute 'description' of each individual file must
+    be 'ocean X grid variables' with X in ['T', 'U', ...]
 
     Parameters
     ----------

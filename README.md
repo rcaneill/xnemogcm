@@ -6,13 +6,11 @@ Interface to open NEMO ocean global circulation model output dataset and create 
 
 One can be interested by the [XORCA](https://github.com/willirath/xorca)
 python package, that does a similar work for
-all NEMO output grid. xnemogcm is designed to be more simple
-and adapted to a simple idealized configuration.
+all NEMO output grid. xnemogcm was initially designed to be more simple
+and adapted to simple idealized configuration,
+but it works well in realistic configurations.
 
 ## Usage
-
-`xnemogcm` is capable or recombining the domain_cfg and mesh_mask files,
-the recombining tool from the NEMO toolbox is thus not needed here.
 
 ```python
 from pathlib import Path
@@ -29,8 +27,14 @@ import xgcm
 grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 ```
 
-See the [exemple](https://nbviewer.ipython.org/github/rcaneill/xnemogcm/blob/master/exemple/)
-directory for some jupyter notebook exemples.
+See the [example](https://nbviewer.ipython.org/github/rcaneill/xnemogcm/blob/master/example/)
+directory for some jupyter notebook examples.
+
+### Note
+
+`xnemogcm` is capable or recombining the domain_cfg and mesh_mask files outputed
+by multiple processors,
+the recombining tool from the NEMO toolbox is thus not needed here.
 
 ## Installation
 
@@ -56,6 +60,7 @@ Typing `pipenv shell` in the package directory will activate the virtual environ
 
 ### unreleased
 * Optimize speed
+* Add option to decode grid type from attributes
 
 ### v0.3.4 (2021-06-15)
 * Adding some exemple
