@@ -6,15 +6,16 @@ import xarray as xr
 from . import arakawa_points as akp
 from .tools import _dir_or_files_to_files
 
+
 def _get_point_type(filename, description):
     """
     Infers point type from filename and/or description
     """
     point_type_fn = None
     point_type_desc = None
-    
+
     # Try with filename
-    all_points_str = a = '|'.join(akp.ALL_POINTS)
+    all_points_str = a = "|".join(akp.ALL_POINTS)
     m = re.search(f"grid_({a})", filename)
     if m:
         point_type_fn = m.groups()[0]
@@ -22,8 +23,8 @@ def _get_point_type(filename, description):
     # try with description
     m = re.search(f"ocean ({a}) grid", description)
     if m:
-        point_type_desc = m.groups()[0]        
-        
+        point_type_desc = m.groups()[0]
+
     if point_type_fn is None and point_type_desc is None:
         raise ValueError(
             f'{filename} does not contain grid_X in its name, with X in ["T", "U", "V", ...] and has no description attribute'
@@ -31,7 +32,7 @@ def _get_point_type(filename, description):
     elif point_type_fn is not None and point_type_desc is not None:
         if point_type_fn != point_type_desc:
             raise ValueError(
-                f'found point type {point_type_fn} from filename but {point_type_desc} from description attribute'
+                f"found point type {point_type_fn} from filename but {point_type_desc} from description attribute"
             )
         else:
             point_type = point_type_fn
@@ -42,14 +43,15 @@ def _get_point_type(filename, description):
             point_type = point_type_desc
     return point_type
 
+
 def nemo_preprocess(ds, domcfg, point_type=None):
     """
     Preprocess function for the nemo files.
-    
+
     This function renames the time dimension 'time_counter' into 't', 'time_counter_bounds' into 't_bounds'.
     It removes the old 'nav_lat' and 'nav_lon' variables and sets the 'x', 'y', and 'z' dimensions
     into the correct dimension, depending on the grid point (e.g. ['x_c', 'y_c', 'z_c'] for T point).
-    
+
     Parameters
     ----------
     ds : xarray.Dataset
@@ -60,7 +62,7 @@ def nemo_preprocess(ds, domcfg, point_type=None):
         a dataset containing the domcfg data
     point_type: None or str in ['T', 'U', 'V', 'W', 'UW', 'VW', 'FW']
         The point type. If None, will be inferred from either filename or attribute
-    
+
     Returns
     -------
     xarray.Dataset containing the new dimension names, the correct grid point and attributes.
@@ -69,9 +71,9 @@ def nemo_preprocess(ds, domcfg, point_type=None):
     if point_type is None:
         point_type = _get_point_type(
             filename=ds.encoding.get("source", ""),
-            description=ds.attrs.get('description', '')
+            description=ds.attrs.get("description", ""),
         )
-            
+
     point = akp.Point(point_type)
     # get the name of the depth variable e.g. deptht, depthu, etc
     try:
@@ -86,7 +88,7 @@ def nemo_preprocess(ds, domcfg, point_type=None):
     if z_nme:
         to_rename.update({z_nme: point.z})
         points += [point.z]
-    
+
     ds = ds.drop_vars(
         ["nav_lat", "nav_lon"],
         errors="ignore",
@@ -95,8 +97,8 @@ def nemo_preprocess(ds, domcfg, point_type=None):
     to_rename.update({"time_counter": "t", "time_counter_bounds": "t_bounds"})
     ds = ds.rename(to_rename)
     ds["t"].attrs["bounds"] = "t_bounds"
-    # setting z_c/z_f/x_c/etc to be the same as in domcfg    
-    ds = ds.assign_coords({i:domcfg[i] for i in points})
+    # setting z_c/z_f/x_c/etc to be the same as in domcfg
+    ds = ds.assign_coords({i: domcfg[i] for i in points})
     return ds
 
 
@@ -106,13 +108,12 @@ def _check_position(ds, position, parallel=False):
     else:
         if parallel:
             from dask import delayed
+
             get_point_type = delayed(_get_point_type)
         else:
             get_point_type = _get_point_type
-        return get_point_type(
-            filename='',
-            description=ds.attrs.get('description', '')
-        )
+        return get_point_type(filename="", description=ds.attrs.get("description", ""))
+
 
 def process_nemo(positions, domcfg, parallel=False):
     """
@@ -132,7 +133,7 @@ def process_nemo(positions, domcfg, parallel=False):
         the domcfg dataset
     parallel : bool, default False
         whether to use dask.delayed to process tasks in parallel
-    
+
     Returns
     -------
     nemo_ds : xarray.Dataset
@@ -141,6 +142,7 @@ def process_nemo(positions, domcfg, parallel=False):
     """
     if parallel:
         import dask
+
         # wrap preprocess with delayed
         preprocess = dask.delayed(nemo_preprocess)
     else:
@@ -151,9 +153,12 @@ def process_nemo(positions, domcfg, parallel=False):
         for ds in positions[X]:
             list_ds.append((ds, X))
     """
-    datasets = [preprocess(ds=ds, domcfg=domcfg, point_type=_check_position(ds, X, parallel)) for (ds, X) in positions]
+    datasets = [
+        preprocess(ds=ds, domcfg=domcfg, point_type=_check_position(ds, X, parallel))
+        for (ds, X) in positions
+    ]
     if parallel:
-        datasets, = dask.compute(datasets)
+        (datasets,) = dask.compute(datasets)
     nemo_ds = xr.combine_by_coords(datasets, combine_attrs="drop_conflicts")
     # adding attributes
     nemo_ds.attrs["name"] = "NEMO dataset"
@@ -161,7 +166,10 @@ def process_nemo(positions, domcfg, parallel=False):
     nemo_ds.attrs["title"] = "Ocean grid variables"
     return nemo_ds
 
-def open_nemo(domcfg, datadir=None, files=None, chunks=None, parallel=False, **kwargs_open):
+
+def open_nemo(
+    domcfg, datadir=None, files=None, chunks=None, parallel=False, **kwargs_open
+):
     """
     Open nemo dataset, and rename the coordinates to be conform to xgcm.Grid
 
@@ -199,6 +207,7 @@ def open_nemo(domcfg, datadir=None, files=None, chunks=None, parallel=False, **k
     #
     if parallel:
         from dask import delayed
+
         open_dataset = delayed(xr.open_dataset)
         get_point_type = delayed(_get_point_type)
     else:
@@ -209,15 +218,19 @@ def open_nemo(domcfg, datadir=None, files=None, chunks=None, parallel=False, **k
             f,
             chunks=chunks or {},
             **kwargs_open,
-        ) for f in files
+        )
+        for f in files
     ]
     positions = [
-        (ds, get_point_type(
-            filename=str(f),
-            description=ds.attrs.get('description', '')
-        )) for ds, f in zip(datasets, files)
+        (
+            ds,
+            get_point_type(
+                filename=str(f), description=ds.attrs.get("description", "")
+            ),
+        )
+        for ds, f in zip(datasets, files)
     ]
-        
+
     # Follow xarray's handling of open_mfdatasets
     try:
         out = process_nemo(positions=positions, domcfg=domcfg, parallel=parallel)

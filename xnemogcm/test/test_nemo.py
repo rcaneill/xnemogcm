@@ -8,8 +8,9 @@ import xarray as xr
 
 TEST_PATH = Path(os.path.dirname(os.path.abspath(__file__)))
 
-@pytest.mark.parametrize('parallel', [True, False])
-@pytest.mark.parametrize('option', [0,1,2,3])
+
+@pytest.mark.parametrize("parallel", [True, False])
+@pytest.mark.parametrize("option", [0, 1, 2, 3])
 def test_options_for_files(parallel, option):
     """Test options to provide files"""
     domcfg = open_domain_cfg(
@@ -27,9 +28,24 @@ def test_options_for_files(parallel, option):
         open_nemo(datadir=datadir, files=files, domcfg=domcfg, parallel=parallel)
     elif option == 2:
         # 2. Don't provide datadir but files
-        open_nemo(datadir=None, files=datadir.glob("*grid*.nc"), domcfg=domcfg, parallel=parallel)
-        open_nemo(datadir="", files=datadir.glob("*grid*.nc"), domcfg=domcfg, parallel=parallel)
-        open_nemo(datadir=[], files=datadir.glob("*grid*.nc"), domcfg=domcfg, parallel=parallel)
+        open_nemo(
+            datadir=None,
+            files=datadir.glob("*grid*.nc"),
+            domcfg=domcfg,
+            parallel=parallel,
+        )
+        open_nemo(
+            datadir="",
+            files=datadir.glob("*grid*.nc"),
+            domcfg=domcfg,
+            parallel=parallel,
+        )
+        open_nemo(
+            datadir=[],
+            files=datadir.glob("*grid*.nc"),
+            domcfg=domcfg,
+            parallel=parallel,
+        )
     elif option == 3:
         # 3. Don't provide anything => error
         try:
@@ -81,6 +97,7 @@ def test_open_nemo_no_grid_in_filename():
     )
     xr.testing.assert_identical(nemo_ds, nemo_ds2)
 
+
 def test_process_nemo():
     """Test processing of nemo files"""
     domcfg = open_domain_cfg(
@@ -91,17 +108,15 @@ def test_process_nemo():
         domcfg=domcfg,
     )
     positions = [
-        (
-            xr.open_dataset(TEST_PATH / f"data/nemo_no_grid_in_filename/BASIN_{i}.nc"),
-            i
-        ) for i in ['T', 'U', 'V', 'W']
+        (xr.open_dataset(TEST_PATH / f"data/nemo_no_grid_in_filename/BASIN_{i}.nc"), i)
+        for i in ["T", "U", "V", "W"]
     ]
     nemo_ds2 = process_nemo(
         positions=positions,
         domcfg=domcfg,
-        
     )
     xr.testing.assert_identical(nemo_ds, nemo_ds2)
+
 
 def test_process_nemo_from_desc():
     """Test processing of nemo files"""
@@ -115,13 +130,13 @@ def test_process_nemo_from_desc():
     positions = [
         (
             xr.open_dataset(TEST_PATH / f"data/nemo_no_grid_in_filename/BASIN_{i}.nc"),
-            None
-        ) for i in ['T', 'U', 'V', 'W']
+            None,
+        )
+        for i in ["T", "U", "V", "W"]
     ]
     nemo_ds2 = process_nemo(
         positions=positions,
         domcfg=domcfg,
-        
     )
     xr.testing.assert_identical(nemo_ds, nemo_ds2)
 
