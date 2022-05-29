@@ -185,8 +185,7 @@ def open_nemo(domcfg, datadir=None, files=None, chunks=None, parallel=False, **k
         /! chunks need to be provided with the old names of dimensions
         i.e. 'time_counter', 'x', etc
         For more complex chunking, you may want to open without any chunks and set them up afterward.
-    kwargs_open : any other argument given to the xarray.open_mfdataset function
-        e.g. parallel=True to use dask.delayed
+    kwargs_open : any other argument given to the xarray.open_dataset function
 
     Returns
     -------
