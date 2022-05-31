@@ -5,6 +5,7 @@ from .tools import _dir_or_files_to_files
 
 def _warn_namelist_not_found(name):
     import warnings
+
     warnings.warn(f"Asked to open {name} file but file not found, using empty namelist")
 
 
