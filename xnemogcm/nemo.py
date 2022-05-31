@@ -94,7 +94,9 @@ def nemo_preprocess(ds, domcfg, point_type=None):
         errors="ignore",
     )
     # rename time and space
-    to_rename.update({"time_counter": "t", "time_counter_bounds": "t_bounds"})
+    # get time_counter bounds
+    time_b = ds["time_counter"].attrs['bounds']
+    to_rename.update({"time_counter": "t", time_b: "t_bounds"})
     ds = ds.rename(to_rename)
     ds["t"].attrs["bounds"] = "t_bounds"
     # setting z_c/z_f/x_c/etc to be the same as in domcfg
