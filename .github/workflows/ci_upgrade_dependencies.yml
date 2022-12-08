@@ -27,6 +27,7 @@ jobs:
       matrix:
         os: ["ubuntu-latest"]
         python-version: ["3.8"]
+        poetry-version: [1.1.11]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -34,12 +35,13 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Run image
+      uses: abatilo/actions-poetry@v2.0.0
+      with:
+        poetry-version: ${{ matrix.poetry-version }}
       - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install pipenv
-          pipenv install --dev
-          pipenv update
-          pipenv run pip install .
+      run: |
+        poetry lock
+        poetry install --dev
       - name: Run tests with pytest
-        run: pipenv run pytest xnemogcm/test
+        run: poetry run pytest xnemogcm/test
