@@ -1,13 +1,12 @@
+import pytest
 from xnemogcm import open_nemo_and_domain_cfg
 from xnemogcm.metrics import get_metrics, compute_missing_metrics
-import os
-from pathlib import Path
 
-TEST_PATH = Path(os.path.dirname(os.path.abspath(__file__)))
+pytestmark = pytest.mark.parametrize("data_path", ["4.0.0"], indirect=True)
 
 
-def test_get_metrics():
-    p = TEST_PATH / "data/open_and_merge"
+def test_get_metrics(data_path):
+    p = data_path / "open_and_merge"
     ds = open_nemo_and_domain_cfg(nemo_files=p, domcfg_files=p)
     metrics = get_metrics(ds)
     metrics_theory = {
@@ -19,8 +18,8 @@ def test_get_metrics():
     assert len(get_metrics(compute_missing_metrics(ds))[("Z",)]) == 8
 
 
-def test_calculate_all_metrics():
-    p = TEST_PATH / "data/open_and_merge"
+def test_calculate_all_metrics(data_path):
+    p = data_path / "open_and_merge"
     ds = open_nemo_and_domain_cfg(nemo_files=p, domcfg_files=p)
     ds_full_metrics = compute_missing_metrics(ds.copy())
     for i in ["e3t", "e3u", "e3v", "e3f", "e3w", "e3uw", "e3vw", "e3fw"]:
@@ -66,6 +65,6 @@ def test_calculate_all_metrics():
     assert not "e3fw" in ds_full_metrics
 
 
-def test_calculate_all_metrics_precision():
+def test_calculate_all_metrics_precision(data_path):
     """Should do some tests of precision of the calculated metrics"""
     pass
