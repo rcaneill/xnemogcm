@@ -42,6 +42,6 @@ jobs:
       - name: Install dependencies
         run: |
           poetry lock
-          poetry install --dev
+          poetry install -E namelist -E metrics
       - name: Run tests with pytest
         run: poetry run pytest xnemogcm/test
