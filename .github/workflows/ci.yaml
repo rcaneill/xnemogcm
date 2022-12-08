@@ -8,14 +8,35 @@ on:
       - master
 
 jobs:
-  test:
-    name: pytest (${{ matrix.os }}, ${{ matrix.python-version }})
+  build:
+    name: build (${{ matrix.os }}, ${{ matrix.python-version }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest", "macos-latest"]
         python-version: ["3.8", "3.9", "3.10"]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install / build
+      run: |
+        python -m pip install --upgrade pip
+        pip install .
+
+  test:
+    name: pytest (${{ matrix.os }}, ${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest"]
+        python-version: ["3.8", "3.9", "3.10"]
+        poetry-version: ["1.1.11"]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -23,11 +44,12 @@ jobs:
         uses: actions/setup-python@v1
         with:
           python-version: ${{ matrix.python-version }}
+      - name: Run image
+        uses: abatilo/actions-poetry@v2.0.0
+        with:
+          poetry-version: ${{ matrix.poetry-version }}
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          python -m pip install pipenv
-          pipenv install --dev
-          pipenv run pip install .
+          poetry install -E test
       - name: Run tests with pytest
-        run: pipenv run pytest xnemogcm/test
+        run: poetry run pytest xnemogcm/test

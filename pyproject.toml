@@ -1,3 +1,29 @@
+[tool.poetry]
+name = "xnemogcm"
+version = "0.3.4"
+description = "Interface to open NEMO global circulation model output dataset and create a xgcm grid."
+license = "MIT"
+homepage = "https://github.com/rcaneill/xnemogcm"
+authors = ["Romain Caneill <romain.caneill@gu.se>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.8"
+dask = {extras = ["array"], version = "*"}
+f90nml = {optional = true, version = ">=1.3.1"}
+netcdf4 = ">=1.5.8"
+xarray = ">=0.21.1"
+xgcm = {optional = true, version = ">=0.6.0"}
+pytest = {optional = true, version = ">=6.2.5"}
+black = {optional = true, version = "^22.10.0"}
+jupyterlab = {optional = true, version = ">=3.5.1"}
+
+[tool.poetry.extras]
+namelist = ["f90nml"]
+metrics = ["xgcm"]
+test = ["xgcm", "f90nml", "pytest"]
+dev = ["xgcm", "f90nml", "pytest", "black", "jupyterlab"]
+
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta:__legacy__"
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
