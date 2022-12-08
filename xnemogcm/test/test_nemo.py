@@ -2,21 +2,19 @@ import pytest
 from xnemogcm import open_domain_cfg, open_nemo, process_nemo
 from xnemogcm.nemo import nemo_preprocess
 from xnemogcm.arakawa_points import ALL_POINTS
-import os
-from pathlib import Path
 import xarray as xr
 
-TEST_PATH = Path(os.path.dirname(os.path.abspath(__file__)))
+pytestmark = pytest.mark.parametrize("data_path", ["4.0.0"], indirect=True)
 
 
 @pytest.mark.parametrize("parallel", [True, False])
 @pytest.mark.parametrize("option", [0, 1, 2, 3])
-def test_options_for_files(parallel, option):
+def test_options_for_files(parallel, option, data_path):
     """Test options to provide files"""
     domcfg = open_domain_cfg(
-        datadir=TEST_PATH / "data/domcfg_1_file",
+        datadir=data_path / "domcfg_1_file",
     )
-    datadir = TEST_PATH / "data/nemo"
+    datadir = data_path / "nemo"
     if option == 0:
         # 0. Provide datadir and no files
         open_nemo(datadir=datadir, files=None, domcfg=domcfg, parallel=parallel)
@@ -54,61 +52,59 @@ def test_options_for_files(parallel, option):
             pass
 
 
-def test_no_file_provided_or_wrong_name():
+def test_no_file_provided_or_wrong_name(data_path):
     """Test exception raised if no file is found"""
     domcfg = open_domain_cfg(
-        datadir=TEST_PATH / "data/domcfg_1_file",
+        datadir=data_path / "domcfg_1_file",
     )
     try:
-        open_nemo(datadir=TEST_PATH, domcfg=domcfg)
+        open_nemo(datadir=data_path, domcfg=domcfg)
     except FileNotFoundError:
         pass
     try:
-        open_nemo(
-            files=(TEST_PATH / "data/domcfg_1_file").glob("domain*"), domcfg=domcfg
-        )
+        open_nemo(files=(data_path / "domcfg_1_file").glob("domain*"), domcfg=domcfg)
     except ValueError:
         pass
 
 
-def test_open_nemo():
+def test_open_nemo(data_path):
     """Test opening of nemo files"""
     domcfg = open_domain_cfg(
-        datadir=TEST_PATH / "data/domcfg_1_file",
+        datadir=data_path / "domcfg_1_file",
     )
     nemo_ds = open_nemo(
-        datadir=TEST_PATH / "data/nemo",
+        datadir=data_path / "nemo",
         domcfg=domcfg,
     )
 
 
-def test_open_nemo_no_grid_in_filename():
+def test_open_nemo_no_grid_in_filename(data_path):
     """Test opening of nemo files"""
     domcfg = open_domain_cfg(
-        datadir=TEST_PATH / "data/domcfg_1_file",
+        datadir=data_path / "domcfg_1_file",
     )
     nemo_ds = open_nemo(
-        datadir=TEST_PATH / "data/nemo",
+        datadir=data_path / "nemo",
         domcfg=domcfg,
     )
     nemo_ds2 = open_nemo(
-        files=(TEST_PATH / "data/nemo_no_grid_in_filename").glob("*.nc"),
+        files=(data_path / "nemo_no_grid_in_filename").glob("*.nc"),
         domcfg=domcfg,
     )
     xr.testing.assert_identical(nemo_ds, nemo_ds2)
 
 
-def test_process_nemo():
+def test_process_nemo(data_path):
     """Test processing of nemo files"""
     domcfg = open_domain_cfg(
-        datadir=TEST_PATH / "data/domcfg_1_file",
+        datadir=data_path / "domcfg_1_file",
     )
     nemo_ds = open_nemo(
-        datadir=TEST_PATH / "data/nemo",
+        datadir=data_path / "nemo",
         domcfg=domcfg,
     )
     positions = [
-        (xr.open_dataset(TEST_PATH / f"data/nemo_no_grid_in_filename/BASIN_{i}.nc"), i)
+        (xr.open_dataset(data_path / f"nemo_no_grid_in_filename/BASIN_{i}.nc"), i)
         for i in ["T", "U", "V", "W"]
     ]
     nemo_ds2 = process_nemo(
@@ -118,18 +114,18 @@ def test_process_nemo():
     xr.testing.assert_identical(nemo_ds, nemo_ds2)
 
 
-def test_process_nemo_from_desc():
+def test_process_nemo_from_desc(data_path):
     """Test processing of nemo files"""
     domcfg = open_domain_cfg(
-        datadir=TEST_PATH / "data/domcfg_1_file",
+        datadir=data_path / "domcfg_1_file",
     )
     nemo_ds = open_nemo(
-        datadir=TEST_PATH / "data/nemo",
+        datadir=data_path / "nemo",
         domcfg=domcfg,
     )
     positions = [
         (
-            xr.open_dataset(TEST_PATH / f"data/nemo_no_grid_in_filename/BASIN_{i}.nc"),
+            xr.open_dataset(data_path / f"nemo_no_grid_in_filename/BASIN_{i}.nc"),
             None,
         )
         for i in ["T", "U", "V", "W"]
@@ -141,12 +137,12 @@ def test_process_nemo_from_desc():
     xr.testing.assert_identical(nemo_ds, nemo_ds2)
 
 
-def test_use_preprocess():
+def test_use_preprocess(data_path):
     """Test opening of one nemo file and preprocess it by hand"""
     domcfg = open_domain_cfg(
-        datadir=TEST_PATH / "data/domcfg_1_file",
+        datadir=data_path / "domcfg_1_file",
     )
-    ds_raw = xr.open_dataset(TEST_PATH / "data/nemo/BASIN_grid_T.nc")
+    ds_raw = xr.open_dataset(data_path / "nemo/BASIN_grid_T.nc")
     ds_raw.encoding["source"] = "BASIN_grid_T.nc"
     ds = nemo_preprocess(ds_raw, domcfg)
     assert "x_c" in ds

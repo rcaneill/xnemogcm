@@ -1,18 +1,17 @@
+import pytest
 from xnemogcm import (
     open_domain_cfg,
     open_nemo,
     _merge_nemo_and_domain_cfg,
     open_nemo_and_domain_cfg,
 )
-import os
-from pathlib import Path
 
-TEST_PATH = Path(os.path.dirname(os.path.abspath(__file__)))
+pytestmark = pytest.mark.parametrize("data_path", ["4.0.0"], indirect=True)
 
 
-def test_merge_non_linear_free_surface():
-    datadir_dom = TEST_PATH / "data/domcfg_1_file"
-    datadir_nemo = TEST_PATH / "data/nemo"
+def test_merge_non_linear_free_surface(data_path):
+    datadir_dom = data_path / "domcfg_1_file"
+    datadir_nemo = data_path / "nemo"
     domcfg_kwargs = dict(datadir=datadir_dom)
     domcfg = open_domain_cfg(**domcfg_kwargs)
     nemo_kwargs = dict(
@@ -33,25 +32,21 @@ def test_merge_non_linear_free_surface():
         linear_free_surface=False,
     )
     assert (ds == ds2).all()
-    p = TEST_PATH / "data/open_and_merge"
+    p = data_path / "open_and_merge"
     ds2 = open_nemo_and_domain_cfg(
         nemo_files=p, domcfg_files=p, linear_free_surface=False
     )
     assert (ds == ds2).all()
 
 
-def test_merge_linear_free_surface():
-    pass
-
-
-def test_attributes():
-    p = TEST_PATH / "data/open_and_merge"
+def test_attributes(data_path):
+    p = data_path / "open_and_merge"
     ds = open_nemo_and_domain_cfg(nemo_files=p, domcfg_files=p)
     assert ds.attrs
 
 
-def test_add_coordinates():
-    p = TEST_PATH / "data/open_and_merge"
+def test_add_coordinates(data_path):
+    p = data_path / "open_and_merge"
     ds = open_nemo_and_domain_cfg(nemo_files=p, domcfg_files=p)
     assert "glamt" in ds.coords
     ds = open_nemo_and_domain_cfg(
@@ -60,8 +55,8 @@ def test_add_coordinates():
     assert not "glamt" in ds.coords
 
 
-def test_open_nemo_files_without_datadir():
-    p = TEST_PATH / "data/open_and_merge"
+def test_open_nemo_files_without_datadir(data_path):
+    p = data_path / "open_and_merge"
     ds = open_nemo_and_domain_cfg(
         nemo_files=p.glob("*_grid*.nc"), domcfg_files=p.glob("domain*.nc")
     )
