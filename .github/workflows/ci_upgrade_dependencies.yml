@@ -40,8 +40,8 @@ jobs:
         with:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Install dependencies
-      run: |
-        poetry lock
-        poetry install --dev
+        run: |
+          poetry lock
+          poetry install --dev
       - name: Run tests with pytest
         run: poetry run pytest xnemogcm/test
