@@ -1,10 +1,11 @@
 import pytest
+from conftest import nemo_version
 from xnemogcm import open_domain_cfg, open_nemo, process_nemo
 from xnemogcm.nemo import nemo_preprocess
 from xnemogcm.arakawa_points import ALL_POINTS
 import xarray as xr
 
-pytestmark = pytest.mark.parametrize("data_path", ["4.0.0"], indirect=True)
+pytestmark = pytest.mark.parametrize("data_path", nemo_version, indirect=True)
 
 
 @pytest.mark.parametrize("parallel", [True, False])
