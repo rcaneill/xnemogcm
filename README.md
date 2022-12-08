@@ -4,11 +4,6 @@
 
 Interface to open NEMO ocean global circulation model output dataset and create a xgcm grid.
 
-One can be interested by the [XORCA](https://github.com/willirath/xorca)
-python package, that does a similar work for
-all NEMO output grid. xnemogcm was initially designed to be more simple
-and adapted to simple idealized configuration,
-but it works well in realistic configurations.
 
 ## Usage
 
@@ -54,20 +49,22 @@ conda install -c conda-forge xnemogcm
 
 ## Requirements for dev
 
-We use *pipenv* to set up a virtual environment containing all
+We use *poetry* to set up a virtual environment containing all
 needed packages to run xnemogcm and the tests.
-To install all the dependencies, type `pipenv install --dev`
+To install all the dependencies, type `poetry install -E dev`
 after cloning the directory. This will create a new virtual environment.
-Typing `pipenv shell` in the package directory will activate the virtual environment.
+Typing `poetry shell` in the package directory will activate the virtual environment.
 
 ## What's new
 
-### unreleased
+### v0.4.0 (2022-12-08)
 * Optimize speed
 * Add option to decode grid type from attributes
+* Shift from pipenv and setupy.py to poetry
+* Refactor data test to allow testing of multiple version of NEMO
 
 ### v0.3.4 (2021-06-15)
-* Adding some exemple
+* Adding some example
 * Bug fixes
 * Add option to compute extra scale factors
 
