@@ -41,7 +41,7 @@ jobs:
           poetry-version: ${{ matrix.poetry-version }}
       - name: Install dependencies
         run: |
-          poetry lock
-          poetry install -E namelist -E metrics
+          poetry update
+          poetry install -E test
       - name: Run tests with pytest
         run: poetry run pytest xnemogcm/test
