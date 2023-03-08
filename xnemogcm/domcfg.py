@@ -114,6 +114,9 @@ def open_domain_cfg(datadir=None, files=None, add_coordinates=True):
         raise FileNotFoundError("No 'domain_cfg' or 'mesh_mask' files are provided")
     #
     domcfg = open_file_multi(files=files)
+    # For nemo 3.6
+    if "z" in domcfg.dims:
+        domcfg = domcfg.swap_dims({"z": "nav_lev"})
     #
     # This part is used to put the vars on the right point of the grid (e.g. T, U, V points)
     domcfg_points = get_domcfg_points()
