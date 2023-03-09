@@ -57,6 +57,10 @@ Typing `poetry shell` in the package directory will activate the virtual environ
 
 ## What's new
 
+### unreleased
+* Allow to open files if time bounds are missing
+* Minor bug correction for nemo 3.6 
+
 ### v0.4.0 (2022-12-08)
 * Optimize speed
 * Add option to decode grid type from attributes
