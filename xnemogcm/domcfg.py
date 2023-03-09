@@ -10,7 +10,8 @@ def domcfg_preprocess(ds):
     """
     Preprocess domcfg / meshmask files when needed to be recombined (= 1 file per processor)
     """
-    if "z" in ds:
+    # nemo 3.6
+    if "z" in ds or "z" in ds.dims or "z" in ds.coords:
         ds = ds.rename({"z": "nav_lev"})
     if "DOMAIN_position_first" in ds.attrs.keys():
         (x0, y0) = ds.attrs["DOMAIN_position_first"]
@@ -114,9 +115,6 @@ def open_domain_cfg(datadir=None, files=None, add_coordinates=True):
         raise FileNotFoundError("No 'domain_cfg' or 'mesh_mask' files are provided")
     #
     domcfg = open_file_multi(files=files)
-    # For nemo 3.6
-    if "z" in domcfg.dims:
-        domcfg = domcfg.swap_dims({"z": "nav_lev"})
     #
     # This part is used to put the vars on the right point of the grid (e.g. T, U, V points)
     domcfg_points = get_domcfg_points()
