@@ -10,7 +10,8 @@ def domcfg_preprocess(ds):
     """
     Preprocess domcfg / meshmask files when needed to be recombined (= 1 file per processor)
     """
-    if "z" in ds:
+    # nemo 3.6
+    if "z" in ds or "z" in ds.dims or "z" in ds.coords:
         ds = ds.rename({"z": "nav_lev"})
     if "DOMAIN_position_first" in ds.attrs.keys():
         (x0, y0) = ds.attrs["DOMAIN_position_first"]
