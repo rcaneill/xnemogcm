@@ -10,20 +10,30 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = ">=3.8"
 dask = {extras = ["array"], version = "*"}
-f90nml = {optional = true, version = ">=1.3.1"}
 netcdf4 = ">=1.5.8"
 xarray = ">=0.21.1"
 xgcm = {optional = true, version = ">=0.6.0"}
-pytest = {optional = true, version = ">=6.2.5"}
-black = {optional = true, version = "^22.10.0"}
-jupyterlab = {optional = true, version = ">=3.5.1"}
-toml = {optional = true, version = "^0.10.2"}
+f90nml = {optional = true, version = ">=1.3.1"}
 
 [tool.poetry.extras]
 namelist = ["f90nml"]
 metrics = ["xgcm"]
-test = ["xgcm", "f90nml", "pytest", "toml"]
-dev = ["xgcm", "f90nml", "pytest", "black", "jupyterlab", "toml"]
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+xgcm = ">=0.6.0"
+f90nml = ">=1.3.1"
+pytest = ">=6.2.5"
+toml = "^0.10.2"
+
+[tool.poetry.group.dev]
+optional = true
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.10.0"
+jupyterlab = ">=3.5.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
