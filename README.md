@@ -60,6 +60,8 @@ Typing `poetry shell` in the package directory will activate the virtual environ
 ### unreleased
 * Allow to open files if time bounds are missing
 * Minor bug correction for nemo 3.6 
+* Add nemo 3.6 and 4.2.0 test data
+* Update code to support nemo 3.6 and 4.2.0
 
 ### v0.4.0 (2022-12-08)
 * Optimize speed
