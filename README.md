@@ -3,6 +3,8 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5724577.svg)](https://doi.org/10.5281/zenodo.5724577)
 
 Interface to open NEMO ocean global circulation model output dataset and create a xgcm grid.
+NEMO 3.6, 4.0, and 4.2.0 are tested and supported. Any version between 3.6 and 4.2.0 should work,
+but in case of trouble, [please open an issue](https://github.com/rcaneill/xnemogcm/issues).
 
 
 ## Usage
@@ -30,7 +32,7 @@ and can get information of the variables grid points with multiple options
 
 ### Note
 
-`xnemogcm` is capable or recombining the domain_cfg and mesh_mask files outputted
+`xnemogcm` is capable or recombining the domain_cfg and mesh_mask files output
 by multiple processors,
 the recombining tool from the NEMO toolbox is thus not needed here, see
 the [example/recombing_mesh_mask_domain_cfg.ipynb](https://nbviewer.ipython.org/github/rcaneill/xnemogcm/blob/master/example/recombing_mesh_mask_domain_cfg.ipynb)
@@ -51,9 +53,16 @@ conda install -c conda-forge xnemogcm
 
 We use *poetry* to set up a virtual environment containing all
 needed packages to run xnemogcm and the tests.
-To install all the dependencies, type `poetry install -E dev`
+To install all the dependencies, type `poetry install --with test,dev`
 after cloning the directory. This will create a new virtual environment.
 Typing `poetry shell` in the package directory will activate the virtual environment.
+
+### About test data
+
+Test data are based on the GYRE configuration, and produced by another repository:
+[rcaneill/xnemogcm_test_data](https://github.com/rcaneill/xnemogcm_test_data).
+Testing is built in a way that it is quite easy to add other nemo version to test.
+
 
 ## What's new
 
