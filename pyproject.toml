@@ -17,12 +17,13 @@ xgcm = {optional = true, version = ">=0.6.0"}
 pytest = {optional = true, version = ">=6.2.5"}
 black = {optional = true, version = "^22.10.0"}
 jupyterlab = {optional = true, version = ">=3.5.1"}
+toml = {optional = true, version = "^0.10.2"}
 
 [tool.poetry.extras]
 namelist = ["f90nml"]
 metrics = ["xgcm"]
-test = ["xgcm", "f90nml", "pytest"]
-dev = ["xgcm", "f90nml", "pytest", "black", "jupyterlab"]
+test = ["xgcm", "f90nml", "pytest", "toml"]
+dev = ["xgcm", "f90nml", "pytest", "black", "jupyterlab", "toml"]
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
