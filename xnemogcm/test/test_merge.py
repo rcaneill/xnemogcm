@@ -6,11 +6,9 @@ from xnemogcm import (
     open_nemo_and_domain_cfg,
 )
 
-pytestmark = pytest.mark.parametrize("data_path", ["4.0.0"], indirect=True)
 
-
-def test_merge_non_linear_free_surface(data_path):
-    datadir_dom = data_path / "domcfg_1_file"
+def test_merge_non_linear_free_surface(data_path, request):
+    datadir_dom = data_path / "mesh_mask_1_file"
     datadir_nemo = data_path / "nemo"
     domcfg_kwargs = dict(datadir=datadir_dom)
     domcfg = open_domain_cfg(**domcfg_kwargs)
@@ -21,7 +19,8 @@ def test_merge_non_linear_free_surface(data_path):
     nemo_ds = open_nemo(**nemo_kwargs)
     ds = _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface=False)
     assert "e3t" in ds
-    assert "e3t_0" in ds
+    if request.node.callspec.id != "3.6":
+        assert "e3t_0" in ds
     assert "t" in ds.e3t.coords
     assert "e3f" not in ds
     ds2 = open_nemo_and_domain_cfg(
@@ -58,6 +57,6 @@ def test_add_coordinates(data_path):
 def test_open_nemo_files_without_datadir(data_path):
     p = data_path / "open_and_merge"
     ds = open_nemo_and_domain_cfg(
-        nemo_files=p.glob("*_grid*.nc"), domcfg_files=p.glob("domain*.nc")
+        nemo_files=p.glob("*_grid*.nc"), domcfg_files=p.glob("mesh_mask*.nc")
     )
     assert ds

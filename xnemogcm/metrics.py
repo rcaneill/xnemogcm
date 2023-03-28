@@ -28,8 +28,13 @@ def compute_missing_metrics(
     """
     Add all possible scale factors to the dataset.
 
-    For the moment, e3t at least (or e3t_0) needs to be present in the dataset.
+    For the moment, e3t (or e3t_0) at least needs to be present in the dataset
+    for the time_varying=True (time_varying=False) case.
+    If e3t_0 is not found (e.g. for nemo 3.6), it will raise a warning and use e3t_1d
+    (this will lead to wrong results if terrain-following coordinates are used).
+
     May have some boundary issues.
+
     Will add the metrics to the given dataset. To avoid this, use a ds.copy()
 
     Parameters
@@ -61,6 +66,22 @@ def compute_missing_metrics(
 
     grid = xgcm.Grid(ds, periodic=False)
 
+    if time_varying:
+        e3t = "e3t"
+    else:
+        e3t = "e3t_0"
+    if e3t not in ds:
+        if "e3t_1d" not in ds:
+            raise (
+                ValueError(
+                    f"None of {e3t} or e3t_1d are found in the dataset, but it is mandatory to have at least one of them."
+                )
+            )
+        warn(
+            f"{e3t} scale factor not found in the dataset, we will use e3t_1d. This will lead to errors if you use terrain-following coordinates."
+        )
+        ds[e3t] = ds["e3t_1d"].broadcast_like(ds["x_c"]).broadcast_like(ds["y_c"])
+
     if not time_varying:
         all_scale_factors = [i + "_0" for i in all_scale_factors]
 
@@ -77,6 +98,7 @@ def compute_missing_metrics(
                     e3_nme = e3 + "_0"
                 if e3_nme in ds.variables:
                     # we stop at the first one matching
+                    print(i, ds[e3_nme], vertex[e3])
                     ds[i] = grid.interp(ds[e3_nme], vertex[e3], boundary="extend")
     return ds
 
