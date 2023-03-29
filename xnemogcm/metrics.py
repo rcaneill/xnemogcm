@@ -98,7 +98,6 @@ def compute_missing_metrics(
                     e3_nme = e3 + "_0"
                 if e3_nme in ds.variables:
                     # we stop at the first one matching
-                    print(i, ds[e3_nme], vertex[e3])
                     ds[i] = grid.interp(ds[e3_nme], vertex[e3], boundary="extend")
     return ds
 
