@@ -53,29 +53,3 @@ jobs:
           poetry install --with test
       - name: Run tests with pytest
         run: poetry run pytest xnemogcm/test
-
-  build_doc:
-    name: build (doc
-    runs-on: ubuntu-latest
-    permissions:
-      # Give the default GITHUB_TOKEN write permission to commit and push the
-      # added or changed files to the repository.
-      contents: write
-    strategy:
-      fail-fast: false
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.11
-    - name: Run poetry
-      uses: abatilo/actions-poetry@v2.0.0
-      with:
-        poetry-version: 1.3.2
-    - name: Install / build
-      run: poetry install --with dev,test
-    - name: Run nbconvert
-      run: poetry run jupyter nbconvert --to notebook --execute --inplace example/*.ipynb
-    # Commit all changed files back to the repository
-    - uses: stefanzweifel/git-auto-commit-action@v4
