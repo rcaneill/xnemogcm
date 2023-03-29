@@ -66,7 +66,7 @@ Testing is built in a way that it is quite easy to add other nemo version to tes
 
 ## What's new
 
-### unreleased
+### v0.4.1 (2023-03-29)
 * Allow to open files if time bounds are missing
 * Minor bug correction for nemo 3.6 
 * Add nemo 3.6 and 4.2.0 test data
