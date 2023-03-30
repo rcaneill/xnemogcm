@@ -1,4 +1,4 @@
-name: Run Python Tests
+name: Run Notebooks in examples
 on:
   push:
     branches:
