@@ -63,6 +63,12 @@ Test data are based on the GYRE configuration, and produced by another repositor
 [rcaneill/xnemogcm_test_data](https://github.com/rcaneill/xnemogcm_test_data).
 Testing is built in a way that it is quite easy to add other nemo version to test.
 
+### About notebooks examples
+
+Sources for the notebooks are located in `src_example`. This is where to add / modify the
+examples. A github action is set to automatically build the notebook according to
+the latest version of the code, and publish them to `example` when commiting to master branch.
+
 
 ## What's new
 
