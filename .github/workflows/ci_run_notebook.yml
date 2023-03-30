@@ -52,6 +52,9 @@ jobs:
     - name: Create Pull Request
       id: cpr
       uses: peter-evans/create-pull-request@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        branch: create-pull-request/patch/${{ github.ref_name }}
     - name: Merge PR
       if: ${{ steps.cpr.outputs.pull-request-number }}
       run: |
