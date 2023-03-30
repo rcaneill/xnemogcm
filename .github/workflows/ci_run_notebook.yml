@@ -48,5 +48,11 @@ jobs:
             cp ../tmp/$n $n
           fi
         done
-    # Commit all changed files back to the repository
-    - uses: stefanzweifel/git-auto-commit-action@v4
+    # Make changes to pull request here
+    - name: Create Pull Request
+      id: cpr
+      uses: peter-evans/create-pull-request@v4
+    - name: Merge PR
+      if: ${{ steps.cpr.outputs.pull-request-number }}
+      run: |
+        gh pr merge --auto --merge "${{ steps.cpr.outputs.pull-request-number }}"
