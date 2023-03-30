@@ -2,8 +2,6 @@ import pytest
 from xnemogcm import open_nemo_and_domain_cfg
 from xnemogcm.metrics import get_metrics, compute_missing_metrics
 
-pytestmark = pytest.mark.parametrize("data_path", ["4.0.0"], indirect=True)
-
 
 def test_get_metrics(data_path):
     p = data_path / "open_and_merge"

@@ -1,1 +1,0 @@
-../runs/EXP_4_procs/domain_cfg_out_0000.nc

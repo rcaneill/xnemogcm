@@ -74,6 +74,7 @@ def get_domcfg_points():
         "e2u": "U",
         "e2v": "V",
         "e2f": "F",
+        "ff": "F",  # nemo 3.6
         "ff_f": "F",
         "ff_t": "T",
         "e3t_1d": "T",
@@ -102,6 +103,7 @@ def get_domcfg_points():
         "tmaskutil": "T",
         "umaskutil": "U",
         "vmaskutil": "V",
+        "fmaskutil": "F",
         "gdept_1d": "T",
         "gdepw_1d": "W",
         "mbathy": "T",

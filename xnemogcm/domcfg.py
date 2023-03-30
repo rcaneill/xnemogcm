@@ -12,7 +12,7 @@ def domcfg_preprocess(ds):
     """
     # nemo 3.6
     if "z" in ds or "z" in ds.dims or "z" in ds.coords:
-        ds = ds.rename({"z": "nav_lev"})
+        ds = ds.swap_dims({"z": "nav_lev"})
     if "DOMAIN_position_first" in ds.attrs.keys():
         (x0, y0) = ds.attrs["DOMAIN_position_first"]
         ds = ds.assign_coords({"x": ds.x + x0 - 1, "y": ds.y + y0 - 1})
@@ -39,9 +39,11 @@ def open_file_multi(files):
         preprocess=domcfg_preprocess,
         combine_attrs="drop_conflicts",
         data_vars="minimal",
+        drop_variables=["x", "y"],
     )
     # data_vars='minimal' necessary to not add x and y dimensions into dimensionless variables
     # see https://github.com/pydata/xarray/issues/2064
+    # drop_variables necessary for nemo 4.2, because x and y are both dimensions and variables
 
     for i in ["time_counter", "t"]:
         if i in ds.dims:

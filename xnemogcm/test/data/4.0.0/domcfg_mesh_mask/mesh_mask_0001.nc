@@ -1,1 +1,0 @@
-../runs/EXP_4_procs/mesh_mask_0001.nc
