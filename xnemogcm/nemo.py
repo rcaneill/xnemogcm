@@ -81,21 +81,17 @@ def nemo_preprocess(ds, domcfg, point_type=None):
     except IndexError:
         # This means that there is no depth dependence of the data (surface data)
         z_nme = None
-    # get the name of the variable along i e.g. x, x_grid_U, x_grid_U_inner etc
-    try:
-        x_nme = [i for i in ds.dims.keys() if "x_grid" in i]
-    except IndexError:
-        # This means that the i-dimension must have the name 'x'
-        x_nme = ["x"]
-    # get the name of the variable along j e.g. y, y_grid_U, y_grid_U_inner etc
-    try:
-        y_nme = [i for i in ds.dims.keys() if "y_grid" in i]
-    except IndexError:
-        # This means that the j-dimension must have the name 'y'
-        y_nme = ["y"]
+
+    # get the name of the dimension along i e.g. x, x_grid_U, x_grid_U_inner etc
+    x_nme = [i for i in ds.dims.keys() if "x_grid" in i or i=='x']
+    # get the name of the dimension along j e.g. y, y_grid_U, y_grid_U_inner etc
+    y_nme = [i for i in ds.dims.keys() if "y_grid" in i or i=='y']
     
-    for x, y in zip(x_nme, y_nme):
-        to_rename.update({x: point.x, y: point.y})
+    for x in x_nme:
+        to_rename.update({x: point.x})
+
+    for y in y_nme:
+        to_rename.update({y: point.y})
     
     points = [point.x, point.y]
     if z_nme:
