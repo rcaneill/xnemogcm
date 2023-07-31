@@ -75,6 +75,9 @@ the latest version of the code, and publish them to `example` when commiting to 
 
 ## What's new
 
+### not released yet
+* Allow additional dimension names occurring when variables on inner grid are diagnosed, e.g. `x_grid_U_inner` or `x_grid_U`.
+
 ### v0.4.1 (2023-03-29)
 * Allow to open files if time bounds are missing
 * Minor bug correction for nemo 3.6 
