@@ -146,3 +146,32 @@ def test_use_preprocess(data_path):
     ds = nemo_preprocess(ds_raw, domcfg)
     assert "x_c" in ds
     assert "t" in ds
+
+
+def test_coordinates_horizontal(data_path):
+    """Test opening of nemo files"""
+    domcfg = open_domain_cfg(
+        datadir=data_path / "mesh_mask_1_file",
+    )
+    nemo_ds = open_nemo(
+        datadir=data_path / "nemo",
+        domcfg=domcfg,
+    )
+    assert "glamt" in nemo_ds.toce.coords
+    assert "glamu" in nemo_ds.uoce.coords
+
+
+def test_coordinates_vertical(data_path, request):
+    """Test opening of nemo files"""
+    if request.node.callspec.id == "3.6":
+        pytest.xfail(
+            "Failing for nemo <= 3.6 as gdept_0 and gdepw_0 are not in mesh mask"
+        )
+    domcfg = open_domain_cfg(
+        datadir=data_path / "mesh_mask_1_file",
+    )
+    nemo_ds = open_nemo(
+        datadir=data_path / "nemo",
+        domcfg=domcfg,
+    )
+    assert "gdept_0" in nemo_ds.toce.coords

@@ -114,6 +114,19 @@ def nemo_preprocess(ds, domcfg, point_type=None):
         ds["t"].attrs["bounds"] = "t_bounds"
     # setting z_c/z_f/x_c/etc to be the same as in domcfg
     ds = ds.assign_coords({i: domcfg[i] for i in points})
+    # Assign the proper coordinates
+    # 1st case: horizontal
+    if z_nme:
+        p = set(points[:2])
+    else:
+        p = set(points)
+    coords = [i for i in domcfg.coords if set(domcfg.coords[i].dims) == p]
+    ds = ds.assign_coords({i: domcfg[i] for i in coords})
+    # 2nd case vertical
+    if z_nme:
+        p = set(points)
+        coords = [i for i in domcfg.coords if set(domcfg.coords[i].dims) == p]
+        ds = ds.assign_coords({i: domcfg[i] for i in coords})
     return ds
 
 
