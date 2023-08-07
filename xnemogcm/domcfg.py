@@ -6,6 +6,34 @@ from . import arakawa_points as akp
 from .tools import get_domcfg_points, _dir_or_files_to_files
 
 
+def _add_cf(domcfg):
+    """
+    Add cf standard_name and units when possible
+    """
+    for i in domcfg.variables:
+        if "glam" in i:
+            domcfg[i].attrs.update(
+                {"standard_name": "longitude", "units": "degrees_east"}
+            )
+        if "gphi" in i:
+            domcfg[i].attrs.update(
+                {"standard_name": "latitude", "units": "degrees_north"}
+            )
+        if "gdep" in i:
+            domcfg[i].attrs.update(
+                {"standard_name": "depth", "units": "m", "positive": "down"}
+            )
+        if "e1" in i or "e2" in i:
+            domcfg[i].attrs.update({"units": "m"})
+        if "e3" in i:
+            domcfg[i].attrs.update({"standard_name": "cell_thickness", "units": "m"})
+        if i in ["ff", "ff_f", "ff_t"]:
+            domcfg[i].attrs.update(
+                {"standard_name": "coriolis_parameter", "units": "s-1"}
+            )
+    return domcfg
+
+
 def domcfg_preprocess(ds):
     """
     Preprocess domcfg / meshmask files when needed to be recombined (= 1 file per processor)
@@ -197,4 +225,8 @@ def open_domain_cfg(datadir=None, files=None, add_coordinates=True):
     # adding variables as coordinates
     if add_coordinates:
         domcfg = _add_coordinates(domcfg)
+    # Remove nav_lon and nav_lat
+    domcfg = domcfg.drop_vars(["nav_lon", "nav_lat"], errors="ignore")
+    # Add cf
+    domcfg = _add_cf(domcfg)
     return domcfg
