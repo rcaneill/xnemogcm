@@ -100,3 +100,24 @@ def test_compare_domcfg_mesh_mask(data_path):
     domcfg_1 = open_domain_cfg(datadir=(data_path / "mesh_mask_1_file"))
     domcfg_multi = open_domain_cfg(datadir=(data_path / "mesh_mask_multi_files"))
     assert (domcfg_1 == domcfg_multi).all()
+
+
+def test_coordinates_horizontal(data_path):
+    """Test that coordinates are added to nemo files"""
+    domcfg = open_domain_cfg(
+        datadir=data_path / "mesh_mask_1_file",
+    )
+    assert "glamt" in domcfg.e1t.coords
+    if "ff_f" in domcfg:
+        assert "glamf" in domcfg.ff_f.coords
+    else:
+        # NEMO 3.6
+        assert "glamf" in domcfg.ff.coords
+
+
+def test_attributes(data_path):
+    """Test that coordinates are added to nemo files"""
+    domcfg = open_domain_cfg(
+        datadir=data_path / "mesh_mask_1_file",
+    )
+    assert domcfg.glamt.attrs.get("standard_name") == "longitude"

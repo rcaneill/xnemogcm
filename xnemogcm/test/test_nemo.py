@@ -149,7 +149,7 @@ def test_use_preprocess(data_path):
 
 
 def test_coordinates_horizontal(data_path):
-    """Test opening of nemo files"""
+    """Test that coordinates are added to nemo files"""
     domcfg = open_domain_cfg(
         datadir=data_path / "mesh_mask_1_file",
     )
@@ -162,7 +162,7 @@ def test_coordinates_horizontal(data_path):
 
 
 def test_coordinates_vertical(data_path, request):
-    """Test opening of nemo files"""
+    """Test that coordinates are added to nemo files"""
     if request.node.callspec.id == "3.6":
         pytest.xfail(
             "Failing for nemo <= 3.6 as gdept_0 and gdepw_0 are not in mesh mask"
