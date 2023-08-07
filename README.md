@@ -75,9 +75,10 @@ the latest version of the code, and publish them to `example` when commiting to 
 
 ## What's new
 
-### not released yet
+### v0.4.2 (2023-08-07)
 * Allow additional dimension names occurring when variables on inner grid are diagnosed, e.g. `x_grid_U_inner` or `x_grid_U`.
 * Add coordinates into the DataArrays
+* Add some standard names and units in domcfg
 
 ### v0.4.1 (2023-03-29)
 * Allow to open files if time bounds are missing
