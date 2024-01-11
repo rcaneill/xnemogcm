@@ -29,18 +29,18 @@ import xgcm
 grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 ```
 
-See the [example](https://nbviewer.ipython.org/github/rcaneill/xnemogcm/blob/master/example/)
+See the [example](https://nbviewer.org/github/rcaneill/xnemogcm/tree/master/example/)
 directory for some jupyter notebook examples.
 xnemocgm is able to process xarray.Datasets (e.g. they could be retrieved from a remote server),
 and can get information of the variables grid points with multiple options
-(see [example/open_process_files.ipynb](https://nbviewer.ipython.org/github/rcaneill/xnemogcm/blob/master/example/open_process_files.ipynb).
+(see [example/open_process_files.ipynb](https://nbviewer.org/github/rcaneill/xnemogcm/blob/master/example/open_process_files.ipynb).
 
 ### Note
 
 `xnemogcm` is capable or recombining the domain_cfg and mesh_mask files output
 by multiple processors,
 the recombining tool from the NEMO toolbox is thus not needed here, see
-the [example/recombing_mesh_mask_domain_cfg.ipynb](https://nbviewer.ipython.org/github/rcaneill/xnemogcm/blob/master/example/recombing_mesh_mask_domain_cfg.ipynb)
+the [example/recombing_mesh_mask_domain_cfg.ipynb](https://nbviewer.org/github/rcaneill/xnemogcm/blob/master/example/recombing_mesh_mask_domain_cfg.ipynb)
 
 ## Installation
 
