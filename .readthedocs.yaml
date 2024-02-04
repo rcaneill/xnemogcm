@@ -19,8 +19,8 @@ build:
     post_install:
       # Install dependencies with 'docs' dependency group
       # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
-      - which python
-      - which python3
+      - python --version
+      - python3 --version
       - $HOME/.local/bin/poetry install --with docs
 
 mkdocs:
