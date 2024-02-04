@@ -19,7 +19,8 @@ build:
     post_install:
       # Install dependencies with 'docs' dependency group
       # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
-      - python -m pip install --requirement <($HOME/.local/bin/poetry export --with docs --format requirements.txt)
+      - $HOME/.local/bin/poetry export --with docs --format requirements.txt > requirements.txt
+      - python -m pip install -r requirements.txt
       - python -m pip install --no-deps .
 
 mkdocs:
