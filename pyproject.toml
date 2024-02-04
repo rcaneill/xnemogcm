@@ -36,6 +36,12 @@ optional = true
 black = "^22.10.0"
 jupyterlab = ">=3.5.1"
 
+[tool.poetry.group.doc]
+optional = true
+
+[tool.poetry.group.doc.dependencies]
+mkdocs = "^1.5.3"
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
