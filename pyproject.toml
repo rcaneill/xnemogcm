@@ -36,10 +36,10 @@ optional = true
 black = "^22.10.0"
 jupyterlab = ">=3.5.1"
 
-[tool.poetry.group.doc]
+[tool.poetry.group.docs]
 optional = true
 
-[tool.poetry.group.doc.dependencies]
+[tool.poetry.group.docs.dependencies]
 mkdocs = "^1.5.3"
 
 [build-system]
