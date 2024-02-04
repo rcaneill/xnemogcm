@@ -9,7 +9,7 @@ readme = "README.md"
 exclude = ["xnemogcm/test/data"]
 
 [tool.poetry.dependencies]
-python = ">=3.8,<3.12"
+python = ">=3.9,<3.12"
 dask = {extras = ["array"], version = "*"}
 netcdf4 = ">=1.5.8"
 xarray = ">=0.21.1"
@@ -41,6 +41,8 @@ optional = true
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.5.3"
+mkdocs-jupyter = "^0.24.6"
+mkdocstrings = {extras = ["python"], version = "^0.24.0"}
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

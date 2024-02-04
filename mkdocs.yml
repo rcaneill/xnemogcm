@@ -1,0 +1,26 @@
+site_name: xnemogcm documentation
+site_url: https://xnemogcm.readthedocs.io
+nav:
+  - Get started:
+      - Get started: index.md
+  - Examples:
+      - "open files / Datasets": src_example/open_process_files.ipynb
+      - "recombine files": src_example/recombing_mesh_mask_domain_cfg.ipynb
+      - "compute metrics": src_example/compute_metrics.ipynb
+  - API:
+      - API: api.md
+  - "What's new":
+      - "What's new": new.md
+theme: readthedocs
+plugins:
+  - mkdocs-jupyter:
+      execute: true
+      include_source: True
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_submodules: true
+            docstring_style: numpy
+            heading_level: 2
+      default_handler: python
