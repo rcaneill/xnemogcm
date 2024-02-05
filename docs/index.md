@@ -28,5 +28,29 @@ import xgcm
 grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 ```
 
-[The full documentation is hosted online:
-[https://xnemogcm.readthedocs.io/](https://xnemogcm.readthedocs.io/)
+## Examples
+
+`xnemocgm` is able to process xarray.Datasets (e.g. they could be retrieved from a remote server),
+and can get information of the variables grid points with multiple options:
+see [examples/open_process_files](examples/open_process_files).
+
+`xnemogcm` is capable or recombining the domain_cfg and mesh_mask files output
+by multiple processors,
+the recombining tool from the NEMO toolbox is thus not needed here: see
+[examples/recombing_mesh_mask_domain_cfg](examples/recombing_mesh_mask_domain_cfg).
+
+`xnemogcm` has a minimum capability of computing missing metrics
+(scale factors): see [examples/compute_metrics](examples/compute_metrics).
+
+
+## Installation
+
+Installation via pip:
+```bash
+pip3 install xnemogcm
+```
+
+Installation via conda:
+```bash
+conda install -c conda-forge xnemogcm
+```

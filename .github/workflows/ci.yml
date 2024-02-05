@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest", "macos-latest"]
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11"]
 
     steps:
     - uses: actions/checkout@v2
@@ -35,7 +35,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.9", "3.10", "3.11"]
         poetry-version: ["1.3.2"]
     steps:
       - name: Checkout
@@ -53,24 +53,3 @@ jobs:
           poetry install --with test
       - name: Run tests with pytest
         run: poetry run pytest xnemogcm/test
-
-  
-  test_notebooks:
-    name: test notebook doc
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python 3.11
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.11
-    - name: Run poetry
-      uses: abatilo/actions-poetry@v2.0.0
-      with:
-        poetry-version: 1.3.2
-    - name: Install / build
-      run: poetry install --with dev,test
-    - name: Run nbconvert
-      run: poetry run jupyter nbconvert --to notebook --execute src_example/*.ipynb --stdout
