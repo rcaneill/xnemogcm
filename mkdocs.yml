@@ -12,6 +12,7 @@ nav:
   - "For contributors":
       - "What's new": new.md
       - "Dev environment": dev.md
+      - "Code of conduct": CODE_OF_CONDUCT.md
       - "GitHub repository": https://github.com/rcaneill/xnemogcm
 theme: readthedocs
 plugins:
