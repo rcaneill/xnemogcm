@@ -9,7 +9,6 @@ Interface to open NEMO ocean global circulation model output dataset and create 
 NEMO 3.6, 4.0, and 4.2.0 are tested and supported. Any version between 3.6 and 4.2.0 should work,
 but in case of trouble, [please open an issue](https://github.com/rcaneill/xnemogcm/issues).
 
-This repository is mirrored at https://gitlab.com/open-ocean/xnemogcm.
 If you wish to contribute but don't have a github account, send me an email with your questions or comments: `romain [dot] caneill [at] ens-lyon [.] org`
 
 ## Usage
@@ -28,3 +27,6 @@ from xnemogcm import get_metrics
 import xgcm
 grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 ```
+
+[The full documentation is hosted online:
+[https://xnemogcm.readthedocs.io/](https://xnemogcm.readthedocs.io/)

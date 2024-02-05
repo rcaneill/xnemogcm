@@ -4,13 +4,15 @@ nav:
   - Get started:
       - Get started: index.md
   - Examples:
-      - "open files / Datasets": src_example/open_process_files.ipynb
-      - "recombine files": src_example/recombing_mesh_mask_domain_cfg.ipynb
-      - "compute metrics": src_example/compute_metrics.ipynb
+      - "open files / Datasets": examples/open_process_files.ipynb
+      - "recombine files": examples/recombing_mesh_mask_domain_cfg.ipynb
+      - "compute metrics": examples/compute_metrics.ipynb
   - API:
       - API: api.md
-  - "What's new":
+  - "For contributors":
       - "What's new": new.md
+      - "Dev environment": dev.md
+      - "GitHub repository": https://github.com/rcaneill/xnemogcm
 theme: readthedocs
 plugins:
   - mkdocs-jupyter:
