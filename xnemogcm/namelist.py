@@ -26,7 +26,7 @@ def open_namelist(datadir=None, files=None, ref=True, cfg=True):
     namref = {}
     ds = xr.Dataset()
 
-    for (load, name) in [[ref, "ref"], [cfg, "cfg"]]:
+    for load, name in [[ref, "ref"], [cfg, "cfg"]]:
         if load:
             try:
                 namelist = f90nml.read(*[i for i in files if name in str(i)])
