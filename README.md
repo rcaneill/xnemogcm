@@ -14,6 +14,21 @@ but in case of trouble, [please open an issue](https://github.com/rcaneill/xnemo
 
 If you wish to contribute but don't have a github account, send me an email with your questions or comments: `romain [dot] caneill [at] ens-lyon [.] org`
 
+## Installation
+
+For `conda`
+
+```shell
+conda install --channel conda-forge xnemogcm
+```
+
+for `pip` 
+
+```shell
+pip install xnemogcm
+```
+
+
 ## Usage
 
 ```python
