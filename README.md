@@ -1,9 +1,12 @@
 # xnemogcm
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5724577.svg)](https://doi.org/10.5281/zenodo.5724577)
+![python versions](https://img.shields.io/pypi/pyversions/xnemogcm.svg)
 ![ci](https://github.com/rcaneill/xnemogcm/actions/workflows/ci.yml/badge.svg)
+![documentation status](https://readthedocs.org/projects/xnemogcm/badge/?version=latest)
 ![pypi](https://badge.fury.io/py/xnemogcm.svg)
 ![anaconda badge](https://anaconda.org/conda-forge/xnemogcm/badges/version.svg)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
 Interface to open NEMO ocean global circulation model output dataset and create a xgcm grid.
 NEMO 3.6, 4.0, and 4.2.0 are tested and supported. Any version between 3.6 and 4.2.0 should work,
