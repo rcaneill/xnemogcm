@@ -1,6 +1,4 @@
-from functools import partial
 import re
-from pathlib import Path
 import xarray as xr
 
 from . import arakawa_points as akp
@@ -15,7 +13,7 @@ def _get_point_type(filename, description):
     point_type_desc = None
 
     # Try with filename
-    all_points_str = a = "|".join(akp.ALL_POINTS)
+    a = "|".join(akp.ALL_POINTS)
     m = re.search(f"grid_({a})", filename)
     if m:
         point_type_fn = m.groups()[0]
