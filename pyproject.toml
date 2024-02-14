@@ -4,7 +4,7 @@ version = "0.4.2"
 description = "Interface to open NEMO global circulation model output dataset and create a xgcm grid."
 license = "MIT"
 homepage = "https://github.com/rcaneill/xnemogcm"
-authors = ["Romain Caneill <romain.caneill@gu.se>"]
+authors = ["Romain Caneill <romain.caneill@ens-lyon.org>"]
 readme = "README.md"
 exclude = ["xnemogcm/test/data"]
 
