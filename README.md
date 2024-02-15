@@ -22,7 +22,7 @@ For `conda`
 conda install --channel conda-forge xnemogcm
 ```
 
-for `pip` 
+for `pip`
 
 ```shell
 pip install xnemogcm
