@@ -165,7 +165,7 @@ def process_nemo(positions, domcfg, parallel=False):
     Returns
     -------
     nemo_ds : xarray.Dataset
-        Dataset containing all outputed variables, set on the proper
+        Dataset containing all outputted variables, set on the proper
         grid points (center, face, etc).
     """
     if parallel:
@@ -226,7 +226,7 @@ def open_nemo(
     Returns
     -------
     nemo_ds : xarray.Dataset
-        Dataset containing all outputed variables, set on the proper
+        Dataset containing all outputted variables, set on the proper
         grid points (center, face, etc).
     """
     files = _dir_or_files_to_files(datadir, files, patterns=["*grid_*.nc"])
