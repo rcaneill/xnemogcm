@@ -54,7 +54,7 @@ def compute_missing_metrics(
     """
     try:
         import xgcm
-    except ModuleNotFoundError as e:
+    except ModuleNotFoundError:
         raise ModuleNotFoundError(
             "xgcm is not installed, you need xgcm for this function"
         )

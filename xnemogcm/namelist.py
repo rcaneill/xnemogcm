@@ -22,8 +22,6 @@ def open_namelist(datadir=None, files=None, ref=True, cfg=True):
             f"Too many files given for the namelists, please check. Got {files}"
         )
 
-    namcfg = {}
-    namref = {}
     ds = xr.Dataset()
 
     for load, name in [[ref, "ref"], [cfg, "cfg"]]:

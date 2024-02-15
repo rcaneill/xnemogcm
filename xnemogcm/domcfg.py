@@ -1,4 +1,3 @@
-from pathlib import Path
 import numpy as np
 import xarray as xr
 
@@ -49,7 +48,7 @@ def domcfg_preprocess(ds):
         ds.coords["x"] = ds.x
         ds.coords["y"] = ds.y
     # We need to add "nav_lev" in the coordinates if not present
-    if (not "nav_lev" in ds.coords) and ("nav_lev" in ds):
+    if ("nav_lev" not in ds.coords) and ("nav_lev" in ds):
         ds.coords["nav_lev"] = ds["nav_lev"]
     return ds
 
