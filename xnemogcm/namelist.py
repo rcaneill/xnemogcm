@@ -28,10 +28,10 @@ def open_namelist(datadir=None, files=None, ref=True, cfg=True):
         if load:
             try:
                 namelist = f90nml.read(*[i for i in files if name in str(i)])
-                for name in namelist.keys():
-                    for i in namelist[name]:
-                        ds[i] = namelist[name][i]
-                        ds[i].attrs["namelist"] = name
+                for nam_key in namelist.keys():
+                    for i in namelist[nam_key]:
+                        ds[i] = namelist[nam_key][i]
+                        ds[i].attrs["namelist"] = nam_key
             except (FileNotFoundError, TypeError):
                 _warn_namelist_not_found(name)
 
