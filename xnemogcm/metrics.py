@@ -54,7 +54,7 @@ def compute_missing_metrics(
     """
     try:
         import xgcm
-    except ModuleNotFoundError as e:
+    except ModuleNotFoundError:
         raise ModuleNotFoundError(
             "xgcm is not installed, you need xgcm for this function"
         )
@@ -112,7 +112,7 @@ def get_metrics(ds):
         domain_cfg
         or DataSet returned by xnemogcm._merge_nemo_and_domain_cfg
         or Dataset returned by xnemogcm.open_nemo_and_domain_cfg
-        Should contain the outputed metrics, in a standard format 'e3x'
+        Should contain the outputted metrics, in a standard format 'e3x'
         with x an arakawa point in lower case
 
     Returns

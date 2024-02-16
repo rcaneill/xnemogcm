@@ -11,7 +11,7 @@
 
 ### v0.4.1 (2023-03-29)
 * Allow to open files if time bounds are missing
-* Minor bug correction for nemo 3.6 
+* Minor bug correction for nemo 3.6
 * Add nemo 3.6 and 4.2.0 test data
 * Update code to support nemo 3.6 and 4.2.0
 

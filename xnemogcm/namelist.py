@@ -24,14 +24,14 @@ def open_namelist(datadir=None, files=None, ref=True, cfg=True):
 
     ds = xr.Dataset()
 
-    for (load, name) in [[ref, "ref"], [cfg, "cfg"]]:
+    for load, name in [[ref, "ref"], [cfg, "cfg"]]:
         if load:
             try:
                 namelist = f90nml.read(*[i for i in files if name in str(i)])
-                for nam in namelist.keys():
-                    for i in namelist[nam]:
-                        ds[i] = namelist[nam][i]
-                        ds[i].attrs["namelist"] = nam
+                for nam_key in namelist.keys():
+                    for i in namelist[nam_key]:
+                        ds[i] = namelist[nam_key][i]
+                        ds[i].attrs["namelist"] = nam_key
             except (FileNotFoundError, TypeError):
                 _warn_namelist_not_found(name)
 
