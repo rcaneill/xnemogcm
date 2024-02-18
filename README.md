@@ -46,5 +46,5 @@ import xgcm
 grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 ```
 
-[The full documentation is hosted online:
+The full documentation is hosted online:
 [https://xnemogcm.readthedocs.io/](https://xnemogcm.readthedocs.io/)
