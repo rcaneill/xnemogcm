@@ -22,9 +22,7 @@ dep_graph = OrderedDict(
 )
 
 
-def compute_missing_metrics(
-    ds, all_scale_factors=all_scale_factors, time_varying=True, periodic=False
-):
+def compute_missing_metrics(ds, all_scale_factors=all_scale_factors, time_varying=True):
     """
     Add all possible scale factors to the dataset.
 
@@ -33,7 +31,7 @@ def compute_missing_metrics(
     If e3t_0 is not found (e.g. for nemo 3.6), it will raise a warning and use e3t_1d
     (this will lead to wrong results if terrain-following coordinates are used).
 
-    May have some boundary issues.
+    May have some boundary issues, and only non-periodic boundaries are implemented.
 
     Will add the metrics to the given dataset. To avoid this, use a ds.copy()
 
