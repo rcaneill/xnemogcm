@@ -4,9 +4,7 @@ ALL_POINTS = ["UW", "VW", "FW", "T", "U", "V", "F", "W"]
 
 class Point:
     """
-    Point types
-
-    TODO
+    Class that represents the Arakawa points (i.e. center point, face, edge, etc).
     """
 
     def __init__(self, point_type):
