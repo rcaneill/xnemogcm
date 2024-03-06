@@ -5,7 +5,7 @@
 ![pypi](https://badge.fury.io/py/xnemogcm.svg)
 ![anaconda badge](https://anaconda.org/conda-forge/xnemogcm/badges/version.svg)
 
-Interface to open NEMO ocean global circulation model output dataset and create a xgcm grid.
+Interface to open NEMO ocean global circulation model output as an [Xarray](https://docs.xarray.dev/en/stable/) Dataset and create a [xgcm](https://xgcm.readthedocs.io/en/latest/) grid. 
 NEMO 3.6, 4.0, and 4.2.0 are tested and supported. Any version between 3.6 and 4.2.0 should work,
 but in case of trouble, [please open an issue](https://github.com/rcaneill/xnemogcm/issues).
 
@@ -30,17 +30,14 @@ grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 
 ## Examples
 
-`xnemocgm` is able to process xarray.Datasets (e.g. they could be retrieved from a remote server),
-and can get information of the variables grid points with multiple options:
-see [examples/open_process_files](examples/open_process_files).
+#### 1. [Open and process NEMO output with Xarray](examples/open_process_files)
+This example demonstrates how `xnemocgm` is able to open and process NEMO output as `xarray.Datasets` from an array of different storage locations. It also has multiple options for interpreting information about the variable grid points for use with `xgcm`. 
 
-`xnemogcm` is capable or recombining the domain_cfg and mesh_mask files output
-by multiple processors,
-the recombining tool from the NEMO toolbox is thus not needed here: see
-[examples/recombing_mesh_mask_domain_cfg](examples/recombing_mesh_mask_domain_cfg).
+#### 2. [Recombine NEMO output files](examples/recombing_mesh_mask_domain_cfg)
+The NEMO model outputs two files related to the domain grid that are relevant for interpretation by `xgcm`: the domain configuration file (`domain_cfg`) and the model mesh (`mesh_mask`). For most processing, it is necessary to combine these two files. This example shows how `xnemogcm` is able to recombine the `domain_cfg` and `mesh_mask` files, which removes the need to rely on the recombining tool from the Fortran NEMO toolbox.
 
-`xnemogcm` has a minimum capability of computing missing metrics
-(scale factors): see [examples/compute_metrics](examples/compute_metrics).
+#### 3. [Compute missing metrics](examples/compute_metrics)
+This example showcases how `xnemogcm` can compute certain missing metrics related to scale factors.
 
 
 ## Installation
