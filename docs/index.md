@@ -28,6 +28,9 @@ import xgcm
 grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 ```
 
+A full example of analysis of NEMO data with xgcm is provided on the [xgcm documentation website](https://xgcm.readthedocs.io/en/latest/xgcm-examples/04_nemo_idealized.html).
+
+
 ## Examples
 
 `xnemocgm` is able to process xarray.Datasets (e.g. they could be retrieved from a remote server),
