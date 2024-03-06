@@ -8,7 +8,7 @@
 ![anaconda badge](https://anaconda.org/conda-forge/xnemogcm/badges/version.svg)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 
-Interface to open NEMO ocean global circulation model output dataset and create a xgcm grid.
+Interface to open NEMO ocean global circulation model output as an [Xarray](https://docs.xarray.dev/en/stable/) Dataset and create a [xgcm](https://xgcm.readthedocs.io/en/latest/) grid. 
 NEMO 3.6, 4.0, and 4.2.0 are tested and supported. Any version between 3.6 and 4.2.0 should work,
 but in case of trouble, [please open an issue](https://github.com/rcaneill/xnemogcm/issues).
 
