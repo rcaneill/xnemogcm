@@ -3,6 +3,8 @@
 ### (unreleased)
 * Rework doc: set up readthedocs
 * Drop python 3.8
+* Add python 3.12
+* pyOpenSci review process: improve documentation
 
 ### v0.4.2 (2023-08-07)
 * Allow additional dimension names occurring when variables on inner grid are diagnosed, e.g. `x_grid_U_inner` or `x_grid_U`.
