@@ -31,13 +31,14 @@ grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 ## Examples
 
 #### 1. [Open and process NEMO output with Xarray](examples/open_process_files)
-This example demonstrates how `xnemocgm` is able to open and process NEMO output as `xarray.Datasets` from an array of different storage locations. It also has multiple options for interpreting information about the variable grid points for use with `xgcm`. 
+This example demonstrates how `xnemocgm` is able to open and process NEMO output as `xarray.Datasets` from an array of different storage locations. Its main ability is to provide multiple options for interpreting information about the variable grid points for use with `xgcm`.
 
 #### 2. [Recombine NEMO output files](examples/recombing_mesh_mask_domain_cfg)
-The NEMO model outputs two files related to the domain grid that are relevant for interpretation by `xgcm`: the domain configuration file (`domain_cfg`) and the model mesh (`mesh_mask`). For most processing, it is necessary to combine these two files. This example shows how `xnemogcm` is able to recombine the `domain_cfg` and `mesh_mask` files, which removes the need to rely on the recombining tool from the Fortran NEMO toolbox.
+Two types of files related to the domain grid can be of use with NEMO: the `domain_cfg` files and the `mesh_mask` files. They are very similar, and any of them can be used by xnemogcm. If you are using a realistic (regional or global) configuration, they are provided as input files to NEMO so you should have these file. If you are using idealised configuration with analytical bathymetry, these files can be outputted by NEMO ([`ln_meshmask = .true.`](https://forge.nemo-ocean.eu/nemo/nemo/-/blob/4.2.0/cfgs/SHARED/namelist_ref?ref_type=tags#L80) or [`ln_write_cfg = .true.`](https://forge.nemo-ocean.eu/nemo/nemo/-/blob/4.2.0/cfgs/SHARED/namelist_ref?ref_type=tags#L92) in the namelist for the `mesh_mask` or the `domain_cfg`, respectively). 
+If `mesh_mask` or `domain_cfg` files are outputted by NEMO, they will be split between each processor, i.e. each processor will output only a subset of the whole file that corresponds to the space domain that the processor is handling. A Fortran toolbox is provided in NEMO to recombine these split files into a unified one, however `xnemogcm` is able to recombine the `domain_cfg` and `mesh_mask` files. This removes the need to rely on the recombining tool from the Fortran NEMO toolbox.
 
 #### 3. [Compute missing metrics](examples/compute_metrics)
-This example showcases how `xnemogcm` can compute certain missing metrics related to scale factors.
+This example showcases how `xnemogcm` can compute certain missing metrics (metrics are called scale factors in the NEMO community, and called metrics in the xgcm community).
 
 
 ## Installation
