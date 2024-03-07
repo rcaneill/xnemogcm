@@ -48,3 +48,16 @@ grid = xgcm.Grid(ds, metrics=get_metrics(ds), periodic=False)
 
 The full documentation is hosted online:
 [https://xnemogcm.readthedocs.io/](https://xnemogcm.readthedocs.io/)
+
+## Differences with existing tools
+
+There exist tools in Fortran that ship with NEMO that are used to create domain files,
+input fields, etc. They are however more used to produce configurations with the
+necessary input files, than to analyse the outputs. So there is only one overlap with
+xnemogcm, which is recombining the mesh_mask / domaincfg files,
+when they have been outputted by different processors.
+
+NEMO output files are outputted as netcdf so they can directly be opened by xarray.
+However, what is missing is all grid information in the shape needed by
+xgcm (COMODO convention). To solve this problem, another python package
+exists: xorca. However, xorca is not developed any more is less flexible than xnemogcm.
