@@ -11,8 +11,10 @@ authors:
     orcid: 'https://orcid.org/0000-0001-6649-4275'
   - given-names: David
     family-names: Kamm
-    email: romain.caneill@ens-lyon.org
     orcid: 'https://orcid.org/0009-0006-2210-3715'
+  - given-names: Callum
+    family-names: Rollo
+    orcid: 'https://orcid.org/0000-0002-5134-7886'
 identifiers:
   - type: doi
     value: 10.5281/zenodo.5724577
