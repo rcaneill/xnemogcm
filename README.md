@@ -60,4 +60,5 @@ when they have been outputted by different processors.
 NEMO output files are outputted as netcdf so they can directly be opened by xarray.
 However, what is missing is all grid information in the shape needed by
 xgcm (COMODO convention). To solve this problem, another python package
-exists: xorca. However, xorca is not developed any more is less flexible than xnemogcm.
+exists: xorca. However, xorca is not developed any more and is less flexible than xnemogcm.
+xnemogcm is meant to replace xorca, in addition to extending its functionality.
