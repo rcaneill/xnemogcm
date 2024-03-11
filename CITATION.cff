@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+title: xnemogcm
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Romain
+    family-names: Caneill
+    email: romain.caneill@ens-lyon.org
+    orcid: 'https://orcid.org/0000-0001-6649-4275'
+  - given-names: David
+    family-names: Kamm
+    orcid: 'https://orcid.org/0009-0006-2210-3715'
+  - given-names: Callum
+    family-names: Rollo
+    orcid: 'https://orcid.org/0000-0002-5134-7886'
+  - given-names: Paige
+    family-names: Martin
+    orcid: 'https://orcid.org/0000-0003-3538-633X'
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.5724577
+repository-code: 'https://github.com/rcaneill/xnemogcm'
+abstract: >-
+  Interface to open NEMO ocean global circulation model
+  output as an Xarray Dataset and create a xgcm grid.
+license: MIT
