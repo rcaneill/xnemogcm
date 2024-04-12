@@ -365,7 +365,10 @@ files = [
 ]
 
 [package.dependencies]
-numpy = {version = ">1.13.3", markers = "python_version < \"3.12.0.rc1\""}
+numpy = [
+    {version = ">1.13.3", markers = "python_version < \"3.12.0.rc1\""},
+    {version = ">=1.26.0b1", markers = "python_version >= \"3.12.0.rc1\""},
+]
 
 [[package]]
 name = "charset-normalizer"
@@ -687,13 +690,13 @@ typing = ["typing-extensions (>=4.8)"]
 
 [[package]]
 name = "fqdn"
-version = "1.5.1"
-description = "Validates fully-qualified domain names against RFC 1123, so that they are acceptable to modern bowsers"
+version = "1.4.0"
+description = "Validate fully-qualified domain names compliant to RFC 1035 and the preferred form in RFC 3686 s. 2."
 optional = false
-python-versions = ">=2.7, !=3.0, !=3.1, !=3.2, !=3.3, !=3.4, <4"
+python-versions = "*"
 files = [
-    {file = "fqdn-1.5.1-py3-none-any.whl", hash = "sha256:3a179af3761e4df6eb2e026ff9e1a3033d3587bf980a0b1b2e1e5d08d7358014"},
-    {file = "fqdn-1.5.1.tar.gz", hash = "sha256:105ed3677e767fb5ca086a0c1f4bb66ebc3c100be518f0e0d755d9eae164d89f"},
+    {file = "fqdn-1.4.0-py3-none-any.whl", hash = "sha256:e935616ae81c9c60a22267593fe8e6af68cecc68549cc71bb9bfbcbbcb383386"},
+    {file = "fqdn-1.4.0.tar.gz", hash = "sha256:30e8f2e685ce87cdace4712fd97c5d09f5e6fa519bbb66e8f188f6a7cb3a5c4e"},
 ]
 
 [[package]]
@@ -845,13 +848,13 @@ license = ["ukkonen"]
 
 [[package]]
 name = "idna"
-version = "3.6"
+version = "3.7"
 description = "Internationalized Domain Names in Applications (IDNA)"
 optional = false
 python-versions = ">=3.5"
 files = [
-    {file = "idna-3.6-py3-none-any.whl", hash = "sha256:c05567e9c24a6b9faaa835c4821bad0590fbb9d5779e7caa6e1cc4978e7eb24f"},
-    {file = "idna-3.6.tar.gz", hash = "sha256:9ecdbbd083b06798ae1e86adcbfe8ab1479cf864e4ee30fe4e46a003d12491ca"},
+    {file = "idna-3.7-py3-none-any.whl", hash = "sha256:82fee1fc78add43492d3a1898bfa6d8a904cc97d8427f683ed8e798d07761aa0"},
+    {file = "idna-3.7.tar.gz", hash = "sha256:028ff3aadf0609c1fd278d8ea3089299412a7a8b9bd005dd08b9f8285bcb5cfc"},
 ]
 
 [[package]]
@@ -1944,6 +1947,7 @@ files = [
 numpy = [
     {version = ">=1.22.4,<2", markers = "python_version < \"3.11\""},
     {version = ">=1.23.2,<2", markers = "python_version == \"3.11\""},
+    {version = ">=1.26.0,<2", markers = "python_version >= \"3.12\""},
 ]
 python-dateutil = ">=2.8.2"
 pytz = ">=2020.1"
@@ -3199,4 +3203,4 @@ namelist = ["f90nml"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<3.12"
-content-hash = "c485152ff7524b02f70d4ab0ea192f63555e7f0eb9c5bcb03a6d7067359e6efc"
+content-hash = "de2f7d6b3640c995a5af4f51723a738e7b8cf3e088c2628cd2b1df362f5ef5d3"
