@@ -34,7 +34,7 @@ toml = "^0.10.2"
 optional = true
 
 [tool.poetry.group.dev.dependencies]
-black = "^22.10.0"
+black = ">=22.10,<25.0"
 jupyterlab = ">=3.5.1"
 pre-commit = "^3.6.2"
 
