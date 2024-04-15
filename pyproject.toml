@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "xnemogcm"
-version = "0.4.2"
+version = "0.4.3"
 description = "Interface to open NEMO global circulation model output dataset and create a xgcm grid."
 license = "MIT"
 homepage = "https://github.com/rcaneill/xnemogcm"
