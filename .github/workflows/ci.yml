@@ -61,14 +61,14 @@ jobs:
       - name: update lock file
         if: matrix.version == 'maximal'
         run: poetry update
+      - name: Install dependencies
+        run: |
+          poetry install --with test
       - name: use minimal versions for lock file
         if: matrix.version == 'minimal'
         run: |
           pipx install pdm==2.15.2
           poetry run pdm lock --strategy direct_minimal_versions -v -G :all
           poetry run pdm install -v -G :all
-      - name: Install dependencies
-        run: |
-          poetry install --with test
       - name: Run tests with pytest
         run: poetry run pytest xnemogcm/test
