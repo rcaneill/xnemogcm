@@ -160,6 +160,7 @@ def test_use_preprocess_no_time_bound(data_path):
     assert "t" in ds
     assert ds["t"].attrs.get("bounds") is None
 
+
 def test_coordinates_horizontal(data_path):
     """Test that coordinates are added to nemo files"""
     domcfg = open_domain_cfg(
