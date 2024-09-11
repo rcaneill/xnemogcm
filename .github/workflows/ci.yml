@@ -68,6 +68,7 @@ jobs:
         if: matrix.version == 'minimal'
         run: |
           pipx install pdm==2.15.2
+          poetry add 'numpy<2'
           poetry run pdm lock --strategy direct_minimal_versions -v -G :all
           poetry run pdm install -v -G :all
       - name: Run tests with pytest
