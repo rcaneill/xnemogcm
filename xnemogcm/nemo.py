@@ -107,7 +107,7 @@ def nemo_preprocess(ds, domcfg, point_type=None):
         to_rename.update({"time_counter": "t", time_b: "t_bounds"})
     else:
         to_rename.update({"time_counter": "t"})
-        if not time_b in ds:
+        if time_b not in ds:
             ds["time_counter"].attrs.pop("bounds")
             time_b = None
     ds = ds.rename(to_rename)
