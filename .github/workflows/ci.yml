@@ -39,10 +39,14 @@ jobs:
         poetry-version: ["1.3.2"]
         version: ["lock"]
         include:
-        - python-version: "3.9"
-          version: "minimal"
-        - python-version: "3.12"
-          version: "maximal"
+          - python-version: "3.9"
+            version: "minimal"
+            os: "ubuntu-latest"
+            poetry-version: "1.3.2"
+          - python-version: "3.12"
+            version: "maximal"
+            os: "ubuntu-latest"
+            poetry-version: "1.3.2"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
