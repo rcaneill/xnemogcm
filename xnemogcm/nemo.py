@@ -75,7 +75,7 @@ def nemo_preprocess(ds, domcfg, point_type=None):
     point = akp.Point(point_type)
     # get the name of the depth variable e.g. deptht, depthu, etc
     try:
-        z_nme = [i for i in ds.dims.keys() if "depth" in i][0]
+        z_nme = [i for i in ds.dims if "depth" in i][0]
     except IndexError:
         # This means that there is no depth dependence of the data (surface data)
         z_nme = None
