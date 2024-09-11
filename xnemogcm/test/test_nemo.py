@@ -146,7 +146,8 @@ def test_use_preprocess(data_path):
     ds = nemo_preprocess(ds_raw, domcfg)
     assert "x_c" in ds
     assert "t" in ds
-    
+
+
 def test_use_preprocess_no_time_bound(data_path):
     """Test that if the time_bound variable does not exist, no error is raised"""
     domcfg = open_domain_cfg(
