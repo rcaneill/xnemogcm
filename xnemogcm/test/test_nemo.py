@@ -148,6 +148,20 @@ def test_use_preprocess(data_path):
     assert "t" in ds
 
 
+def test_use_preprocess_no_time_bound(data_path):
+    """Test that if the time_bound variable does not exist, no error is raised"""
+    domcfg = open_domain_cfg(
+        datadir=data_path / "mesh_mask_1_file",
+    )
+    ds_raw = xr.open_dataset(data_path / "nemo/GYRE_1y_00010101_00011230_grid_T.nc")
+    ds_raw.encoding["source"] = "GYRE_1y_00010101_00011230_grid_T.nc"
+    ds_raw = ds_raw.drop_vars(ds_raw["time_counter"].attrs.get("bounds"))
+    ds = nemo_preprocess(ds_raw, domcfg)
+    assert "x_c" in ds
+    assert "t" in ds
+    assert ds["t"].attrs.get("bounds") is None
+
+
 def test_coordinates_horizontal(data_path):
     """Test that coordinates are added to nemo files"""
     domcfg = open_domain_cfg(
