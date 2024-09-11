@@ -29,7 +29,7 @@ jobs:
         pip install .
 
   test:
-    name: pytest (${{ matrix.os }}, ${{ matrix.python-version }})
+    name: pytest (${{ matrix.os }}, ${{ matrix.python-version }}, packages version ${{ matrix.version }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -37,6 +37,16 @@ jobs:
         os: ["ubuntu-latest"]
         python-version: ["3.9", "3.10", "3.11", "3.12"]
         poetry-version: ["1.3.2"]
+        version: ["lock"]
+        include:
+          - python-version: "3.9"
+            version: "minimal"
+            os: "ubuntu-latest"
+            poetry-version: "1.3.2"
+          - python-version: "3.12"
+            version: "maximal"
+            os: "ubuntu-latest"
+            poetry-version: "1.3.2"
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -48,8 +58,18 @@ jobs:
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: ${{ matrix.poetry-version }}
+      - name: update lock file
+        if: matrix.version == 'maximal'
+        run: poetry update
       - name: Install dependencies
         run: |
           poetry install --with test
+      - name: use minimal versions for lock file
+        if: matrix.version == 'minimal'
+        run: |
+          pipx install pdm==2.15.2
+          poetry add 'numpy<2'
+          poetry run pdm lock --strategy direct_minimal_versions -v -G :all
+          poetry run pdm install -v -G :all
       - name: Run tests with pytest
         run: poetry run pytest xnemogcm/test
