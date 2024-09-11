@@ -39,6 +39,10 @@ jobs:
         uses: abatilo/actions-poetry@v2.0.0
         with:
           poetry-version: ${{ matrix.poetry-version }}
+      - name: Update system
+        run: |
+          apt update
+          apd upgrade --yes
       - name: Install dependencies
         run: |
           poetry update

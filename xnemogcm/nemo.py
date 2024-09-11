@@ -184,7 +184,11 @@ def process_nemo(positions, domcfg, parallel=False):
         for (ds, X) in positions
     ]
     if parallel:
-        (datasets,) = dask.compute(datasets)
+        # netcdf4 is not thread safe
+        # https://github.com/pydata/xarray/issues/7079#issuecomment-1267477522
+        with dask.config.set(scheduler="single-threaded"):
+            (datasets,) = dask.compute(datasets)
+
     nemo_ds = xr.combine_by_coords(datasets, combine_attrs="drop_conflicts")
     # adding attributes
     nemo_ds.attrs["name"] = "NEMO dataset"
