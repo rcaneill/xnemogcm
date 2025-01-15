@@ -5,7 +5,7 @@ from pathlib import Path
 TEST_PATH = Path(os.path.dirname(os.path.abspath(__file__)))
 DATA_PATH = TEST_PATH / "data"
 
-nemo_versions = ["3.6", "4.0", "4.2.0"]
+nemo_versions = ["3.6", "4.0", "4.2.0", "5.0"]
 
 
 def pytest_generate_tests(metafunc):

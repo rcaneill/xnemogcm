@@ -42,6 +42,14 @@ def _get_point_type(filename, description):
     return point_type
 
 
+def _is_depth_dim(i, attrs):
+    if "depth" == i[:5]:
+        return True
+    if "long_name" not in attrs.keys():
+        return False
+    return attrs["long_name"][:8] == "Vertical" and attrs["long_name"][-6:] == "levels"
+
+
 def nemo_preprocess(ds, domcfg, point_type=None):
     """
     Preprocess function for the nemo files.
@@ -73,17 +81,23 @@ def nemo_preprocess(ds, domcfg, point_type=None):
         )
 
     point = akp.Point(point_type)
-    # get the name of the depth variable e.g. deptht, depthu, etc
-    try:
-        z_nme = [i for i in ds.dims if "depth" in i][0]
-    except IndexError:
+
+    # the depth variable name can be either deptht, depthu, etc
+    # or grid_T_3D_inner, etc
+    all_z_nme = [i for i in ds.dims if _is_depth_dim(i, ds[i].attrs)]
+    if len(all_z_nme) >= 1:
+        z_nme = all_z_nme[0]
+        ds = ds.swap_dims({i: "depth_tmp_xnemogcm" for i in all_z_nme}).swap_dims(
+            {"depth_tmp_xnemogcm": z_nme}
+        )
+    else:
         # This means that there is no depth dependence of the data (surface data)
         z_nme = None
 
     # get the name of the dimension along i e.g. x, x_grid_U, x_grid_U_inner etc
-    x_nme = [i for i in ds.dims.keys() if "x_grid" in i or i == "x"]
+    x_nme = [i for i in ds.dims if "x_grid" in i or i == "x"]
     # get the name of the dimension along j e.g. y, y_grid_U, y_grid_U_inner etc
-    y_nme = [i for i in ds.dims.keys() if "y_grid" in i or i == "y"]
+    y_nme = [i for i in ds.dims if "y_grid" in i or i == "y"]
 
     for x in x_nme:
         to_rename.update({x: point.x})

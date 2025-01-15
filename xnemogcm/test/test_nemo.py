@@ -181,6 +181,10 @@ def test_coordinates_vertical(data_path, request):
         pytest.xfail(
             "Failing for nemo <= 3.6 as gdept_0 and gdepw_0 are not in mesh mask"
         )
+    if request.node.callspec.id == "5.0":
+        pytest.xfail(
+            "Failing for nemo <= 5.0 as gdept_0 and gdepw_0 are not in mesh mask"
+        )
     domcfg = open_domain_cfg(
         datadir=data_path / "mesh_mask_1_file",
     )
@@ -189,3 +193,15 @@ def test_coordinates_vertical(data_path, request):
         domcfg=domcfg,
     )
     assert "gdept_0" in nemo_ds.toce.coords
+
+
+def test_coordinates_vertical_1d(data_path, request):
+    """Test that coordinates are added to nemo files"""
+    domcfg = open_domain_cfg(
+        datadir=data_path / "mesh_mask_1_file",
+    )
+    nemo_ds = open_nemo(
+        datadir=data_path / "nemo",
+        domcfg=domcfg,
+    )
+    assert "gdept_1d" in nemo_ds.toce.coords

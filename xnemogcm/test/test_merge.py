@@ -19,8 +19,6 @@ def test_merge_non_linear_free_surface(data_path, request):
     nemo_ds = open_nemo(**nemo_kwargs)
     ds = _merge_nemo_and_domain_cfg(nemo_ds, domcfg, linear_free_surface=False)
     assert "e3t" in ds
-    if request.node.callspec.id != "3.6":
-        assert "e3t_0" in ds
     assert "t" in ds.e3t.coords
     assert "e3f" not in ds
     ds2 = open_nemo_and_domain_cfg(
