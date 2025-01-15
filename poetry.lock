@@ -3274,4 +3274,4 @@ namelist = ["f90nml"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9"
-content-hash = "cc21466093585c05b7dcefbeac796375de5948a973797ed9e4e7ff4c791bfc9e"
+content-hash = "05931861e8358e865d83742d26ba4fae540fce65b850e771f3f3fbe080390e74"
