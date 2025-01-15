@@ -19,6 +19,8 @@ def test_get_metrics(data_path):
 def test_calculate_all_metrics(data_path):
     p = data_path / "open_and_merge"
     ds = open_nemo_and_domain_cfg(nemo_files=p, domcfg_files=p)
+    print(ds["e3t"])
+    tsrentren
     ds_full_metrics = compute_missing_metrics(ds.copy())
     for i in ["e3t", "e3u", "e3v", "e3f", "e3w", "e3uw", "e3vw", "e3fw"]:
         assert i in ds_full_metrics
