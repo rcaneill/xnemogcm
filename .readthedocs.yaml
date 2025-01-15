@@ -16,6 +16,8 @@ build:
       - curl -sSL https://install.python-poetry.org | python3 -
       # Tell poetry to not use a virtual environment
       - $HOME/.local/bin/poetry config virtualenvs.create false
+      # poetry install export plugin
+      - $HOME/.local/bin/poetry self add poetry-plugin-export
     post_install:
       # Install dependencies with 'docs' dependency group
       # https://python-poetry.org/docs/managing-dependencies/#dependency-groups
