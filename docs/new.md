@@ -1,10 +1,11 @@
 # What's new
 
-### (unreleased)
+### v0.5.0 (2025-01-16)
 * Rework doc: set up readthedocs
 * Drop python 3.8
 * Add python 3.12
 * pyOpenSci review process: improve documentation
+* add support for nemo 5.0
 
 ### v0.4.2 (2023-08-07)
 * Allow additional dimension names occurring when variables on inner grid are diagnosed, e.g. `x_grid_U_inner` or `x_grid_U`.
