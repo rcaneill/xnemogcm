@@ -9,7 +9,7 @@ readme = "README.md"
 exclude = ["xnemogcm/test/data"]
 
 [tool.poetry.dependencies]
-python = ">=3.9"
+python = ">=3.10"
 dask = {extras = ["array"], version = ">=2022.01.0"}
 netcdf4 = ">=1.5.8"
 xarray = ">=0.21.1"
