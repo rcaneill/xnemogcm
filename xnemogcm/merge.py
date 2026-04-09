@@ -91,12 +91,12 @@ def open_nemo_and_domain_cfg(
     if domcfg_kwargs is None:
         domcfg_kwargs = {}
 
-    if isinstance(domcfg_files, (list, types.GeneratorType)):
+    if isinstance(domcfg_files, (list, types.GeneratorType, map)):
         domcfg_kwargs["files"] = domcfg_files
     elif isinstance(domcfg_files, (str, Path)):
         domcfg_kwargs["datadir"] = domcfg_files
 
-    if isinstance(nemo_files, (list, types.GeneratorType)):
+    if isinstance(nemo_files, (list, types.GeneratorType, map)):
         nemo_kwargs["files"] = nemo_files
     elif isinstance(nemo_files, (str, Path)):
         nemo_kwargs["datadir"] = nemo_files
