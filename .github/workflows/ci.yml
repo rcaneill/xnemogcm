@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest", "macos-latest"]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
 
     steps:
     - uses: actions/checkout@v2
@@ -35,15 +35,15 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        python-version: ["3.9", "3.10", "3.11", "3.12"]
+        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
         poetry-version: ["1.3.2"]
         version: ["lock"]
         include:
-          - python-version: "3.9"
+          - python-version: "3.10"
             version: "minimal"
             os: "ubuntu-latest"
             poetry-version: "1.3.2"
-          - python-version: "3.12"
+          - python-version: "3.14"
             version: "maximal"
             os: "ubuntu-latest"
             poetry-version: "1.3.2"
@@ -67,7 +67,7 @@ jobs:
       - name: use minimal versions for lock file
         if: matrix.version == 'minimal'
         run: |
-          pipx install pdm==2.22.2
+          pipx install pdm==2.26.7
           poetry add 'numpy<2'
           poetry run pdm lock --strategy direct_minimal_versions -v -G :all
           poetry run pdm install -v -G :all

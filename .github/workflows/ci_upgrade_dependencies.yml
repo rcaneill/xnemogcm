@@ -27,7 +27,7 @@ jobs:
       fail-fast: false
       matrix:
         os: ["ubuntu-latest"]
-        python-version: ["3.12"]
+        python-version: ["3.14"]
         poetry-version: ["1.3.2"]
     steps:
       - name: Checkout

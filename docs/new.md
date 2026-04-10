@@ -1,5 +1,10 @@
 # What's new
 
+### v0.5.0.post2 (2026-04-10)
+* Drop python 3.9
+* Add python 3.13 and 3.14
+* Update minimal required versions of packages
+
 ### v0.5.0 (2025-01-16)
 * Rework doc: set up readthedocs
 * Drop python 3.8
