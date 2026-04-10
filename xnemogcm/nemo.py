@@ -196,8 +196,9 @@ def process_nemo(positions, domcfg, parallel=False):
         for ds in positions[X]:
             list_ds.append((ds, X))
     """
+    # Don't use kwargs inside preprocess, otherwise arguments are swapped, bug(?) in dask versions after 2024
     datasets = [
-        preprocess(ds=ds, domcfg=domcfg, point_type=_check_position(ds, X, parallel))
+        preprocess(ds, domcfg, _check_position(ds, X, parallel))
         for (ds, X) in positions
     ]
     if parallel:
