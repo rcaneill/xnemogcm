@@ -6,7 +6,7 @@ requires = [
 
 [project]
 name = "xnemogcm"
-version = "0.5.0.post2"
+version = "0.6.0"
 description = "Interface to open NEMO global circulation model output dataset and create a xgcm grid."
 readme = "README.md"
 license = "MIT"

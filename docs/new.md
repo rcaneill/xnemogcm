@@ -1,6 +1,6 @@
 # What's new
 
-### v0.6.0
+### v0.6.0 (2026-07-22)
 * Shift from poetry to uv
 
 ### v0.5.0.post2 (2026-04-10)

@@ -45,7 +45,7 @@ jobs:
         activate-environment: true
     - name: Install dependencies
       run: |
-        uv sync --resolution ${{matrix.resolution}} --no-group docs
+        uv sync --resolution ${{matrix.resolution}} --no-group docs --group test
     - name: Test with pytest
       run: |
         uv run --no-sync pytest xnemogcm/tests
