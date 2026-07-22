@@ -1,6 +1,9 @@
 from xnemogcm import open_domain_cfg, open_nemo
 
 
+# ruff: noqa: F841
+
+
 def test_open_nemo_surface(data_path):
     """Test opening of nemo surface files (no depth dimension)"""
     domcfg = open_domain_cfg(

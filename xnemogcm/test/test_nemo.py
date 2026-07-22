@@ -3,6 +3,8 @@ from xnemogcm import open_domain_cfg, open_nemo, process_nemo
 from xnemogcm.nemo import nemo_preprocess
 import xarray as xr
 
+# ruff: noqa: F841
+
 
 @pytest.mark.parametrize("parallel", [True, False])
 @pytest.mark.parametrize("option", [0, 1, 2, 3])
