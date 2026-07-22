@@ -1,10 +1,11 @@
 ## Requirements for dev
 
-We use *poetry* to set up a virtual environment containing all
+We use *uv* to set up a virtual environment containing all
 needed packages to run xnemogcm and the tests.
-To install all the dependencies, type `poetry install --with test,dev,docs`
+To install all the dependencies, type `uv sync --all-groups`
 after cloning the directory. This will create a new virtual environment.
-Typing `poetry shell` in the package directory will activate the virtual environment.
+Use `uv run` to execute commands in the package directory.
+E.g. run `uv run pytest xnemogcm/test/`
 
 ## About test data
 

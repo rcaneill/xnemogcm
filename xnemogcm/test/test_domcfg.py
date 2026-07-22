@@ -1,4 +1,3 @@
-import pytest
 from xnemogcm import open_domain_cfg
 
 
@@ -74,9 +73,9 @@ def test_no_add_coordinates(data_path):
     domcfg = open_domain_cfg(
         datadir=(data_path / "mesh_mask_1_file"), add_coordinates=False
     )
-    assert not "glamt" in domcfg.coords
-    assert not "gphiu" in domcfg.coords
-    assert not "gdept_0" in domcfg.coords
+    assert "glamt" not in domcfg.coords
+    assert "gphiu" not in domcfg.coords
+    assert "gdept_0" not in domcfg.coords
 
 
 def test_open_mesh_mask_1_file_provide_files(data_path):
