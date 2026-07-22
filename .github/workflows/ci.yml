@@ -48,4 +48,4 @@ jobs:
         uv sync --resolution ${{matrix.resolution}} --no-group docs --group test
     - name: Test with pytest
       run: |
-        uv run --no-sync pytest xnemogcm/tests
+        uv run --no-sync pytest xnemogcm/test
