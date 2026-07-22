@@ -1,7 +1,6 @@
 import pytest
 from xnemogcm import open_domain_cfg, open_nemo, process_nemo
 from xnemogcm.nemo import nemo_preprocess
-from xnemogcm.arakawa_points import ALL_POINTS
 import xarray as xr
 
 

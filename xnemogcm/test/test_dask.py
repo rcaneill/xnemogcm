@@ -1,4 +1,3 @@
-import pytest
 from xnemogcm import open_domain_cfg, open_nemo
 
 

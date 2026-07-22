@@ -35,7 +35,7 @@ jobs:
       fail-fast: false
       matrix:
         python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
-        resolution: ["highest", "lowest"]
+        resolution: ["highest", "lowest-direct"]
     steps:
     - uses: actions/checkout@v7
     - name: Install uv and Python ${{ matrix.python-version }}

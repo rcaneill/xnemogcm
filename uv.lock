@@ -3086,12 +3086,15 @@ wheels = [
 
 [[package]]
 name = "xnemogcm"
-version = "0.5.0.post2"
+version = "0.6.0"
 source = { editable = "." }
 dependencies = [
     { name = "dask", extra = ["array"] },
     { name = "netcdf4", version = "1.7.3", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11' and platform_machine == 'ARM64' and sys_platform == 'win32'" },
     { name = "netcdf4", version = "1.7.4", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11' or platform_machine != 'ARM64' or sys_platform != 'win32'" },
+    { name = "numpy", version = "2.2.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
+    { name = "numpy", version = "2.4.6", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version == '3.11.*'" },
+    { name = "numpy", version = "2.5.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.12'" },
     { name = "packaging" },
     { name = "xarray", version = "2025.6.1", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version < '3.11'" },
     { name = "xarray", version = "2026.7.0", source = { registry = "https://pypi.org/simple" }, marker = "python_full_version >= '3.11'" },
@@ -3128,6 +3131,7 @@ requires-dist = [
     { name = "dask", extras = ["array"], specifier = ">=2022.1" },
     { name = "f90nml", marker = "extra == 'namelist'", specifier = ">=1.3.1" },
     { name = "netcdf4", specifier = ">=1.5.8" },
+    { name = "numpy", specifier = ">=2" },
     { name = "packaging", specifier = ">=26.2" },
     { name = "xarray", specifier = ">=0.21.1" },
     { name = "xgcm", marker = "extra == 'metrics'", specifier = ">=0.6" },

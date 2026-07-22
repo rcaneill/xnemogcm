@@ -1,4 +1,3 @@
-import pytest
 from xnemogcm import (
     open_domain_cfg,
     open_nemo,
@@ -49,7 +48,7 @@ def test_add_coordinates(data_path):
     ds = open_nemo_and_domain_cfg(
         nemo_files=p, domcfg_files=p, domcfg_kwargs={"add_coordinates": False}
     )
-    assert not "glamt" in ds.coords
+    assert "glamt" not in ds.coords
 
 
 def test_open_nemo_files_without_datadir(data_path):

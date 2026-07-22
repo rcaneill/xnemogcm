@@ -1,6 +1,4 @@
-import pytest
 from xnemogcm import open_domain_cfg, open_nemo
-import xarray as xr
 
 
 def test_open_nemo_surface(data_path):
@@ -24,4 +22,4 @@ def test_open_nemo_surface_coordinates(data_path):
         domcfg=domcfg,
     )
     assert "glamt" in nemo_ds.sst.coords
-    assert not ("gdept" in nemo_ds.sst.coords)
+    assert "gdept" not in nemo_ds.sst.coords

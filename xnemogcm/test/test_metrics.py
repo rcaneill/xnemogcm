@@ -1,4 +1,3 @@
-import pytest
 from xnemogcm import open_nemo_and_domain_cfg
 from xnemogcm.metrics import get_metrics, compute_missing_metrics
 
@@ -60,7 +59,7 @@ def test_calculate_all_metrics(data_path):
 
     ds_full_metrics = compute_missing_metrics(ds.copy(), all_scale_factors=["e3vw"])
     assert "e3vw" in ds_full_metrics
-    assert not "e3fw" in ds_full_metrics
+    assert "e3fw" not in ds_full_metrics
 
 
 def test_calculate_all_metrics_precision(data_path):
