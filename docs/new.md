@@ -1,5 +1,8 @@
 # What's new
 
+### v0.6.0
+* Shift from poetry to uv
+
 ### v0.5.0.post2 (2026-04-10)
 * Drop python 3.9
 * Add python 3.13 and 3.14
