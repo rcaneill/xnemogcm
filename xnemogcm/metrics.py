@@ -1,4 +1,5 @@
 from collections import OrderedDict
+from packaging import version
 
 
 all_scale_factors = ["e3t", "e3u", "e3v", "e3f", "e3w", "e3uw", "e3vw", "e3fw"]
@@ -62,7 +63,12 @@ def compute_missing_metrics(ds, all_scale_factors=all_scale_factors, time_varyin
         "This function is in pre-phase. Do not expect a high precision, but a good estimate. Some boundary issues may arise."
     )
 
-    grid = xgcm.Grid(ds, periodic=False)
+    # Handle API changes in xgcm >= 0.8.0
+    if version.parse(xgcm.__version__) >= version.parse("0.8.0"):
+        # Use new padding parameter (periodic argument removed)
+        grid = xgcm.Grid(ds, padding=None)
+    else:
+        grid = xgcm.Grid(ds, periodic=False)
 
     if time_varying:
         e3t = "e3t"

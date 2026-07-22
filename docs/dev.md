@@ -2,9 +2,10 @@
 
 We use *uv* to set up a virtual environment containing all
 needed packages to run xnemogcm and the tests.
-To install all the dependencies, type `uv sync --group test --group dev --group docs`
+To install all the dependencies, type `uv sync --all-groups`
 after cloning the directory. This will create a new virtual environment.
 Use `uv run` to execute commands in the package directory.
+E.g. run `uv run pytest xnemogcm/test/`
 
 ## About test data
 
