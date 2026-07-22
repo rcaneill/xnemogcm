@@ -21,11 +21,11 @@ classifiers = [
   "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-  "dask[array]>=2022.1",
+  "dask[array]>=2024.8.1",
   "netcdf4>=1.5.8",
   "numpy>=2",
   "packaging>=26.2",
-  "xarray>=0.21.1",
+  "xarray>=2024.9",
 ]
 optional-dependencies.metrics = [
   "xgcm>=0.6",
