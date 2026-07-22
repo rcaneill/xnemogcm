@@ -102,7 +102,11 @@ def compute_missing_metrics(ds, all_scale_factors=all_scale_factors, time_varyin
                     e3_nme = e3 + "_0"
                 if e3_nme in ds.variables:
                     # we stop at the first one matching
-                    ds[i] = grid.interp(ds[e3_nme], vertex[e3], boundary="extend")
+                    # Handle API changes in xgcm >= 0.8.0
+                    if version.parse(xgcm.__version__) >= version.parse("0.8.0"):
+                        ds[i] = grid.interp(ds[e3_nme], vertex[e3], padding="extend")
+                    else:
+                        ds[i] = grid.interp(ds[e3_nme], vertex[e3], boundary="extend")
     return ds
 
 
